@@ -2,6 +2,12 @@
 
 include('global_vars.php');
 
+function c_to_f($temp)
+{
+    $fahrenheit=$temp*9/5+32;
+    return $fahrenheit ;
+}
+
 function console_output($data)
 {
 	$timestamp = date("Y-m-d H:i:s", time());
