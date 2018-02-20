@@ -28,5 +28,5 @@ echo "NAME ......................... " . $data['site']['name' ]. " \n";
 echo "REVENUE / PROFIT ............. " . "$" . $data['site']['monthly_revenue'] . " / " . "$" . $data['site']['monthly_profit'] . " \n";
 echo "MINERS ....................... " . $colors->getColoredString("Total: ", "blue", "black") . $data['site']['total_miners'] . " / " . $colors->getColoredString("Online: ", "green", "black") . $data['site']['total_online_miners'] . " / " . $colors->getColoredString("Offline: ", "red", "black") . $data['site']['total_offline_miners'] . " \n";
 echo "AVERAGE TEMP ................. " . $data['site']['average_temps']['average_pcb'] . "°C / " . c_to_f($data['site']['average_temps']['average_pcb']) . "°F \n";
-echo "POWER: ....................... " . number_format($data['site']['power']['kilowatts'], 2) . "kW / " . number_format($data['site']['power']['amps'], 2) . " AMPs \n";
+echo "POWER: ....................... " . number_format($data['site']['power']['kilowatts'], 2) . " kW / " . number_format($data['site']['power']['amps'], 2) . " AMPs \n";
 ?>
