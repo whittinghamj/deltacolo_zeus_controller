@@ -1,0 +1,15 @@
+## ZEUS Controller
+
+* * * * * php -q /zeus/controller/console.php update_miner_stats > /zeus/controller/console.log 2>&1
+
+* * * * * php -q /zeus/controller/console.php site_jobs > /zeus/controller/console.log 2>&1
+
+# * * * * * sh /zeus/controller/update_miners.sh > /zeus/controller/console.log 2>&1
+
+# * * * * * sh /zeus/controller/site_jobs.sh > /zeus/controller/console.log 2>&1
+
+*/5 * * * * sh /zeus/controller/update.sh > /dev/null 2>&1
+
+*/10 * * * * php -q /zeus/controller/console.php network_scan > /dev/null 2>&1
+
+0 * * * * /sbin/reboot
