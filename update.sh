@@ -7,6 +7,4 @@ rm -rf controller/
 git clone ssh://git@github.com/whittinghamj/deltacolo_zeus_controller.git
 mv deltacolo_zeus_controller controller
 cp global_vars.php controller/
-cd controller/
-crontab crontab.txt
- 
+crontab controller/crontab.txt 
