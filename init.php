@@ -15,18 +15,22 @@ $data['site']									= json_decode($data['site'], true);
 
 echo shell_exec('/usr/bin/figlet -c -f banner ZEUS');                                            
                                                                                  
-echo "\n";
+echo "\n \n";
 
-echo ".:[ CONTROLLER }:. \n";
-echo "DATE ......................... " . date("M dS Y - H:i:s", time()) . " \n";
-echo "HOSTNAME ..................... " . gethostname() . " \n";
-echo "LAN IP ....................... " . $data['controller']['ip_address']['lan'] . " \n";
-echo "WAN IP ....................... " . $data['controller']['ip_address']['wan'] . " \n";
-echo "\n";
-echo ".:[ SITE }:. \n";
-echo "NAME ......................... " . $data['site']['name' ]. " \n";
-echo "REVENUE / PROFIT ............. " . "$" . $data['site']['monthly_revenue'] . " / " . "$" . $data['site']['monthly_profit'] . " \n";
-echo "MINERS ....................... " . $colors->getColoredString("Total: ", "blue", "black") . $data['site']['total_miners'] . " / " . $colors->getColoredString("Online: ", "green", "black") . $data['site']['total_online_miners'] . " / " . $colors->getColoredString("Offline: ", "red", "black") . $data['site']['total_offline_miners'] . " \n";
-echo "AVERAGE TEMP ................. " . $data['site']['average_temps']['average_pcb'] . "°C / " . c_to_f($data['site']['average_temps']['average_pcb']) . "°F \n";
-echo "POWER: ....................... " . number_format($data['site']['power']['kilowatts'], 2) . " kW / " . number_format($data['site']['power']['amps'], 2) . " AMPs \n";
+echo shell_exec('/usr/bin/figlet -c -f banner ' . $data['controller']['ip_address']['lan']);        
+// $data['controller']['ip_address']['lan']
+
+// echo ".:[ CONTROLLER }:. \n";
+// echo "DATE ......................... " . date("M dS Y - H:i:s", time()) . " \n";
+// echo "HOSTNAME ..................... " . gethostname() . " \n";
+// echo "LAN IP ....................... " . $data['controller']['ip_address']['lan'] . " \n";
+// echo "WAN IP ....................... " . $data['controller']['ip_address']['wan'] . " \n";
+// echo "\n";
+// echo ".:[ SITE }:. \n";
+// echo "NAME ......................... " . $data['site']['name' ]. " \n";
+// echo "REVENUE / PROFIT ............. " . "$" . $data['site']['monthly_revenue'] . " / " . "$" . $data['site']['monthly_profit'] . " \n";
+// echo "MINERS ....................... " . $colors->getColoredString("Total: ", "blue", "black") . $data['site']['total_miners'] . " / " . $colors->getColoredString("Online: ", "green", "black") . $data['site']['total_online_miners'] . " / " . $colors->getColoredString("Offline: ", "red", "black") . $data['site']['total_offline_miners'] . " \n";
+// echo "AVERAGE TEMP ................. " . $data['site']['average_temps']['average_pcb'] . "°C / " . c_to_f($data['site']['average_temps']['average_pcb']) . "°F \n";
+// echo "POWER: ....................... " . number_format($data['site']['power']['kilowatts'], 2) . " kW / " . number_format($data['site']['power']['amps'], 2) . " AMPs \n";
+
 ?>
