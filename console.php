@@ -100,7 +100,6 @@ if($task == 'update_miner_stats')
 					
 					$miner['update']['software_version'] 		= $stats['feedback']['systemsoftwareversion'];
 					
-					echo print_r($miner); 
 				}
 				else
 				{
