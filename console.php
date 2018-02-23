@@ -226,12 +226,7 @@ if($task == 'update_miner_stats')
 			// get the MAC address
 			// $miner['mac_address'] = exec("nmap -sP ".$miner['ip_address']." | grep MAC");
 
-			if(isset($argv[2])){
-				$dev = $argv[1];
-			}
-			if($dev == 'dev'){
-				echo print_r($miner['update']);
-			}
+			echo print_r($miner['update']);
 			
 			$data_string = json_encode($miner);
 
