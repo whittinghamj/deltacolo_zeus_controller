@@ -12,7 +12,7 @@ function killlock(){
 	exec("rm -rf $lockfile");
 }
 
-console_output("ZEUS Controller - v 1.2 alpha");
+console_output("ZEUS Controller - v 1.2.1 alpha");
 
 $task = $argv[1];
 
