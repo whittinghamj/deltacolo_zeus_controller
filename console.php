@@ -105,7 +105,7 @@ if($task == 'update_miner_stats')
 				{
 					$miner_data 	= request($miner['ip_address'], 'summary+stats+pools+lcd');
 
-					echo print_r($miner_data);
+					print_r($miner_data);
 					
 					if(is_array($miner_data))
 					{
