@@ -280,7 +280,8 @@ if($task == "network_scan")
 	ini_set('max_execution_time', 500);
 	$ports = array(4028);
 
-	function check_sub($sub, $ports, $site_id){
+	function check_sub($sub, $ports, $site_id)
+	{
 		global $config;
 
 		$rigs = array();
@@ -361,7 +362,8 @@ if($task == "site_jobs")
 			
 			// echo print_r($site_job);
 			
-			if($site_job['job'] == 'reboot_miner'){
+			if($site_job['job'] == 'reboot_miner')
+			{
 				if($site_job['miner']['hardware'] == 'ebite9plus')
 				{
 					console_output("Rebooting EBit E9 Plus");
@@ -388,28 +390,106 @@ if($task == "site_jobs")
 					console_output("Rebooting " . $site_job['miner']['ip_address']);
 					exec($cmd);
 				}
+				
+				$site_job['status'] = 'complete';
 			}
 
-			if($site_job['job'] == 'restart_cgminer'){
+			if($site_job['job'] == 'restart_cgminer')
+			{
 				$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/etc/init.d/cgminer.sh stop'";
 				console_output("Restarting CGMiner on " . $site_job['miner']['ip_address']);
 				exec($cmd);
+				
+				$site_job['status'] = 'complete';
+			}
+			
+			if($site_job['job'] == 'network_scan')
+			{
+				$ip_ranges_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_ip_ranges");
+				$ip_ranges = json_decode($ip_ranges_raw, true);
+
+				foreach($ip_ranges['ip_ranges'] as $ip_range){
+					$subnets[] = $ip_range['ip_range'];
+				}
+
+				ini_set('max_execution_time', 500);
+				$ports = array(4028);
+
+				function check_sub($sub, $ports, $site_id)
+				{
+					global $config;
+
+					$rigs = array();
+					$count = 0;
+					foreach($sub as $ips) {
+						foreach(range(1,254) as $ip_oct_4){
+							// build full ip address
+							$ip = $ips . $ip_oct_4;
+
+							$rigs[$count]['ip_address'] = $ip;
+
+							// clean the buffer
+							// flush(); ob_flush();
+
+							// check the port number is open / online
+							foreach($ports as $port){ 
+								if(@fsockopen($ip,$port,$errno,$errstr,1)){
+									$cgminer = "ONLINE";
+
+									$miner['site_id']		= $site_id;
+									$miner['ip_address'] 	= $ip;
+
+									$data_string = json_encode($miner);
+
+									$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
+									curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+									curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
+									curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+									curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+										'Content-Type: application/json',                                                                                
+										'Content-Length: ' . strlen($data_string))                                                                       
+									);                                                                                                                   
+
+									$result = curl_exec($ch);
+								} else {
+									$cgminer = "OFFLINE !!!";
+								}
+								console_output($ip . " > " . $cgminer);
+
+								$rigs[$count]['cgminer_status']		= $cgminer;
+							}
+						}
+						$count++;
+					} 
+
+					// clean the buffer
+					flush();
+
+					return $rigs;
+				}
+
+				$rigs = check_sub($subnets, $ports, $ip_ranges['site']['id']);
+				
+				$site_job['status'] = 'complete';
 			}
 
 			$job['id']		= $site_job['id'];
+			
+			if($site_job['status'] == 'complete')
+			{
+				$data_string = json_encode($job);
 
-			$data_string = json_encode($job);
+				$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_job_complete");                                                                      
+				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+					'Content-Type: application/json',                                                                                
+					'Content-Length: ' . strlen($data_string))                                                                       
+				);                                                                                                                   
 
-			$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_job_complete");                                                                      
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-				'Content-Type: application/json',                                                                                
-				'Content-Length: ' . strlen($data_string))                                                                       
-			);                                                                                                                   
-
-			$result = curl_exec($ch);
+				$result = curl_exec($ch);
+			}
 
 		}
 	}else{
