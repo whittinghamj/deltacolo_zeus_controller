@@ -86,11 +86,11 @@ if($task == 'update_miner_stats')
 					$content = curl_exec($ch);
 					$stats = json_decode($content, TRUE);
 					
-					$miner['update']['pools'][0]['url'] 		= $stats['feedback']['Mip1'];
+					$miner['update']['pools'][0]['url'] 		= str_replace("stratum+tcp://", "", $stats['feedback']['Mip1']);
 					$miner['update']['pools'][0]['user'] 		= $stats['feedback']['Mwork1'];
-					$miner['update']['pools'][1]['url'] 		= $stats['feedback']['Mip2'];
+					$miner['update']['pools'][1]['url'] 		= str_replace("stratum+tcp://", "", $stats['feedback']['Mip2']);
 					$miner['update']['pools'][1]['user'] 		= $stats['feedback']['Mwork2'];
-					$miner['update']['pools'][2]['url'] 		= $stats['feedback']['Mip3'];
+					$miner['update']['pools'][2]['url'] 		= str_replace("stratum+tcp://", "", $stats['feedback']['Mip3']);
 					$miner['update']['pools'][2]['user'] 		= $stats['feedback']['Mwork3'];
 					
 					// get more stats
