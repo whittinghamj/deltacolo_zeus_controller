@@ -6,6 +6,6 @@
 
 * * * * * php -q /zeus/controller/console.php site_jobs > /zeus/controller/console.log 2>&1
 
-*/10 * * * * php -q /zeus/controller/console.php network_scan > /dev/null 2>&1
+# */10 * * * * php -q /zeus/controller/console.php network_scan > /dev/null 2>&1
 
 0 * * * * /sbin/reboot
