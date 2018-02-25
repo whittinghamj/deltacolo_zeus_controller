@@ -428,6 +428,8 @@ if($task == "site_jobs")
 
 							$rigs[$count]['ip_address'] = $ip;
 
+							echo("touch ".$ip);
+							
 							// clean the buffer
 							// flush(); ob_flush();
 
