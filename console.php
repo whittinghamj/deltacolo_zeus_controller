@@ -104,8 +104,6 @@ if($task == 'update_miner_stats')
 				else
 				{
 					$miner_data 	= request($miner['ip_address'], 'summary+stats+pools+lcd');
-
-					print_r($miner_data);
 					
 					if(is_array($miner_data))
 					{
@@ -121,7 +119,7 @@ if($task == 'update_miner_stats')
 							// $miner['update']['hashrate']				= $miner_data['SUMMARY']['GHS 5s'];
 							$miner['update']['hardware_errors']			= $miner_data['SUMMARY']['Hardware Errors'];
 							$miner['update']['discarded']				= $miner_data['SUMMARY']['Discarded'];
-							$miner['update']['accepted']				= $miner_data['SUMMARY']['Accepted'];
+							$miner['update']['accepted']				= $miner_data['POOL0']['Accepted'];
 							$miner['update']['rejected']				= $miner_data['SUMMARY']['Rejected'];
 
 							$miner['update']['software_version']		= $miner_data['STATUS']['Description'];
