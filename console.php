@@ -62,7 +62,7 @@ if($task == 'update_miner_stats')
 					if( $stats['feedback']['poolAlarm'] == 0 ) {
 						$mining = 'mining';
 					}else{
-						$mining = 'offline';
+						$mining = 'not_mining';
 					}
 
 					$miner['update']['hardware']				= 'ebite9plus';
@@ -216,11 +216,11 @@ if($task == 'update_miner_stats')
 						$miner['update']['status']				=	"mining";
 
 					}else{
-						$miner['update']['status']				=	"offline";
+						$miner['update']['status']				=	"not_mining";
 					}
 				}
 			}else{
-				$miner['update']['status']				=	"disconnected";
+				$miner['update']['status']				=	"offline";
 			}
 
 			// get the MAC address
