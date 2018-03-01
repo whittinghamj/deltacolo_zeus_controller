@@ -491,7 +491,7 @@ if($task == "site_jobs")
 				}else{
 					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'");
 
-					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/network.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id']."_network.conf; /etc/init.d/network.sh'");
+					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id']."_network.conf; /etc/init.d/network.sh'");
 				}
 				
 				$site_job['status'] = 'complete';
