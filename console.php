@@ -259,7 +259,7 @@ if($task == 'update_miner_stats')
 }
 
 if($task == "network_scan")
-{	
+{
 	$lockfile = dirname(__FILE__) . "/console.network_scan.loc";
 	if(file_exists($lockfile)){
 		console_output("network_scan is already running. exiting");
@@ -471,6 +471,17 @@ if($task == "site_jobs")
 				}
 
 				$rigs = check_sub($subnets, $ports, $ip_ranges['site']['id']);
+				
+				$site_job['status'] = 'complete';
+			}
+
+			if($site_job['job'] == 'update_config_file')
+			{
+				if($site_job['miner']['hardware'] == 'antminer-s9'){
+					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
+				}else{
+					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'");
+				}
 				
 				$site_job['status'] = 'complete';
 			}
