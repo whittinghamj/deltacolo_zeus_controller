@@ -385,6 +385,9 @@ if($task == "site_jobs")
 				}
 				else
 				{
+					$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+					exec($cmd);
+
 					$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
 					// console_output($cmd);
 					console_output("Rebooting " . $site_job['miner']['ip_address']);
@@ -396,6 +399,9 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'restart_cgminer')
 			{
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+				exec($cmd);
+
 				$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/etc/init.d/cgminer.sh stop'";
 				console_output("Restarting CGMiner on " . $site_job['miner']['ip_address']);
 				exec($cmd);
@@ -477,6 +483,9 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'update_config_file')
 			{
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+				exec($cmd);
+				
 				if($site_job['miner']['hardware'] == 'antminer-s9'){
 					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
 				}else{
