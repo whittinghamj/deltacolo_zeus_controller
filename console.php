@@ -489,9 +489,11 @@ if($task == "site_jobs")
 				if($site_job['miner']['hardware'] == 'antminer-s9'){
 					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
 				}else{
+					// update cgminer.conf
 					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'");
 
-					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id']."_network.conf; /etc/init.d/network.sh'");
+					// update network.conf
+					// shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id']."_network.conf; /etc/init.d/network.sh'");
 				}
 				
 				$site_job['status'] = 'complete';
