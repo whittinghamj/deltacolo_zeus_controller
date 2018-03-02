@@ -497,9 +497,9 @@ if($task == "site_jobs")
 
 					echo print_r($miner);
 
-					$username 		= $miner['miner'][0]['username'];
-					$password 		= $miner['miner'][0]['password'];
-					$ip_address		= $miner['miner'][0]['ip_address'];
+					$username 		= $miner['miners'][0]['username'];
+					$password 		= $miner['miners'][0]['password'];
+					$ip_address		= $miner['miners'][0]['ip_address'];
 					$loginUrl 	= 'http://'.$ip_address.'/user/login/';
 
 					$ch = curl_init();
