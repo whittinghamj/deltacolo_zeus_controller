@@ -486,6 +486,8 @@ if($task == "site_jobs")
 				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
 				exec($cmd);
 
+				console_output('Updating Miner: ' . $site_job['miner']['name']);
+
 				if($site_job['miner']['hardware'] == 'ebite9plus')
 				{
 					$config_file_url = "http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf";
