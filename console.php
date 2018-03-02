@@ -485,6 +485,7 @@ if($task == "site_jobs")
 			{
 				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
 				exec($cmd);
+<<<<<<< HEAD
 
 				if($site_job['miner']['hardware'] == 'ebite9plus')
 				{
@@ -500,6 +501,12 @@ if($task == "site_jobs")
 				}
 				else
 				{
+=======
+				
+				if($site_job['miner']['hardware'] == 'antminer-s9'){
+					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
+				}else{
+>>>>>>> d277f971b50424e096e26c5459c14ce6c1acd208
 					// update cgminer.conf
 					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'");
 
