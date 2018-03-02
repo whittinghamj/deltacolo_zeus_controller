@@ -495,7 +495,8 @@ if($task == "site_jobs")
 					$miner_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_miner&miner_id=".$site_job['miner']['id']);
 					$miner = json_decode($miner_raw, true);
 
-					echo print_r($miner);
+					$config_file['pools'][0]['url'] = str_ireplace('stratum tcp://', '', $config_file['pools'][0]['url']);
+					$config_file['pools'][0]['url'] = str_ireplace('stratum+tcp://', '', $config_file['pools'][0]['url']);
 
 					$username 		= $miner['miners'][0]['username'];
 					$password 		= $miner['miners'][0]['password'];
