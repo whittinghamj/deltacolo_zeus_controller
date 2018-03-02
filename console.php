@@ -493,7 +493,7 @@ if($task == "site_jobs")
 					$config_file = json_decode($config_file, true);
 
 					$miner_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_miner&miner_id=".$site_job['miner']['id']);
-					$miner = json_decode($miner_raw);
+					$miner = json_decode($miner_raw, true);
 
 					echo print_r($miner);
 
