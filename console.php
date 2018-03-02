@@ -493,10 +493,39 @@ if($task == "site_jobs")
 					$config_file = json_decode($config_file, true);
 
 					$miner_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_miner&miner_id=".$site_job['miner']['id']);
-					$miner_bits = json_decode($miner_raw);
+					$miner = json_decode($miner_raw);
 
-					// echo print_r($miner_raw);
-					echo print_r($miner_bits);
+					echo print_r($miner);
+
+					$username 		= $miner['miner'][0]['username'];
+					$password 		= $miner['miner'][0]['password'];
+					$ip_address		= $miner['miner'][0]['ip_address'];
+					$loginUrl 	= 'http://'.$ip_address.'/user/login/';
+
+					$ch = curl_init();
+					curl_setopt($ch, CURLOPT_URL, $loginUrl);
+					curl_setopt($ch, CURLOPT_POST, 1);
+					curl_setopt($ch, CURLOPT_POSTFIELDS, 'username='.$username.'&word='.$password);
+					curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					$store = curl_exec($ch);
+					
+					// post pool update
+					curl_setopt($ch, CURLOPT_POST, 1);
+					curl_setopt($ch, CURLOPT_POSTFIELDS, 'mip1='.$config_file['pools'][0]['url'].'&mwork1='.$config_file['pools'][0]['user'].'&mpassword1='.$config_file['pools'][0]['pass']);
+					curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					$store = curl_exec($ch);
+
+					curl_setopt($ch, CURLOPT_URL, 'http://'.$ip_address.'/Cgminer/CgminerConfig');
+					$content = curl_exec($ch);
+					$stats = json_decode($content, TRUE);
+
+					// restart cgminer
+					curl_setopt($ch, CURLOPT_URL, 'http://'.$ip_Address.'/update/resetcgminer');
+					$content = curl_exec($ch);
+					$stats = json_decode($content, TRUE);
+
 
 					killlock();
 					die();
