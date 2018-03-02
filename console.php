@@ -489,13 +489,20 @@ if($task == "site_jobs")
 				if($site_job['miner']['hardware'] == 'ebite9plus')
 				{
 					$config_file_url = "http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf";
-					echo "Config File URL: ".$config_file_url." \n";
 					$config_file = file_get_contents($config_file_url);
 					$config_file = json_decode($config_file, true);
 
-					echo print_r($config_file);
+					$miner_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_miner&miner_id=".$site_job['miner']['id']);
+					$miner = json_decode($miner_raw);
+
+					$miner = $miner['miner'];
+
+					echo print_r($miner);
+
 					killlock();
-					die('dev die');
+					die();
+
+
 				}
 				elseif($site_job['miner']['hardware'] == 'antminer-s9'){
 					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
