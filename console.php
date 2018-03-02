@@ -522,7 +522,7 @@ if($task == "site_jobs")
 					$stats = json_decode($content, TRUE);
 
 					// restart cgminer
-					curl_setopt($ch, CURLOPT_URL, 'http://'.$ip_Address.'/update/resetcgminer');
+					curl_setopt($ch, CURLOPT_URL, 'http://'.$ip_address.'/update/resetcgminer');
 					$content = curl_exec($ch);
 					$stats = json_decode($content, TRUE);
 
