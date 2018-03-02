@@ -488,10 +488,11 @@ if($task == "site_jobs")
 
 				if($site_job['miner']['hardware'] == 'ebite9plus')
 				{
-					$config = file_get_contents("http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf");
-					$config = json_decode($config, true);
+					$config_file = file_get_contents("http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf");
+					$config_file = json_decode($config_file, true);
 
-					print_r($config, true);
+					echo print_r($config_file);
+					killlock();
 					die('dev die');
 				}
 				elseif($site_job['miner']['hardware'] == 'antminer-s9'){
