@@ -62,7 +62,7 @@ if($task == 'update_miner_stats')
 					if( $stats['feedback']['poolAlarm'] == 0 ) {
 						$mining = 'mining';
 					}else{
-						$mining = 'offline';
+						$mining = 'not_mining';
 					}
 
 					$miner['update']['hardware']				= 'ebite9plus';
@@ -216,11 +216,11 @@ if($task == 'update_miner_stats')
 						$miner['update']['status']				=	"mining";
 
 					}else{
-						$miner['update']['status']				=	"offline";
+						$miner['update']['status']				=	"not_mining";
 					}
 				}
 			}else{
-				$miner['update']['status']				=	"disconnected";
+				$miner['update']['status']				=	"offline";
 			}
 
 			// get the MAC address
@@ -259,7 +259,7 @@ if($task == 'update_miner_stats')
 }
 
 if($task == "network_scan")
-{	
+{
 	$lockfile = dirname(__FILE__) . "/console.network_scan.loc";
 	if(file_exists($lockfile)){
 		console_output("network_scan is already running. exiting");
@@ -385,6 +385,9 @@ if($task == "site_jobs")
 				}
 				else
 				{
+					$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+					exec($cmd);
+
 					$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
 					// console_output($cmd);
 					console_output("Rebooting " . $site_job['miner']['ip_address']);
@@ -396,6 +399,9 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'restart_cgminer')
 			{
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+				exec($cmd);
+
 				$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/etc/init.d/cgminer.sh stop'";
 				console_output("Restarting CGMiner on " . $site_job['miner']['ip_address']);
 				exec($cmd);
@@ -471,6 +477,35 @@ if($task == "site_jobs")
 				}
 
 				$rigs = check_sub($subnets, $ports, $ip_ranges['site']['id']);
+				
+				$site_job['status'] = 'complete';
+			}
+
+			if($site_job['job'] == 'update_config_file')
+			{
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+				exec($cmd);
+
+				if($site_job['miner']['hardware'] == 'ebite9plus')
+				{
+					$config = file_get_contents("http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf");
+					$config = json_decode($config, true);
+
+					print_r($config, true);
+					die('dev die');
+				}
+				elseif
+					($site_job['miner']['hardware'] == 'antminer-s9'){
+					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
+				}
+				else
+				{
+					// update cgminer.conf
+					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'");
+
+					// update network.conf
+					// shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id']."_network.conf; /etc/init.d/network.sh'");
+				}
 				
 				$site_job['status'] = 'complete';
 			}
