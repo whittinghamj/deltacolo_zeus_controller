@@ -495,10 +495,8 @@ if($task == "site_jobs")
 					$miner_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_miner&miner_id=".$site_job['miner']['id']);
 					$miner_bits = json_decode($miner_raw);
 
-					$miner = $miner_bits['miner'];
-
+					// echo print_r($miner_raw);
 					echo print_r($miner_bits);
-					echo print_r($miner);
 
 					killlock();
 					die();
