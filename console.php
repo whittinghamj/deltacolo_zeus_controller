@@ -495,7 +495,7 @@ if($task == "site_jobs")
 					die('dev die');
 				}
 				elseif
-				}
+				{
 					($site_job['miner']['hardware'] == 'antminer-s9'){
 					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
 				}
