@@ -42,8 +42,8 @@ if($task == 'update_miner_stats')
 			if(ping($miner['ip_address']) == 'alive'){
 				if($miner['hardware'] == 'ebite9' || $miner['hardware'] == 'ebite9plus' || $miner['hardware'] == 'ebite10')
 				{
-					$username 	= miner['username'];
-					$password 	= miner['password'];
+					$username 	= $miner['username'];
+					$password 	= $miner['password'];
 					$loginUrl 	= 'http://'.$miner['ip_address'].'/user/login/';
 
 					$ch = curl_init();
