@@ -513,7 +513,7 @@ if($task == "site_jobs")
 					
 					// post pool update
 					curl_setopt($ch, CURLOPT_POST, 1);
-					curl_setopt($ch, CURLOPT_POSTFIELDS, 'mip1='.$config_file['pools'][0]['url'].'&mwork1='.$config_file['pools'][0]['user'].'&mpassword1='.$config_file['pools'][0]['pass']);
+					curl_setopt($ch, CURLOPT_POSTFIELDS, 'mip1='.$config_file['pools'][0]['url'].'&mwork1='.$config_file['pools'][0]['user'].'&mpassword1='.$config_file['pools'][0]['pass'] . '&mip2='.$config_file['pools'][1]['url'].'&mwork2='.$config_file['pools'][1]['user'].'&mpassword2='.$config_file['pools'][1]['pass'] . '&mip3='.$config_file['pools'][2]['url'].'&mwork3='.$config_file['pools'][2]['user'].'&mpassword3='.$config_file['pools'][2]['pass']);
 					curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
 					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 					$store = curl_exec($ch);
@@ -526,11 +526,6 @@ if($task == "site_jobs")
 					curl_setopt($ch, CURLOPT_URL, 'http://'.$ip_address.'/update/resetcgminer');
 					$content = curl_exec($ch);
 					$stats = json_decode($content, TRUE);
-
-
-					killlock();
-					die();
-
 
 				}
 				elseif($site_job['miner']['hardware'] == 'antminer-s9'){
