@@ -488,7 +488,9 @@ if($task == "site_jobs")
 
 				if($site_job['miner']['hardware'] == 'ebite9plus')
 				{
-					$config_file = file_get_contents("http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf");
+					$config_file_url = "http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf";
+					echo "Config File URL: ".$config_file_url." \n";
+					$config_file = file_get_contents($config_file_url);
 					$config_file = json_decode($config_file, true);
 
 					echo print_r($config_file);
