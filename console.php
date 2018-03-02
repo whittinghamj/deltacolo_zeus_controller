@@ -508,6 +508,7 @@ if($task == "site_jobs")
 						// update network.conf
 						// shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id']."_network.conf; /etc/init.d/network.sh'");
 					}
+				}
 				
 				$site_job['status'] = 'complete';
 			}
