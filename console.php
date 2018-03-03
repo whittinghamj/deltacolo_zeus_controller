@@ -592,6 +592,8 @@ if($task == "controller_checkin")
 	$mac_address = exec('cat /sys/class/net/eth0/address');
 	$ip_address = exec("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'");
 
+	console_output('IP Address: ' . $ip_address);
+	console_output('MAC Address: ' . $mac_address);
 	$post = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=controller_checkin&ip_address=".$ip_address."&mac_address=".$mac_address);
 	
 	// killlock
