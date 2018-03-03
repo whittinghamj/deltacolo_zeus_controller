@@ -590,7 +590,7 @@ if($task == "controller_checkin")
 	console_output("Running controller checkin");
 
 	$mac_address = exec('cat /sys/class/net/eth0/address');
-	$ip_address = exec("sh lan_ip.sh");
+	$ip_address = exec("sh /zeus/controller/lan_ip.sh");
 
 	console_output('IP Address: ' . $ip_address);
 	console_output('MAC Address: ' . $mac_address);
