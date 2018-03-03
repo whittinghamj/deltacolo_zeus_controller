@@ -594,7 +594,11 @@ if($task == "controller_checkin")
 
 	console_output('IP Address: ' . $ip_address);
 	console_output('MAC Address: ' . $mac_address);
-	$post = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=controller_checkin&ip_address=".$ip_address."&mac_address=".$mac_address);
+	$post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=controller_checkin&ip_address=".$ip_address."&mac_address=".$mac_address;
+	
+	console_output("POST URL: " . $post_url);
+
+	$post = file_get_contents($post_url);
 	
 	// killlock
 	killlock();
