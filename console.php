@@ -590,7 +590,7 @@ if($task == "controller_checkin")
 	console_output("Running controller checkin");
 
 	$mac_address = exec('cat /sys/class/net/eth0/address');
-	$ip_address = $_SERVER['SERVER_ADDR'];
+	$ip_address = exec("ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'");
 
 	$post = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=controller_checkin");
 	
