@@ -340,7 +340,7 @@ if($task == "network_scan")
 }
 
 if($task == "site_jobs")
-{	
+{
 	$lockfile = dirname(__FILE__) . "/console.site_jobs.loc";
 	if(file_exists($lockfile)){
 		console_output("site_jobs is already running. exiting");
@@ -572,6 +572,27 @@ if($task == "site_jobs")
 	}else{
 		console_output("No jobs.");
 	}
+	
+	// killlock
+	killlock();
+}
+
+if($task == "controller_checkin")
+{
+	$lockfile = dirname(__FILE__) . "/console.controller_checkin.loc";
+	if(file_exists($lockfile)){
+		console_output("controller_checkin is already running. exiting");
+		die();
+	}else{
+		exec("touch $lockfile");
+	}
+	
+	console_output("Running controller checkin");
+
+	$mac_address = exec('cat /sys/class/net/eth0/address');
+	$ip_address = $_SERVER['SERVER_ADDR'];
+
+	$post = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=controller_checkin");
 	
 	// killlock
 	killlock();
