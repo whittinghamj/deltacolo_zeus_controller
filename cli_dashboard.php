@@ -29,4 +29,5 @@ foreach($data['site']['miners'] as $miner)
 }
 
 echo $tbl->getTable();
+
 ?>
