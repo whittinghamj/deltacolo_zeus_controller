@@ -2,5 +2,5 @@
 
 ## ZEUS Controller - Update Script (git pull)
 
-git pull origin master
-crontab crontab.txt 
+git --git-dir=/zeus/controller/.git pull origin master
+crontab /zeus/controller/crontab.txt 
