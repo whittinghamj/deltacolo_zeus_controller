@@ -12,7 +12,9 @@ function killlock(){
 	exec("rm -rf $lockfile");
 }
 
-console_output("ZEUS Controller - v 1.2.1 alpha");
+$version = '1.2.1 alpha';
+
+console_output("ZEUS Controller - v".$version);
 
 $task = $argv[1];
 
@@ -597,7 +599,7 @@ if($task == "controller_checkin")
 	console_output('MAC Address: ' . $mac_address);
 	console_output('CPU Temp: ' . $cpu_temp);
 
-	$post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=controller_checkin&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp;
+	$post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=controller_checkin&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp."&version=".$version;
 	
 	console_output("POST URL: " . $post_url);
 
