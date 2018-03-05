@@ -1,7 +1,6 @@
 <?php
 
-$config['api_key'] = $argv[1];
-
+$config['api_key'] = '1372';
 
 include('functions.php');
 include('php_colors.php');
