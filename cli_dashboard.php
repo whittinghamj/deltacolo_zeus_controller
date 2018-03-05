@@ -1,6 +1,10 @@
 <?php
 
-$config['api_key'] = '1372';
+if(isset($argv[1])){
+	$config['api_key'] = $argv[1];
+}else{
+	include('global_vars.php');
+}
 
 include('functions.php');
 include('php_colors.php');

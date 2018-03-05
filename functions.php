@@ -1,7 +1,5 @@
 <?php
 
-include('global_vars.php');
-
 function c_to_f($temp)
 {
     $fahrenheit=$temp*9/5+32;
