@@ -1,7 +1,9 @@
 <?php
 
-if(isset($argv[2])){
-	$config['api_key'] = $argv[2];
+echo print_r($argv);
+
+if(isset($argv[1])){
+	$config['api_key'] = $argv[1];
 }else{
 	include('global_vars.php');
 }
