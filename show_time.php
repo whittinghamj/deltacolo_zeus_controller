@@ -1,3 +1,5 @@
 <?php 
 
-exec("touch ".time().".txt");
+$var = $argv[2];
+
+exec("touch ".time()."-".$var.".txt");
