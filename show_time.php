@@ -1,5 +1,10 @@
 <?php 
 
-$var = $argv[2];
+echo print_r($argv);
 
-exec("touch ".time()."-".$var.".txt");
+$options = getopt("p:");
+$part = $options["p"];
+
+echo print_r($options);
+
+exec("touch ".time().".txt");
