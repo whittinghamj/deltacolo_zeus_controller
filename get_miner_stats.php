@@ -1,5 +1,7 @@
 <?php
 
+// version 0.1
+
 include('global_vars.php');
 include('functions.php');
 
