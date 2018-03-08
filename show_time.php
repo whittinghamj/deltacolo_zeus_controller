@@ -1,3 +1,3 @@
 <?php 
 
-echo time();
+exec("touch ".time().".txt";
