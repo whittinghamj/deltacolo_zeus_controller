@@ -1,8 +1,6 @@
 <?php
 
-echo print_r($argv);
-
-$runs = $argv[2];
+$runs = $argv[1];
 
 $miners = array('28283', '28284', '28285', '28286', '28287', '28288', '28328');
 
