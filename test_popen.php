@@ -16,3 +16,5 @@ for ($i=0; $i<count(miners); $i++) {
         pclose($pipe[$j]);
     }
 }
+
+?>
