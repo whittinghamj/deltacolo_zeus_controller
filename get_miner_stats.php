@@ -212,4 +212,4 @@ foreach($miner_details['miners'] as $miner)
 	);                                                                                                                   
 
 	$result = curl_exec($ch);
-]
+}
