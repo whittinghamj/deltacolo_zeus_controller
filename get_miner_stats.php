@@ -8,7 +8,7 @@ $miner_id 				= $options["p"];
 
 $get_miner_url 			= 'http://zeus.deltacolo.com/api/?key=1372&c=site_miner&miner_id='.$miner_id;
 $get_miner_details 		= file_get_contents($get_miner_url);
-$miner_details 			= json_decode($miner_details, true);
+$miner 					= json_decode($get_miner_details, true);
 
 if(ping($miner['ip_address']) == 'alive'){
 	if($miner['hardware'] == 'ebite9' || $miner['hardware'] == 'ebite9plus' || $miner['hardware'] == 'ebite10')
