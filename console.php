@@ -225,10 +225,9 @@ if($task == 'update_miner_stats')
 				$miner['update']['status']				=	"offline";
 			}
 
+			console_output($miner['update']['status']);
 			// get the MAC address
 			// $miner['mac_address'] = exec("nmap -sP ".$miner['ip_address']." | grep MAC");
-
-			echo print_r($miner['update']);
 			
 			$data_string = json_encode($miner);
 
