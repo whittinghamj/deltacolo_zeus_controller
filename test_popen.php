@@ -8,7 +8,7 @@ for ($i=0; $i<count(miners); $i++) {
     for ($j=0; $j<count(miners); $j++) {
     	echo "Checking Miner: ".$miners[$j]."\n";
 
-        $pipe[$j] = popen("php -q get_miner_stats.php -p='".$miners[$j]."'", 'r');
+        $pipe[$j] = popen("php -q get_miner_stats.php -p='".$miners[$j]."'", 'w');
     }
 
     // wait for them to finish
