@@ -4,7 +4,7 @@
 for ($i=0; $i<10; $i++) {
     // open ten processes
     for ($j=0; $j<10; $j++) {
-        $pipe[$j] = popen("php -q show_time.php -miner_id='".rand(000,999)."'", 'r');
+        $pipe[$j] = popen("php -q show_time.php -p='".rand(000,999)."'", 'r');
     }
 
     // wait for them to finish

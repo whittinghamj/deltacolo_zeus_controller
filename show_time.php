@@ -1,9 +1,7 @@
 <?php 
 
-echo print_r($argv);
-
-$options = getopt("miner_id:");
-$miner_id = $options["miner_id"];
+$options = getopt("p:");
+$miner_id = $options["p"];
 
 echo print_r($options);
 
