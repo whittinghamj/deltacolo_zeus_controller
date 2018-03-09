@@ -2,8 +2,8 @@
 
 // version 1.0.0
 
-include('global_vars.php');
-include('functions.php');
+include('/zeus/controller/global_vars.php');
+include('/zeus/controller/functions.php');
 
 $runs = $argv[1];
 
@@ -24,7 +24,7 @@ for ($i=0; $i<$runs; $i++) {
     for ($j=0; $j<$count; $j++) {
     	echo "Checking Miner: ".$miner_ids[$j]."\n";
 
-        $pipe[$j] = popen("php -q deamon_update_miner_stats.php -p='".$miner_ids[$j]."'", 'w');
+        $pipe[$j] = popen("php -q /zeus/controller/deamon_update_miner_stats.php -p='".$miner_ids[$j]."'", 'w');
     }
 
     // wait for them to finish
