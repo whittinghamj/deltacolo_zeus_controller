@@ -1,0 +1,7 @@
+## remove any old lock files
+rm -rf /zeus/controller/*.loc
+
+## run the ZEUS deamon
+nohup php -q /zeus/controller/deamon.php 500
+
+exit 0
