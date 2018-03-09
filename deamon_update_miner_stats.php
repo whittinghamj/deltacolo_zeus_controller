@@ -2,8 +2,8 @@
 
 // version 0.1.2
 
-include('global_vars.php');
-include('functions.php');
+include('/zeus/controller/global_vars.php');
+include('/zeus/controller/functions.php');
 
 $options 				= getopt("p:");
 $miner_id 				= $options["p"];
