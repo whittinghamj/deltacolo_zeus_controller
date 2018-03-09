@@ -2,7 +2,7 @@
 
 */5 * * * * sh /zeus/controller/update.sh > /dev/null 2>&1
 
-* * * * * php -q /zeus/controller/console.php update_miner_stats > /zeus/controller/console.log 2>&1
+# * * * * * php -q /zeus/controller/console.php update_miner_stats > /zeus/controller/console.log 2>&1
 
 * * * * * php -q /zeus/controller/console.php site_jobs > /zeus/controller/console.log 2>&1
 
