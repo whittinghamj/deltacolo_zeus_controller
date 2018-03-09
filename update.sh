@@ -8,3 +8,4 @@ rm -rf /etc/rc.local
 mv /zeus/controller/rc.local /etc
 
 crontab /zeus/controller/crontab.txt
+
