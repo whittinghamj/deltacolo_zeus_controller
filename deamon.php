@@ -31,6 +31,8 @@ for ($i=0; $i<$runs; $i++) {
     for ($j=0; $j<$count; ++$j) {
         pclose($pipe[$j]);
     }
+
+    sleep(1);
 }
 
 ?>
