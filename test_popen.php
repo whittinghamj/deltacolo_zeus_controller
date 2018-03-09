@@ -17,18 +17,14 @@ foreach($miners['miners'] as $miner)
 
 $count 				= count($miner_ids);
 
-echo print_r($miner_ids);
-
 console_output("Polling " . $count . " miners.");
-
-die();
 
 for ($i=0; $i<$runs; $i++) {
     // open ten processes
     for ($j=0; $j<$count; $j++) {
-    	echo "Checking Miner: ".$miners['miners'][$j]."\n";
+    	echo "Checking Miner: ".$miner_ids[$j]."\n";
 
-        $pipe[$j] = popen("php -q get_miner_stats.php -p='".$miners['miners'][$j]."'", 'w');
+        $pipe[$j] = popen("php -q get_miner_stats.php -p='".$miner_ids[$j]."'", 'w');
     }
 
     // wait for them to finish
