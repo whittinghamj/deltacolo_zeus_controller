@@ -198,7 +198,7 @@ foreach($miner_details['miners'] as $miner)
 		$miner['update']['status']				=	"offline";
 	}
 
-	console_output($miner['update']['status']);
+	console_output('Miner: '.$miner['name'].' / '.$miner['ip_address'].' = '.$miner['update']['status']);
 	// get the MAC address
 	// $miner['mac_address'] = exec("nmap -sP ".$miner['ip_address']." | grep MAC");
 
