@@ -355,14 +355,10 @@ if($task == "site_jobs")
 	$site_jobs_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_jobs");
 	$site_jobs = json_decode($site_jobs_raw, true);
 
-	// echo print_r($site_jobs, true);
-
 	if(isset($site_jobs['jobs']))
 	{
 		foreach($site_jobs['jobs'] as $site_job){
-			
-			// echo print_r($site_job);
-			
+						
 			if($site_job['job'] == 'reboot_miner')
 			{
 				if($site_job['miner']['hardware'] == 'ebite9plus')
@@ -544,6 +540,20 @@ if($task == "site_jobs")
 						// update network.conf
 						// shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id']."_network.conf; /etc/init.d/network.sh'");
 					}
+				}
+				
+				$site_job['status'] = 'complete';
+			}
+
+			if($site_job['job'] == 'pause_miner')
+			{
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+				exec($cmd);
+
+				console_output('Pausing Miner: ' . $site_job['miner']['name']);
+
+				if (strpos($site_job['miner']['hardware'], 'antminer') !== false) {
+				    shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/pause_antminer.sh; wget -O /config/pause_antminer.sh http://zeus.deltacolo.com/controller/pause_antminer.sh; nohup sh /config/pause_antminer.sh >/dev/null 2>&1;'");
 				}
 				
 				$site_job['status'] = 'complete';
