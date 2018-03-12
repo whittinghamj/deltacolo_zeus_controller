@@ -567,7 +567,7 @@ if($task == "site_jobs")
 				console_output('UN-Pausing Miner: ' . $site_job['miner']['name']);
 
 				if (strpos($site_job['miner']['hardware'], 'antminer') !== false) {
-				    shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'kill -9 $(ps | grep 'pause_antminer.sh' | awk '{print $1}');'");
+				    shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'kill -9 $(ps | grep \'pause_antminer.sh\' | awk \'{print $1}\');'");
 				}
 				
 				$site_job['status'] = 'complete';
