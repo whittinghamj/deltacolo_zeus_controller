@@ -117,6 +117,9 @@ foreach($miner_details['miners'] as $miner)
 					$miner['update']['chip_temp_3']				= $miner_data['STATS0']['temp2_3'];
 					$miner['update']['chip_temp_4']				= $miner_data['STATS0']['temp2_4'];
 
+					$miner['update']['fan_1_speed']				= $miner_data['STATS0']['fan3'];
+					$miner['update']['fan_2_speed']				= $miner_data['STATS0']['fan6'];
+
 					$miner['update']['asics_1']					= $miner_data['STATS0']['chain_acn1'];
 					$miner['update']['asics_2']					= $miner_data['STATS0']['chain_acn2'];
 					$miner['update']['asics_3']					= $miner_data['STATS0']['chain_acn3'];
