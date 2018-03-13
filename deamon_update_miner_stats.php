@@ -159,6 +159,7 @@ foreach($miner_details['miners'] as $miner)
 					$miner['update']['rejected']				= $miner_data['SUMMARY']['Rejected'];
 
 					$miner['update']['frequency']				= $miner_data['STATS0']['frequency'];
+					
 					$miner['update']['pcb_temp_1']				= $miner_data['STATS0']['temp6'];
 					$miner['update']['pcb_temp_2']				= $miner_data['STATS0']['temp7'];
 					$miner['update']['pcb_temp_3']				= $miner_data['STATS0']['temp8'];
@@ -168,6 +169,9 @@ foreach($miner_details['miners'] as $miner)
 					$miner['update']['chip_temp_2']				= $miner_data['STATS0']['temp2_7'];
 					$miner['update']['chip_temp_3']				= $miner_data['STATS0']['temp2_8'];
 					$miner['update']['chip_temp_4']				= '0';
+
+					$miner['update']['fan_1_speed']				= $miner_data['STATS0']['fan3'];
+					$miner['update']['fan_2_speed']				= $miner_data['STATS0']['fan6'];
 
 					$miner['update']['asics_1']					= $miner_data['STATS0']['chain_acn6'];
 					$miner['update']['asics_2']					= $miner_data['STATS0']['chain_acn7'];
