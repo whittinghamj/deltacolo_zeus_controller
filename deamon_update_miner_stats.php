@@ -86,6 +86,23 @@ foreach($miner_details['miners'] as $miner)
 				// $miner_pools 	= request($miner['ip_address'], 'pools');
 				// $miner_lcd 		= request($miner['ip_address'], 'lcd');
 
+				// get kernal log
+
+				$url = "http://".$miner['ip_address']."/cgi-bin/get_kernel_log.cgi";
+
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_HTTPGET, true);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+				curl_setopt($ch, CURLOPT_USERPWD, $miner['username'].":".$miner['password']);
+				curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+				curl_setopt($ch, CURLOPT_URL, $url);
+				
+				$miner_data['update']['kernel_log'] = curl_exec($ch);
+				$info = curl_getinfo($ch);
+				
+				curl_close($ch);
+
 				if($miner_data['STATUS1']['Msg'] == 'CGMiner stats')
 				{
 					$miner['update']['hardware']				= $miner_data['CGMiner']['Type'];
