@@ -100,8 +100,6 @@ foreach($miner_details['miners'] as $miner)
 				
 				$miner_data['update']['kernel_log'] = curl_exec($ch);
 				$info = curl_getinfo($ch);
-
-				echo print_r($miner_data['update']['kernel_log']);
 				
 				curl_close($ch);
 
