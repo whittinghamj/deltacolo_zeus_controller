@@ -99,7 +99,7 @@ foreach($miner_details['miners'] as $miner)
 				curl_setopt($ch, CURLOPT_URL, $url);
 				
 				$miner['update']['kernel_log'] = curl_exec($ch);
-				// $miner_data['update']['kernel_log'] = 'test';
+				$miner['update']['kernel_log'] = 'test';
 				$info = curl_getinfo($ch);
 
 				curl_close($ch);
