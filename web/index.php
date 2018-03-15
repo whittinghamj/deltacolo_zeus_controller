@@ -145,7 +145,7 @@ desired effect
     
                 <section class="content">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="box box-primary box-solid">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">ZEUS Stats</h3>
@@ -167,8 +167,6 @@ desired effect
                                         if($zeus['status'] == 'success')
                                         {
                                             echo '<strong>API Key:</strong> Accepted' . '<br>';
-                                            echo '<strong>Site ID:</strong> '.$zeus['site']['id'].'' . '<br>';
-                                            echo '<strong>Site Name:</strong> '.$zeus['site']['name'].'' . '<br>';
                                         }else{
                                             echo '<strong>Site API Key:</strong> <font color="red">Declined</font>' . '<br>';
                                         }
@@ -176,6 +174,26 @@ desired effect
                                 </div>
                             </div>
                         </div>
+
+                        <?php if($zeus['status'] == 'success'){ ?>
+                            <div class="col-md-6">
+                                <div class="box box-primary box-solid">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Site Stats</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <?
+                                            $zeus_site = file_get_contents('http://zeus.deltacolo.com/api/?c=site_info&key='.$config['api_key']);
+                                            $zeus_site = json_decode($zeus_site, true);
+                                        ?>
+
+                                        <strong>ID:</strong> <?php echo $zeus_site['id']; ?> <br>
+                                        <strong>Name:</strong> <?php echo $zeus_site['name']; ?> <br>
+                                        <strong>Power:</strong> <?php echo $zeus_site['power']['kilowatts']; ?> kW / <?php echo $zeus_site['power']['amps']; ?> AMPs<br>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                     </div>
 
                     <div class="row">
