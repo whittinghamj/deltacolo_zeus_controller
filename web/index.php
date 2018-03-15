@@ -271,7 +271,7 @@ desired effect
 											</div>
 										</div>
 									</div>
-									<div class="box-footer text-left">
+									<div class="box-footer text-right">
 										<button type="submit" class="btn btn-success">Save</button>
 									</div>
 								</div>
