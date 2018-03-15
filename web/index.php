@@ -153,7 +153,7 @@ desired effect
                                 <div class="box-body">
                                     <?php
                                         $api_key = file_get_contents('/zeus/controller/global_vars.php');
-                                        $zeus = file_get_contents('http://zeus.deltacolo.com/api/?c=home&key='.$api_key['api_key']); ?>
+                                        $zeus = file_get_contents('http://zeus.deltacolo.com/api/?c=home&key='.$api_key['api_key']);
 
                                         debug($zeus);
                                     ?>
