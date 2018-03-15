@@ -158,7 +158,8 @@ desired effect
 
                                         if(isset($zeus['status']))
                                         {
-                                            echo '<strong>API:</strong> <font color="green">Online</font>' . '<br>';
+                                            echo '<strong>API Status:</strong> <font color="green">Online</font>' . '<br>';
+                                            echo '<strong>API Version:</strong> '.$zeus['version'].''.'<br>';
                                         }else{
                                             echo '<strong>API:</strong> <font color="red">Offline</font>' . '<br>';
                                         }
