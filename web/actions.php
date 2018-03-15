@@ -1,5 +1,9 @@
 <?php
+
 ini_set('session.gc_maxlifetime', 86400);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('error_reporting', E_ALL);
 
 session_start();
 
@@ -60,9 +64,7 @@ function settings_update()
 {
 	$api_key = $_POST['api_key'];
 
-	$file  = "<?php"."\n";
-	$file += "$config['api_key'] = '".$api_key."';"."\n"; 
-	$file += "\n";
+	$file = "<?php\n\n\$config['api_key'] = '$api_key';\n\n?>";
 
 	file_put_contents('/zeus/controller/global_vars.php', $file);
 
