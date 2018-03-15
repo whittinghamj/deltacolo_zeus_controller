@@ -61,6 +61,12 @@ desired effect
                 <span class="logo-mini"><?php echo $site['name_short']; ?></span>
                 <span class="logo-lg"><?php echo $site['name_long']; ?></span>
             </a>
+
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+            </nav>
         </header>
 
         <aside class="main-sidebar">
