@@ -67,6 +67,7 @@ function settings_update()
 	$file = "<?php\n\n\$config['api_key'] = '$api_key';\n\n?>";
 
 	file_put_contents('/zeus/controller/global_vars.php', $file);
+	file_put_contents('/zeus/global_vars.php', $file);
 
 	go($_SERVER['HTTP_REFERER']);
 }
