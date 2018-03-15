@@ -166,7 +166,7 @@ desired effect
 
                                         if($zeus['status'] == 'success')
                                         {
-                                            echo '<strong>Site API Key:</strong> <font color="green">Accepted</font>' . '<br>';
+                                            echo '<strong>API Key:</strong> Accepted' . '<br>';
                                             echo '<strong>Site ID:</strong> '.$zeus['site']['id'].'' . '<br>';
                                             echo '<strong>Site Name:</strong> '.$zeus['site']['name'].'' . '<br>';
                                         }else{
