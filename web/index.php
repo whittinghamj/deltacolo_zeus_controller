@@ -131,6 +131,16 @@ desired effect
         
         <?php  function home(){ ?>
         	<?php global $account_details, $site; ?>
+            <?php
+                include('/zeus/controller/global_vars.php');
+                $zeus['api']['url']         = 'http://zeus.deltacolo.com/api/?c=home&key='.$config['api_key'];
+                $zeus['api']['data']        = @file_get_contents($zeus['api']['url']);
+                $zeus['api']['data']        = json_decode($zeus['api']['data'], true);
+                $zeus['site']['url']        = 'http://zeus.deltacolo.com/api/?c=site_info&key='.$config['api_key'];
+                $zeus['site']['data']       = file_get_contents($zeus['site']['data']);
+                $zeus['site']['data']       = json_decode($zeus['site']['data'], true);
+            ?>
+
             <div class="content-wrapper">
 				
                 <div id="status_message"></div>
@@ -144,6 +154,13 @@ desired effect
                 </section>
     
                 <section class="content">
+                    <?php if(isset($_GET['dev']) && $_GET['dev'] == 'yes'){ ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php debug($zeus); ?>
+                        </div>
+                    </div>
+                    <?php } ?>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="box box-primary box-solid">
@@ -152,14 +169,11 @@ desired effect
                                 </div>
                                 <div class="box-body">
                                     <?php
-                                        include('/zeus/controller/global_vars.php');
-                                        $zeus = file_get_contents('http://zeus.deltacolo.com/api/?c=home&key='.$config['api_key']);
-                                        $zeus = json_decode($zeus, true);
 
-                                        if(isset($zeus['status']))
+                                        if(isset($zeus['api']['data']['status']))
                                         {
                                             echo '<strong>API Status:</strong> <font color="green">Online</font>' . '<br>';
-                                            echo '<strong>API Version:</strong> '.$zeus['version'].''.'<br>';
+                                            echo '<strong>API Version:</strong> '.$zeus['api']['data']['version'].''.'<br>';
                                         }else{
                                             echo '<strong>API:</strong> <font color="red">Offline</font>' . '<br>';
                                         }
@@ -182,11 +196,7 @@ desired effect
                                         <h3 class="box-title">Site Stats</h3>
                                     </div>
                                     <div class="box-body">
-                                        <?
-                                            $zeus_site = file_get_contents('http://zeus.deltacolo.com/api/?c=site_info&key='.$config['api_key']);
-                                            $zeus_site = json_decode($zeus_site, true);
-                                        ?>
-
+                                        URL: <?php echo $zeus_site_url; ?><br>
                                         <strong>ID:</strong> <?php echo $zeus_site['id']; ?> <br>
                                         <strong>Name:</strong> <?php echo $zeus_site['name']; ?> <br>
                                         <strong>Power:</strong> <?php echo $zeus_site['power']['kilowatts']; ?> kW / <?php echo $zeus_site['power']['amps']; ?> AMPs<br>
