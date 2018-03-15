@@ -178,7 +178,7 @@ desired effect
                                             echo '<strong>API:</strong> <font color="red">Offline</font>' . '<br>';
                                         }
 
-                                        if($zeus['status'] == 'success')
+                                        if($zeus['api']['data']['status'] == 'success')
                                         {
                                             echo '<strong>API Key:</strong> Accepted' . '<br>';
                                         }else{
@@ -189,17 +189,16 @@ desired effect
                             </div>
                         </div>
 
-                        <?php if($zeus['status'] == 'success'){ ?>
+                        <?php if($zeus['site']['data']['status'] == 'success'){ ?>
                             <div class="col-md-6">
                                 <div class="box box-primary box-solid">
                                     <div class="box-header with-border">
                                         <h3 class="box-title">Site Stats</h3>
                                     </div>
                                     <div class="box-body">
-                                        URL: <?php echo $zeus_site_url; ?><br>
-                                        <strong>ID:</strong> <?php echo $zeus_site['id']; ?> <br>
-                                        <strong>Name:</strong> <?php echo $zeus_site['name']; ?> <br>
-                                        <strong>Power:</strong> <?php echo $zeus_site['power']['kilowatts']; ?> kW / <?php echo $zeus_site['power']['amps']; ?> AMPs<br>
+                                        <strong>ID:</strong> <?php echo $zeus['site']['data']['id']; ?> <br>
+                                        <strong>Name:</strong> <?php echo $zeus['site']['data']['name']; ?> <br>
+                                        <strong>Power:</strong> <?php echo $zeus['site']['data']['power']['kilowatts']; ?> kW / <?php echo $zeus['site']['data']['power']['amps']; ?> AMPs<br>
                                     </div>
                                 </div>
                             </div>
