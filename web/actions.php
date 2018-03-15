@@ -1,6 +1,7 @@
 <?php
 
 ini_set('session.gc_maxlifetime', 86400);
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('error_reporting', E_ALL);
@@ -9,8 +10,6 @@ session_start();
 
 include("inc/global_vars.php");
 include("inc/functions.php");
-
-// ini_set('error_reporting', E_ALL); 
 
 $a = $_GET['a'];
 

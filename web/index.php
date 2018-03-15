@@ -148,6 +148,24 @@ desired effect
                         <div class="col-md-12">
                             <div class="box box-primary box-solid">
                                 <div class="box-header with-border">
+                                    <h3 class="box-title">ZEUS Stats</h3>
+                                </div>
+                                <div class="box-body">
+                                    <?php
+                                        $api_key = file_get_contents('/zeus/controller/global_vars.php');
+                                        $zeus = file_get_contents('http://zeus.deltacolo.com/api/?c=home&key='.$api_key['api_key']); ?>
+
+                                        debug($zeus);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-primary box-solid">
+                                <div class="box-header with-border">
                                     <h3 class="box-title">Controller Stats</h3>
                                 </div>
                                 <div class="box-body">
