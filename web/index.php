@@ -239,7 +239,7 @@ desired effect
             							  google.charts.setOnLoadCallback(drawChart);
 
             							  function drawChart() {
-            								var netdata = 'http://192.168.0.46:19999/api/v1/data?after=-60&format=datasource&options=nonzero&chart=';
+            								var netdata = 'http://'.$zeus['site']['data']['controller_ip'].':19999/api/v1/data?after=-60&format=datasource&options=nonzero&chart=';
 
             								// define all the charts you need
             								var mycharts = [
