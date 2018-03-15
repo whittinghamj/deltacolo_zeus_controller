@@ -63,9 +63,11 @@ desired effect
             </a>
 
             <nav class="navbar navbar-static-top" role="navigation">
+                <!--
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
+            	-->
             </nav>
         </header>
 
@@ -256,7 +258,7 @@ desired effect
     
                 <section class="content">
                     <div class="row">
-                    	<div class="col-md-3">
+                    	<div class="col-md-6">
                     		<form action="actions.php?a=settings_update" method="post" class="form-horizontal">
 								<div class="box box-primary box-solid">
 									<div class="box-header with-border">
