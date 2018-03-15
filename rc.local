@@ -1,4 +1,0 @@
-## remove any old lock files
-rm -rf /zeus/controller/*.loc
-
-exit 0
