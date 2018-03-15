@@ -137,7 +137,7 @@ desired effect
                 $zeus['api']['data']        = @file_get_contents($zeus['api']['url']);
                 $zeus['api']['data']        = json_decode($zeus['api']['data'], true);
                 $zeus['site']['url']        = 'http://zeus.deltacolo.com/api/?c=site_info&key='.$config['api_key'];
-                $zeus['site']['data']       = file_get_contents($zeus['site']['data']);
+                $zeus['site']['data']       = file_get_contents($zeus['site']['url']);
                 $zeus['site']['data']       = json_decode($zeus['site']['data'], true);
             ?>
 
