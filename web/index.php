@@ -163,7 +163,7 @@ desired effect
                                             echo '<strong>API:</strong> <font color="red">Offline</font>' . '<br>';
                                         }
 
-                                        if($zeus['status'] == 'success'))
+                                        if($zeus['status'] == 'success')
                                         {
                                             echo '<strong>Site API Key:</strong> <font color="green">Accepted</font>' . '<br>';
                                             echo '<strong>Site ID:</strong> <font color="green">'.$zeus['site']['id'].'</font>' . '<br>';
