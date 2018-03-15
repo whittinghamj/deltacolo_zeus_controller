@@ -154,9 +154,23 @@ desired effect
                                     <?php
                                         include('/zeus/controller/global_vars.php');
                                         $zeus = file_get_contents('http://zeus.deltacolo.com/api/?c=home&key='.$config['api_key']);
+                                        $zeus = json_decode($zeus, true);
 
-                                        debug($config);
-                                        debug($zeus);
+                                        if(isset($zeus['status']))
+                                        {
+                                            echo '<strong>API:</strong> <font color="green">Online</font>' . '<br>';
+                                        }else{
+                                            echo '<strong>API:</strong> <font color="red">Offline</font>' . '<br>';
+                                        }
+
+                                        if($zeus['status'] == 'success'))
+                                        {
+                                            echo '<strong>Site API Key:</strong> <font color="green">Accepted</font>' . '<br>';
+                                            echo '<strong>Site ID:</strong> <font color="green">'.$zeus['site']['id'].'</font>' . '<br>';
+                                            echo '<strong>Site Name:</strong> <font color="green">'.$zeus['site']['name'].'</font>' . '<br>';
+                                        }else{
+                                            echo '<strong>Site API Key:</strong> <font color="red">Declined</font>' . '<br>';
+                                        }
                                     ?>
                                 </div>
                             </div>
