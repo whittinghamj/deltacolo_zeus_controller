@@ -266,8 +266,7 @@ desired effect
 									</div>
 									<div class="box-body">
 										<div class="form-group">
-											<label for="api_key" class="col-sm-2 control-label">Firstname</label>
-											<div class="col-sm-10">
+											<div class="col-sm-12">
 												<input type="text" name="api_key" id="api_key" class="form-control" value="<?php echo $config['api_key']; ?>" required>
 											</div>
 										</div>
