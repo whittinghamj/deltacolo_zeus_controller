@@ -162,7 +162,7 @@ desired effect
                     </div>
                     <?php } ?>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="box box-primary box-solid">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">ZEUS Stats</h3>
