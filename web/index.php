@@ -159,9 +159,9 @@ desired effect
 					test();
 					break;
 					
-				// my account
-				case "my_account":
-					my_account();
+				// settings
+				case "settings":
+					settings();
 					break;
 					
 				// home

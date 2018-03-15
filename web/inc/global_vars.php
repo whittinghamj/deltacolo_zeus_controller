@@ -1,7 +1,7 @@
 <?php
 
 // site vars
-$site['url']					= 'https://'.$_SERVER['SERVER_ADDR'].'/';
+$site['url']					= 'http://'.$_SERVER['SERVER_ADDR'].'/';
 $config['url']					= $site['url'];
 $site['title']					= 'ZEUS Miner Management';
 $config['title']				= $site['title'];
