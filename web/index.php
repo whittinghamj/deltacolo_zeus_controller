@@ -61,56 +61,6 @@ desired effect
                 <span class="logo-mini"><?php echo $site['name_short']; ?></span>
                 <span class="logo-lg"><?php echo $site['name_long']; ?></span>
             </a>
-
-            <nav class="navbar navbar-static-top" role="navigation">
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                </a>
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <!--
-						<li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="<?php echo $account_details['avatar']; ?>" class="user-image" alt="User Image">
-                                <span class="hidden-xs">
-									<?php echo $account_details['firstname']; ?> <?php echo $account_details['lastname']; ?>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="user-header">
-                                    <img src="<?php echo $account_details['avatar']; ?>" class="img-circle" alt="User Image">
-                                    <p>
-                                        <?php echo $account_details['firstname']; ?> <?php echo $account_details['lastname']; ?>
-                                        <small><?php echo $account_details['email']; ?></small>
-                                    </p>
-                                </li>
-                                <!-- Menu Body -->
-                                <!--
-                                <li class="user-body">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </li>
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="<?php echo $site['url']; ?>/dashboard?c=profile" class="btn btn-default btn-flat">Profile</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="<?php echo $site['url']; ?>/logout" class="btn btn-default btn-flat">Sign out</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        -->
-                    </ul>
-                </div>
-            </nav>
         </header>
 
         <aside class="main-sidebar">
@@ -282,7 +232,48 @@ desired effect
             </div>
         <?php } ?>
         
-        
+        <?php  function settings(){ ?>
+        	<?php global $site; ?>
+
+        	<?php include('/zeus/controller/global_vars.php'); ?>
+            <div class="content-wrapper">
+				
+                <div id="status_message"></div>
+                            	
+                <section class="content-header">
+                    <h1>Settings <!-- <small>Optional description</small> --></h1>
+                    <ol class="breadcrumb">
+                        <li class="active"><a href="<?php echo $site['url']; ?>">Dashboard</a></li>
+                        <li class="active">Settings</li>
+                    </ol>
+                </section>
+    
+                <section class="content">
+                    <div class="row">
+                    	<div class="col-md-3">
+                    		<form action="actions.php?a=settings_update" method="post" class="form-horizontal">
+								<div class="box box-primary box-solid">
+									<div class="box-header with-border">
+										<h3 class="box-title">ZEUS API Key</h3>
+									</div>
+									<div class="box-body">
+										<div class="form-group">
+											<label for="api_key" class="col-sm-2 control-label">Firstname</label>
+											<div class="col-sm-10">
+												<input type="text" name="api_key" id="api_key" class="form-control" value="<?php echo $config['api_key']; ?>" required>
+											</div>
+										</div>
+									</div>
+									<div class="box-footer text-left">
+										<button type="submit" class="btn btn-success">Save</button>
+									</div>
+								</div>
+							</form>
+						</div>
+                    </div>
+                </section>
+            </div>
+        <?php } ?>
         
         <?php  function test(){ ?>
         	<?php global $account_details, $site; ?>
@@ -343,77 +334,6 @@ desired effect
 			}, 5000);
         </script>
         <?php unset($_SESSION['alert']); ?>
-    <?php } ?>
-    
-    <?php if($_GET['c'] == 'my_account'){ ?>
-    	<script>
-			$(document).on('change', '.btn-file :file', function() {
-			  var input = $(this),
-				  numFiles = input.get(0).files ? input.get(0).files.length : 1,
-				  label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-			  input.trigger('fileselect', [numFiles, label]);
-			});
-			
-			$(document).ready( function() {
-				$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-					
-					var input = $(this).parents('.input-group').find(':text'),
-						log = numFiles > 1 ? numFiles + ' files selected' : label;
-					
-					if( input.length ) {
-						input.val(log);
-					} else {
-						if( log ) alert(log);
-					}
-					
-				});
-			});
-		
-			function _(el){
-				return document.getElementById(el);
-			}
-			function uploadFile(){
-				var file = _("file1").files[0];
-				var uid = _("uid").value;
-				// alert(file.name+" | "+file.size+" | "+file.type);
-				var formdata = new FormData();
-				formdata.append("file1", file);
-				formdata.append("uid", uid);
-				var ajax = new XMLHttpRequest();
-				ajax.upload.addEventListener("progress", progressHandler, false);
-				ajax.addEventListener("load", completeHandler, false);
-				ajax.addEventListener("error", errorHandler, false);
-				ajax.addEventListener("abort", abortHandler, false);
-				ajax.open("POST", "actions.php?a=my_account_update_photo");
-				ajax.send(formdata);
-			}
-			function progressHandler(event){
-				_("loaded_n_total").innerHTML = "Uploaded "+event.loaded+" bytes of "+event.total;
-				var percent = (event.loaded / event.total) * 100;
-				_("progressBar").value = Math.round(percent);
-				_("status").innerHTML = Math.round(percent)+"% uploaded... please wait";
-			}
-			function completeHandler(event){
-				_("status").innerHTML = event.target.responseText;
-				_("progressBar").value = 0;
-				setTimeout(function() {
-					set_status_message('success', 'Your profile photo has been updated.');
-					window.location = window.location;
-				}, 3000);
-			}
-			function errorHandler(event){
-				_("status").innerHTML = "Upload Failed";
-				setTimeout(function() {
-					$('#status').fadeOut('fast');
-				}, 10000);
-			}
-			function abortHandler(event){
-				_("status").innerHTML = "Upload Aborted";
-				setTimeout(function() {
-					$('#status').fadeOut('fast');
-				}, 10000);
-			}
-		</script>
     <?php } ?>
     
     <script>
