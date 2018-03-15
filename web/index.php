@@ -196,9 +196,10 @@ desired effect
                                         <h3 class="box-title">Site Stats</h3>
                                     </div>
                                     <div class="box-body">
-                                        <strong>ID:</strong> <?php echo $zeus['site']['data']['id']; ?> <br>
-                                        <strong>Name:</strong> <?php echo $zeus['site']['data']['name']; ?> <br>
+                                        <!-- <strong>ID:</strong> <?php echo $zeus['site']['data']['id']; ?> <br> -->
+                                        <strong>Miners:</strong> <?php echo $zeus['site']['data']['total_online_miners']; ?> Online / <?php echo $zeus['site']['data']['total_offline_miners']; ?> Offline<br>
                                         <strong>Power:</strong> <?php echo $zeus['site']['data']['power']['kilowatts']; ?> kW / <?php echo $zeus['site']['data']['power']['amps']; ?> AMPs<br>
+                                        <strong>Avg Temp:</strong> <?php echo $zeus['site']['data']['average_temps']['average_pcb']; ?> °C<br>
                                     </div>
                                 </div>
                             </div>
