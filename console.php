@@ -305,6 +305,15 @@ if($task == "network_scan")
 						$miner['site_id']		= $site_id;
 						$miner['ip_address'] 	= $ip;
 
+						// set zeus_admin default password for antminers
+						$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$miner['ip_address'];
+						exec($cmd);
+
+						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/update_password.sh; wget -O /config/update_password.sh http://zeus.deltacolo.com/antminer_s9/update_password.sh; sh /config/update_password.sh >/dev/null 2>&1;'";
+						exec($cmd);
+
+						console_output("Resetting miner password " . $miner['ip_address']);
+
 						$data_string = json_encode($miner);
 
 						$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
@@ -317,15 +326,6 @@ if($task == "network_scan")
 						);                                                                                                                   
 
 						$result = curl_exec($ch);
-
-						// set zeus_admin default password for antminers
-						$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$miner['ip_address'];
-						exec($cmd);
-
-						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/update_password.sh; wget -O /config/update_password.sh http://zeus.deltacolo.com/antminer_s9/update_password.sh; sh /config/update_password.sh >/dev/null 2>&1;'";
-						exec($cmd);
-
-						console_output("Resetting miner password " . $miner['ip_address']);
 					} else {
 						$cgminer = "OFFLINE !!!";
 					}
