@@ -232,8 +232,9 @@ foreach($miner_details['miners'] as $miner)
 
 	// echo print_r($miner, true);
 
-	$post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_update";
-
+	// $post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_update";
+	$post_url = 'https://requestb.in/1civ9fe1';
+	
 	console_output($post_url);
 
 	$ch = curl_init();                            
