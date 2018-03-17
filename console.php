@@ -431,6 +431,10 @@ if($task == "site_jobs")
 						$active_ip_addresses = file('active_ip_addresses.txt');
 
 						foreach ($active_ip_addresses as $active_ip_address) {
+							$active_ip_address 			= str_replace(' ', '', $active_ip_address);
+							$active_ip_address 			= trim($active_ip_address, " \t.");
+							$active_ip_address 			= trim($active_ip_address, " \n.");
+							$active_ip_address 			= trim($active_ip_address, " \r.");
 
 							if(@fsockopen($active_ip_address,$port,$errno,$errstr,1))
 							{
