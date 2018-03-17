@@ -230,6 +230,8 @@ foreach($miner_details['miners'] as $miner)
 
 	$data_string = json_encode($miner);
 
+	echo print_r($data_string);
+
 	$post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_update";
 
 	console_output($post_url);
