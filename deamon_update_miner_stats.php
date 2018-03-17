@@ -226,20 +226,21 @@ foreach($miner_details['miners'] as $miner)
 
 	console_output('Miner: '.$miner['name'].' / '.$miner['ip_address'].' = '.$miner['update']['status']);
 	// get the MAC address
-	$miner['mac_address'] = exec("nmap -sP ".$miner['ip_address']." | grep MAC");
+	// $miner['mac_address'] = exec("nmap -sP ".$miner['ip_address']." | grep MAC");
 
 	$data_string = json_encode($miner);
 
-	echo print_r($miner, true);
+	// echo print_r($miner, true);
 
 	$post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_update";
 
 	console_output($post_url);
 
-	$ch = curl_init($post_url);                                                                      
+	$ch = curl_init();                            
+	curl_setopt($ch, CURLOPT_URL, $post_url);                                          
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);                                                                      
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
 		'Content-Type: application/json',                                                                                
 		'Content-Length: ' . strlen($data_string))                                                                       
