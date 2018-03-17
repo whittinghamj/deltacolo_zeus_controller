@@ -2,9 +2,6 @@
 
 // version 0.1.2
 
-log_errors = On
-error_log = '/zeus/controller/php_errors.log'
-
 include('/zeus/controller/global_vars.php');
 include('/zeus/controller/functions.php');
 
