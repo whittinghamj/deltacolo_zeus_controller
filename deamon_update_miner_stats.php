@@ -238,10 +238,14 @@ foreach($miner_details['miners'] as $miner)
 	console_output($post_url);
 
 	$ch = curl_init();                            
-	curl_setopt($ch, CURLOPT_URL, $post_url);                                          
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                                                                                                                                      
+	curl_setopt($ch, CURLOPT_URL, $post_url);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_SSLVERSION,3);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                                                                                                                                   
 
 	$result = curl_exec($ch);
 
