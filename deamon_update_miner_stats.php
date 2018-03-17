@@ -230,7 +230,11 @@ foreach($miner_details['miners'] as $miner)
 
 	$data_string = json_encode($miner);
 
-	$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_update");                                                                      
+	$post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_update";
+
+	console_output($post_url);
+
+	$ch = curl_init($post_url);                                                                      
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
@@ -240,6 +244,8 @@ foreach($miner_details['miners'] as $miner)
 	);                                                                                                                   
 
 	$result = curl_exec($ch);
+
+	echo print_r($result);
 }
 
 ?>
