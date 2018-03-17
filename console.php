@@ -416,53 +416,49 @@ if($task == "site_jobs")
 				}
 
 				ini_set('max_execution_time', 500);
-				$ports = array(4028);
+				$port = 4028;
 
-				function check_sub($sub, $ports, $site_id)
+				function check_sub($sub, $port, $site_id)
 				{
 					global $config;
 
 					$rigs = array();
 					$count = 0;
-					foreach($sub as $ips) {
-						foreach(range(1,254) as $ip_oct_4){
-							// build full ip address
-							$ip = $ips . $ip_oct_4;
 
-							$rigs[$count]['ip_address'] = $ip;
-							
-							// clean the buffer
-							// flush(); ob_flush();
+					foreach($sub as $ip_range) {
 
-							// check the port number is open / online
-							foreach($ports as $port){ 
-								if(@fsockopen($ip,$port,$errno,$errstr,1)){
-									$cgminer = "ONLINE";
+						exec('fping -a -q -g '.$ip_range.'.0/24 > active_ip_addresses.txt');
+						$active_ip_addresses = file('active_ip_addresses.txt');
 
-									$miner['site_id']		= $site_id;
-									$miner['ip_address'] 	= $ip;
+						foreach ($active_ip_addresses as $active_ip_address) {
 
-									$data_string = json_encode($miner);
-
-									$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
-									curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-									curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
-									curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-									curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-										'Content-Type: application/json',                                                                                
-										'Content-Length: ' . strlen($data_string))                                                                       
-									);                                                                                                                   
-
-									$result = curl_exec($ch);
-								} else {
-									$cgminer = "OFFLINE !!!";
-								}
-								console_output($ip . " > " . $cgminer);
-
-								$rigs[$count]['cgminer_status']		= $cgminer;
+							if(@fsockopen($active_ip_address,$port,$errno,$errstr,1))
+							{
+								// $miner[$count]['miner_status']	= 'online';
+								console_output('IP: ' . $active_ip_address . ' is online and mining.');
+							}else{
+								// $miner[$count]['miner_status']	= 'offline';
+								console_output('IP: ' . $active_ip_address . ' is online but NOT mining.');
 							}
+
+							$miner['site_id']		= $site_id;
+							$miner['ip_address'] 	= $active_ip_address;
+
+							$data_string = json_encode($miner);
+
+							$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
+							curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+							curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+							curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+								'Content-Type: application/json',                                                                                
+								'Content-Length: ' . strlen($data_string))                                                                       
+							);                                                                                                                   
+
+							$result = curl_exec($ch);
+
+							// $count++;
 						}
-						$count++;
 					} 
 
 					// clean the buffer
@@ -471,7 +467,7 @@ if($task == "site_jobs")
 					return $rigs;
 				}
 
-				$rigs = check_sub($subnets, $ports, $ip_ranges['site']['id']);
+				$rigs = check_sub($subnets, $port, $ip_ranges['site']['id']);
 				
 				$site_job['status'] = 'complete';
 			}
