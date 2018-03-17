@@ -440,27 +440,26 @@ if($task == "site_jobs")
 							{
 								// $miner[$count]['miner_status']	= 'online';
 								console_output('IP: ' . $active_ip_address . ' is online and mining.');
+
+								$miner['site_id']		= $site_id;
+								$miner['ip_address'] 	= $active_ip_address;
+
+								$data_string = json_encode($miner);
+
+								$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
+								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+								curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
+								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+								curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+									'Content-Type: application/json',                                                                                
+									'Content-Length: ' . strlen($data_string))                                                                       
+								);                                                                                                                   
+
+								$result = curl_exec($ch);
 							}else{
 								// $miner[$count]['miner_status']	= 'offline';
 								console_output('IP: ' . $active_ip_address . ' is online but NOT mining.');
 							}
-
-							$miner['site_id']		= $site_id;
-							$miner['ip_address'] 	= $active_ip_address;
-
-							$data_string = json_encode($miner);
-
-							$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
-							curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
-							curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
-							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-							curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-								'Content-Type: application/json',                                                                                
-								'Content-Length: ' . strlen($data_string))                                                                       
-							);                                                                                                                   
-
-							$result = curl_exec($ch);
-
 							// $count++;
 						}
 					} 
