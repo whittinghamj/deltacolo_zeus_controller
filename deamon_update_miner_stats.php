@@ -212,10 +212,10 @@ foreach($miner_details['miners'] as $miner)
 			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
 			curl_setopt($ch, CURLOPT_URL, $url);
 			
-			$miner['update']['kernel_log'] = curl_exec($ch);
+			// $miner['update']['kernel_log'] = curl_exec($ch);
 			
 			if(empty($miner['update']['kernel_log'])){
-				$miner['update']['kernel_log'] = 'no_data_availab';
+				// $miner['update']['kernel_log'] = 'no_data_availab';
 			}
 
 			curl_close($ch);
@@ -239,7 +239,19 @@ foreach($miner_details['miners'] as $miner)
 	
 	console_output($post_url);
 
-	$ch = curl_init();                            
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $post_url);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+	// curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	
+	$return_results = curl_exec($ch);
+
+
+
+	/*
+	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $post_url);
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -250,8 +262,9 @@ foreach($miner_details['miners'] as $miner)
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                                                                                                                                   
 
 	$result = curl_exec($ch);
+	*/
 
-	echo print_r($result);
+	echo print_r($return_results);
 }
 
 ?>
