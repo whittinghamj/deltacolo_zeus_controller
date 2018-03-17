@@ -427,7 +427,7 @@ if($task == "site_jobs")
 
 					foreach($sub as $ip_range) {
 
-						exec('fping -a -q -g '.$ip_range.'.0/24 > active_ip_addresses.txt');
+						exec('fping -a -q -g '.$ip_range.'0/24 > active_ip_addresses.txt');
 						$active_ip_addresses = file('active_ip_addresses.txt');
 
 						foreach ($active_ip_addresses as $active_ip_address) {
