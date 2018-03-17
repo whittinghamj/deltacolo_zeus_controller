@@ -240,11 +240,7 @@ foreach($miner_details['miners'] as $miner)
 	curl_setopt($ch, CURLOPT_URL, $post_url);                                          
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		'Content-Type: application/json',                                                                                
-		'Content-Length: ' . strlen($data_string))                                                                       
-	);                                                                                                                   
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                                                                                                                                      
 
 	$result = curl_exec($ch);
 
