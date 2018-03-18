@@ -32,7 +32,7 @@ function getsock($addr, $port)
     	return null;
  	}
 
- 	$res = socket_connect($socket, $addr, $port);
+ 	$res = @socket_connect($socket, $addr, $port);
  	if ($res === false)
  	{
     	$error = socket_strerror(socket_last_error());
