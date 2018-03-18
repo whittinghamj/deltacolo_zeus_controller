@@ -28,7 +28,7 @@ function getsock($addr, $port)
  	{
     	$error = socket_strerror(socket_last_error());
     	$msg = "socket create(TCP) failed";
-    	echo "ERR: $msg '$error'\n";
+    	// echo "ERR: $msg '$error'\n";
     	return null;
  	}
 
@@ -37,7 +37,7 @@ function getsock($addr, $port)
  	{
     	$error = socket_strerror(socket_last_error());
     	$msg = "socket connect($addr,$port) failed";
-    	echo "ERR: $msg '$error'\n";
+    	// echo "ERR: $msg '$error'\n";
     	socket_close($socket);
     	return null;
  	}
