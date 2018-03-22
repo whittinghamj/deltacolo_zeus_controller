@@ -2,6 +2,8 @@
 
 // version 1.0.0
 
+sleep(60);
+
 include('/zeus/controller/global_vars.php');
 include('/zeus/controller/functions.php');
 
@@ -32,7 +34,7 @@ for ($i=0; $i<$runs; $i++) {
         pclose($pipe[$j]);
     }
 
-    sleep(5);
+    sleep(1);
 }
 
 ?>
