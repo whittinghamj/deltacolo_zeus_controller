@@ -74,7 +74,6 @@ foreach($miner_details['miners'] as $miner)
 			$stats = json_decode($content, TRUE);
 			
 			$miner['update']['software_version'] 		= $stats['feedback']['systemsoftwareversion'];
-			
 		}
 		else
 		{
@@ -82,10 +81,6 @@ foreach($miner_details['miners'] as $miner)
 			
 			if(is_array($miner_data))
 			{
-				// $miner_stats 	= request($miner['ip_address'], 'stats');
-				// $miner_pools 	= request($miner['ip_address'], 'pools');
-				// $miner_lcd 		= request($miner['ip_address'], 'lcd');
-
 				if($miner_data['STATUS1']['Msg'] == 'CGMiner stats')
 				{
 					$miner['update']['hardware']				= $miner_data['CGMiner']['Type'];
@@ -194,6 +189,19 @@ foreach($miner_details['miners'] as $miner)
 
 					$miner['update']['pools'][0]['user']		= $miner_data['POOL0']['User'];
 					$miner['update']['pools'][0]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL0']['URL']);
+					$miner['update']['pools'][0]['priority']	= $miner_data['POOL0']['Priority'];
+					$miner['update']['pools'][0]['status']		= $miner_data['POOL0']['Status'];
+
+					$miner['update']['pools'][1]['user']		= $miner_data['POOL1']['User'];
+					$miner['update']['pools'][1]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL0']['URL']);
+					$miner['update']['pools'][1]['priority']	= $miner_data['POOL1']['Priority'];
+					$miner['update']['pools'][1]['status']		= $miner_data['POOL1']['Status'];
+
+					$miner['update']['pools'][1]['user']		= $miner_data['POOL2']['User'];
+					$miner['update']['pools'][1]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL0']['URL']);
+					$miner['update']['pools'][1]['priority']	= $miner_data['POOL2']['Priority'];
+					$miner['update']['pools'][1]['status']		= $miner_data['POOL2']['Status'];
+
 				}
 				$miner['update']['status']				=	"mining";
 
