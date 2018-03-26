@@ -16,4 +16,4 @@ echo "Password Hash: ".$password_hash." \n";
 $cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$ip_address." 'echo -e \"admin1372\nadmin1372\" | passwd root > /dev/nul'";
 exec($cmd);
 
-echo "Setting password for root@" . $ip_address . " to " . $new_password. "\n";
+echo "Setting password for root@" . $ip_address . " to " . $new_password. " \n";
