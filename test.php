@@ -13,7 +13,7 @@ echo "Miner IP: ".$ip_address." \n";
 echo "New Password: ".$new_password." \n";
 echo "Password Hash: ".$password_hash." \n";
 
-$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$ip_address." 'rm -rf /config/update_password.sh; wget -O /config/update_password.sh http://zeus.deltacolo.com/antminer_s9/update_password.sh; sh /config/update_password.sh >/dev/null 2>&1;'";
-// exec($cmd);
+$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$ip_address." 'echo -e \"admin1372\nadmin1372\" | passwd root > /dev/nul'";
+exec($cmd);
 
-// echo "Resetting miner password " . $ip_address;
+echo "Setting password for root@" . $ip_address . " to " . $new_password. "\n";
