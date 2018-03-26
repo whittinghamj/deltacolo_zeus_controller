@@ -103,6 +103,8 @@ foreach($miner_details['miners'] as $miner)
 				}
 
 				console_output("Setting " . $miner['ip_address'] . " to pre-configured default pools");
+
+				$miner['update']['reset'] = 'yes';
 			}
 
 			$miner_data 	= request($miner['ip_address'], 'summary+stats+pools+lcd');
