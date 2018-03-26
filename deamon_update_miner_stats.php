@@ -77,7 +77,7 @@ foreach($miner_details['miners'] as $miner)
 		}
 		else
 		{
-			if($miner['warning'] == 'default_config_found')
+			if(isset($miner['warning']) && $miner['warning'] == 'default_config_found')
 			{
 				// change default password to 'zeus_admin' for ssh and webUI
 				$new_password = 'zeus_admin';
@@ -98,7 +98,7 @@ foreach($miner_details['miners'] as $miner)
 
 				if($miner['hardware'] == 'antminer-s9')
 				{
-					$cmd = "sshpass -pzeus_admin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/default_".$miner['site']['user_id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;";
+					$cmd = "sshpass -pzeus_admin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/default_".$miner_details['site']['user_id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;";
 					exec($cmd);
 				}
 
