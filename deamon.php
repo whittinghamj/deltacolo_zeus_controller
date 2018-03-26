@@ -34,7 +34,7 @@ for ($i=0; $i<$runs; $i++) {
         pclose($pipe[$j]);
     }
 
-    sleep(30);
+    sleep(10);
 }
 
 ?>
