@@ -239,7 +239,7 @@ desired effect
             							  google.charts.setOnLoadCallback(drawChart);
 
             							  function drawChart() {
-            								var netdata = 'http://'.$_SERVER['SERVER_ADDR'];.':19999/api/v1/data?after=-60&format=datasource&options=nonzero&chart=';
+            								var netdata = 'http://'.$_SERVER['SERVER_ADDR'].':19999/api/v1/data?after=-60&format=datasource&options=nonzero&chart=';
 
             								// define all the charts you need
             								var mycharts = [
