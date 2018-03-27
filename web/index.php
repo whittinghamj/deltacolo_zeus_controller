@@ -133,6 +133,7 @@ desired effect
         	<?php global $account_details, $site; ?>
             <?php
                 include('/zeus/controller/global_vars.php');
+                
                 $zeus['api']['url']         = 'http://zeus.deltacolo.com/api/?c=home&key='.$config['api_key'];
                 $zeus['api']['data']        = @file_get_contents($zeus['api']['url']);
                 $zeus['api']['data']        = json_decode($zeus['api']['data'], true);
@@ -180,7 +181,7 @@ desired effect
 
                                         if($zeus['api']['data']['status'] == 'success')
                                         {
-                                            echo '<strong>API Key:</strong> Accepted' . '<br>';
+                                            echo '<strong>Site API Key:</strong> Accepted' . '<br>';
                                         }else{
                                             echo '<strong>Site API Key:</strong> <font color="red">Declined</font>' . '<br>';
                                         }
