@@ -1,6 +1,6 @@
 <?php
 
-// version 0.1.2
+// version 1.2
 
 include('/zeus/controller/global_vars.php');
 include('/zeus/controller/functions.php');
