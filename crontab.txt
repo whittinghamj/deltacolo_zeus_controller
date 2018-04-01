@@ -4,6 +4,8 @@
 
 @reboot php -q /zeus/controller/deamon.php 500 > /zeus/controller/deamon.log 2>&1
 
+@reboot sh /zeus/controller/boot.sh > /dev/null 2>&1
+
 * * * * * php -q /zeus/controller/console.php site_jobs > /zeus/controller/console.log 2>&1
 
 * * * * * php -q /zeus/controller/console.php controller_checkin > /dev/null 2>&1
