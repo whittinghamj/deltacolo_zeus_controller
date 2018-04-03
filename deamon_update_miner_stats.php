@@ -94,11 +94,11 @@ foreach($miner_details['miners'] as $miner)
 
 				if($miner['hardware'] == 'antminer-s9')
 				{
-					$cmd = "sshpass -pzeus_admin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/default_".$miner_details['site']['user_id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'";
-					// exec($cmd);
+					$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/default_".$miner_details['site']['user_id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'";
+					exec($cmd);
 				}
 
-				// console_output("Setting " . $miner['ip_address'] . " to pre-configured default pools");
+				console_output("Setting " . $miner['ip_address'] . " to pre-configured default pools");
 
 				$miner['update']['reset'] = 'yes';
 			}
