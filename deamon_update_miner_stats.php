@@ -80,29 +80,25 @@ foreach($miner_details['miners'] as $miner)
 			if(isset($miner['warning']) && $miner['warning'] == 'default_config_found')
 			{
 				// change default password to 'zeus_admin' for ssh and webUI
-				$new_password = 'zeus_admin';
+				$new_password = 'admin';
 
 				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$miner['ip_address'];
 				exec($cmd);
 
 				$password_hash = exec('echo -n "root:antMiner Configuration:'.$new_password.'" | md5sum | cut -b -32');
 
-				// echo "Miner IP: ".$ip_address." \n";
-				// echo "New Password: ".$new_password." \n";
-				// echo "Password Hash: ".$password_hash." \n";
-
 				$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'echo -e \"".$new_password."\n".$new_password."\" | passwd root > /dev/nul; rm -f /config/shadow; mv /etc/shadow /config/shadow; ln -s /config/shadow /etc/shadow; echo \"root:antMiner Configuration:".$password_hash."\" > /config/lighttpd-htdigest.user; sync;'";
-				exec($cmd);
+				// exec($cmd);
 
-				console_output("Setting password for root@" . $miner['ip_address'] . " to " . $new_password);
+				// console_output("Setting password for root@" . $miner['ip_address'] . " to " . $new_password);
 
 				if($miner['hardware'] == 'antminer-s9')
 				{
 					$cmd = "sshpass -pzeus_admin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/default_".$miner_details['site']['user_id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'";
-					exec($cmd);
+					// exec($cmd);
 				}
 
-				console_output("Setting " . $miner['ip_address'] . " to pre-configured default pools");
+				// console_output("Setting " . $miner['ip_address'] . " to pre-configured default pools");
 
 				$miner['update']['reset'] = 'yes';
 			}
