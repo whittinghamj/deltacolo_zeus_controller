@@ -3,10 +3,8 @@
 include('/zeus/controller/global_vars.php');
 include('/zeus/controller/functions.php');
 
-$runs = $argv[1];
-
 $site_raw 			= file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=home");
-$site 				= json_decode($site, true);
+$site 				= json_decode($site_raw, true);
 
 $site_id			= $site['site']['id'];
 
