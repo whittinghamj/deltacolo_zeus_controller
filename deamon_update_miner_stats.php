@@ -92,11 +92,26 @@ foreach($miner_details['miners'] as $miner)
 
 				// console_output("Setting password for root@" . $miner['ip_address'] . " to " . $new_password);
 
-				if($miner['hardware'] == 'antminer-s9')
+				if(
+					$miner['hardware'] == 'antminer-s7' || 
+					$miner['hardware'] == 'antminer-s9'
+				)
 				{
-					$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/default_".$miner_details['site']['user_id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'";
-					exec($cmd);
+					$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/default_sha256_".$miner_details['site']['user_id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'";
 				}
+
+				if(
+					$miner['hardware'] == 'antminer-d3' || 
+					$miner['hardware'] == 'antminer-d3-(blissz)' || 
+					$miner['hardware'] == 'antminer-l3' || 
+					$miner['hardware'] == 'antminer-l3+' || 
+					$miner['hardware'] == 'antminer-a3' || 
+				)
+				{
+					$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf http://zeus.deltacolo.com/miner_config_files/default_x11_".$miner_details['site']['user_id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'";
+				}
+
+				exec($cmd);
 
 				console_output("Setting " . $miner['ip_address'] . " to pre-configured default pools");
 
