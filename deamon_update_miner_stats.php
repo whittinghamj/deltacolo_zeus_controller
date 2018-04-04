@@ -8,13 +8,9 @@ include('/zeus/controller/functions.php');
 $options 				= getopt("p:");
 $miner_id 				= $options["p"];
 
-$get_miner_url 			= 'http://zeus.deltacolo.com/api/?key=1372&c=site_miner&miner_id='.$miner_id;
+$get_miner_url 			= 'http://zeus.deltacolo.com/api/?key='.$config['api_key'].'&c=site_miner&miner_id='.$miner_id;
 $get_miner_details 		= file_get_contents($get_miner_url);
 $miner_details 			= json_decode($get_miner_details, true);
-
-echo print_r($miner_details, true);
-
-die();
 
 foreach($miner_details['miners'] as $miner)
 {
