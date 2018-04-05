@@ -105,7 +105,7 @@ foreach($miner_details['miners'] as $miner)
 					$miner['hardware'] == 'antminer-d3-(blissz)' || 
 					$miner['hardware'] == 'antminer-l3' || 
 					$miner['hardware'] == 'antminer-l3+' || 
-					$miner['hardware'] == 'antminer-a3' || 
+					$miner['hardware'] == 'antminer-a3'
 				)
 				{
 					$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf http://zeus.deltacolo.com/miner_config_files/default_x11_".$miner_details['site']['user_id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'";
