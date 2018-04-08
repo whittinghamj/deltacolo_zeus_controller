@@ -1,19 +1,31 @@
 <?php
 
-$ip_address = $argv[1];
+$miner['ip_address'] 	= '192.168.200.185';
+$miner['username']		= 'root';
+$miner['password']		= 'admin1372';
 
-$new_password = 'zeus_admin';
+$url = "http://".$miner['ip_address']."/cgi-bin/upgrade.cgi";
 
-$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$ip_address;
-exec($cmd);
+if (function_exists('curl_file_create')) { // php 5.5+
+  $cFile = curl_file_create('/zeus/controller/firmware/antminer-s9/Antminer-S9-all-201705031838-650M-user-Update2UBI-NF.tar.gz');
+} else { // 
+  $cFile = '@' . realpath('/zeus/controller/firmware/antminer-s9/Antminer-S9-all-201705031838-650M-user-Update2UBI-NF.tar.gz');
+}
 
-$password_hash = exec('echo -n "root:antMiner Configuration:'.$new_password.'" | md5sum | cut -b -32');
+$post = array('datafile'=> $cFile);
 
-echo "Miner IP: ".$ip_address." \n";
-echo "New Password: ".$new_password." \n";
-echo "Password Hash: ".$password_hash." \n";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_HTTPGET, true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+curl_setopt($ch, CURLOPT_USERPWD, $miner['username'].":".$miner['password']);
+curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_POST,1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 
-$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$ip_address." 'echo -e \"".$new_password."\n".$new_password."\" | passwd root > /dev/nul; rm -f /config/shadow; mv /etc/shadow /config/shadow; ln -s /config/shadow /etc/shadow; echo \"root:antMiner Configuration:".$password_hash."\" > /config/lighttpd-htdigest.user; sync;'";
-exec($cmd);
+$result = curl_close($ch);
 
-echo "Setting password for root@" . $ip_address . " to " . $new_password. " \n";
+echo print_r($result);
+
+echo "\n\nDone\n\n";
