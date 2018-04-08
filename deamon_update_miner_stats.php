@@ -61,11 +61,11 @@ foreach($miner_details['miners'] as $miner)
 			$content = curl_exec($ch);
 			$stats = json_decode($content, TRUE);
 			
-			$miner['update']['pools'][0]['url'] 		= str_replace("stratum+tcp://", "", $stats['feedback']['Mip1']);
+			$miner['update']['pools'][0]['url'] 		= $stats['feedback']['Mip1'];
 			$miner['update']['pools'][0]['user'] 		= $stats['feedback']['Mwork1'];
-			$miner['update']['pools'][1]['url'] 		= str_replace("stratum+tcp://", "", $stats['feedback']['Mip2']);
+			$miner['update']['pools'][1]['url'] 		= $stats['feedback']['Mip2'];
 			$miner['update']['pools'][1]['user'] 		= $stats['feedback']['Mwork2'];
-			$miner['update']['pools'][2]['url'] 		= str_replace("stratum+tcp://", "", $stats['feedback']['Mip3']);
+			$miner['update']['pools'][2]['url'] 		= $stats['feedback']['Mip3'];
 			$miner['update']['pools'][2]['user'] 		= $stats['feedback']['Mwork3'];
 			
 			// get more stats
@@ -211,17 +211,17 @@ foreach($miner_details['miners'] as $miner)
 					}
 
 					$miner['update']['pools'][0]['user']		= $miner_data['POOL0']['User'];
-					$miner['update']['pools'][0]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL0']['URL']);
+					$miner['update']['pools'][0]['url']			= $miner_data['POOL0']['URL'];
 					$miner['update']['pools'][0]['priority']	= $miner_data['POOL0']['Priority'];
 					$miner['update']['pools'][0]['status']		= $miner_data['POOL0']['Status'];
 
 					$miner['update']['pools'][1]['user']		= $miner_data['POOL1']['User'];
-					$miner['update']['pools'][1]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL0']['URL']);
+					$miner['update']['pools'][1]['url']			= $miner_data['POOL0']['URL'];
 					$miner['update']['pools'][1]['priority']	= $miner_data['POOL1']['Priority'];
 					$miner['update']['pools'][1]['status']		= $miner_data['POOL1']['Status'];
 
 					$miner['update']['pools'][2]['user']		= $miner_data['POOL2']['User'];
-					$miner['update']['pools'][2]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL0']['URL']);
+					$miner['update']['pools'][2]['url']			= $miner_data['POOL0']['URL'];
 					$miner['update']['pools'][2]['priority']	= $miner_data['POOL2']['Priority'];
 					$miner['update']['pools'][2]['status']		= $miner_data['POOL2']['Status'];
 				}
@@ -267,17 +267,17 @@ foreach($miner_details['miners'] as $miner)
 
 
 					$miner['update']['pools'][0]['user']		= $miner_data['POOL0']['User'];
-					$miner['update']['pools'][0]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL0']['URL']);
+					$miner['update']['pools'][0]['url']			= $miner_data['POOL0']['URL'];
 					$miner['update']['pools'][0]['priority']	= $miner_data['POOL0']['Priority'];
 					$miner['update']['pools'][0]['status']		= $miner_data['POOL0']['Status'];
 
 					$miner['update']['pools'][1]['user']		= $miner_data['POOL1']['User'];
-					$miner['update']['pools'][1]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL1']['URL']);
+					$miner['update']['pools'][1]['url']			= $miner_data['POOL1']['URL'];
 					$miner['update']['pools'][1]['priority']	= $miner_data['POOL1']['Priority'];
 					$miner['update']['pools'][1]['status']		= $miner_data['POOL1']['Status'];
 
 					$miner['update']['pools'][2]['user']		= $miner_data['POOL2']['User'];
-					$miner['update']['pools'][2]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL2']['URL']);
+					$miner['update']['pools'][2]['url']			= $miner_data['POOL2']['URL'];
 					$miner['update']['pools'][2]['priority']	= $miner_data['POOL2']['Priority'];
 					$miner['update']['pools'][2]['status']		= $miner_data['POOL2']['Status'];
 

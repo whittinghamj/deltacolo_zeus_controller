@@ -88,11 +88,11 @@ if($task == 'update_miner_stats')
 					$content = curl_exec($ch);
 					$stats = json_decode($content, TRUE);
 					
-					$miner['update']['pools'][0]['url'] 		= str_replace("stratum+tcp://", "", $stats['feedback']['Mip1']);
+					$miner['update']['pools'][0]['url'] 		= $stats['feedback']['Mip1'];
 					$miner['update']['pools'][0]['user'] 		= $stats['feedback']['Mwork1'];
-					$miner['update']['pools'][1]['url'] 		= str_replace("stratum+tcp://", "", $stats['feedback']['Mip2']);
+					$miner['update']['pools'][1]['url'] 		= $stats['feedback']['Mip2'];
 					$miner['update']['pools'][1]['user'] 		= $stats['feedback']['Mwork2'];
-					$miner['update']['pools'][2]['url'] 		= str_replace("stratum+tcp://", "", $stats['feedback']['Mip3']);
+					$miner['update']['pools'][2]['url'] 		= $stats['feedback']['Mip3'];
 					$miner['update']['pools'][2]['user'] 		= $stats['feedback']['Mwork3'];
 					
 					// get more stats
@@ -173,7 +173,7 @@ if($task == 'update_miner_stats')
 							}
 
 							$miner['update']['pools'][0]['user']		= $miner_data['POOL0']['User'];
-							$miner['update']['pools'][0]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL0']['URL']);
+							$miner['update']['pools'][0]['url']			= $miner_data['POOL0']['URL'];
 						}
 						elseif($miner_data['STATUS1']['Msg'] == 'BMMiner stats')
 						{
@@ -213,7 +213,7 @@ if($task == 'update_miner_stats')
 
 
 							$miner['update']['pools'][0]['user']		= $miner_data['POOL0']['User'];
-							$miner['update']['pools'][0]['url']			= str_replace("stratum+tcp://", "", $miner_data['POOL0']['URL']);
+							$miner['update']['pools'][0]['url']			= $miner_data['POOL0']['URL'];
 						}
 						$miner['update']['status']				=	"mining";
 
@@ -500,9 +500,9 @@ if($task == "site_jobs")
 					$miner_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_miner&miner_id=".$site_job['miner']['id']);
 					$miner = json_decode($miner_raw, true);
 
-					$config_file['pools'][0]['url'] = str_ireplace(array('stratum tcp://', 'stratum+tcp://'), '', $config_file['pools'][0]['url']);
-					$config_file['pools'][1]['url'] = str_ireplace(array('stratum tcp://', 'stratum+tcp://'), '', $config_file['pools'][1]['url']);
-					$config_file['pools'][2]['url'] = str_ireplace(array('stratum tcp://', 'stratum+tcp://'), '', $config_file['pools'][2]['url']);
+					$config_file['pools'][0]['url'] = $config_file['pools'][0]['url'];
+					$config_file['pools'][1]['url'] = $config_file['pools'][1]['url'];
+					$config_file['pools'][2]['url'] = $config_file['pools'][2]['url'];
 
 					$username 		= $miner['miners'][0]['username'];
 					$password 		= $miner['miners'][0]['password'];
