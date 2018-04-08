@@ -1,8 +1,8 @@
 <?php
 
-$miner['ip_address'] 	= '192.168.200.185';
+$miner['ip_address'] 	= '192.168.1.30';
 $miner['username']		= 'root';
-$miner['password']		= 'admin1372';
+$miner['password']		= 'admin';
 
 $url = "http://".$miner['ip_address']."/cgi-bin/upgrade.cgi";
 
