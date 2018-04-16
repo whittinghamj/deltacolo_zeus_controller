@@ -24,18 +24,20 @@ $count 				= count($miner_ids);
 console_output("Polling " . $count . " miners.");
 
 for ($i=0; $i<$runs; $i++) {
-    // open ten processes
+    console_output("Spawning children."):
     for ($j=0; $j<$count; $j++) {
     	echo "Checking Miner: ".$miner_ids[$j]."\n";
 
         $pipe[$j] = popen("php -q /zeus/controller/deamon_update_miner_stats.php -p='".$miner_ids[$j]."'", 'w');
     }
 
+    console_output("Killing children."):
     // wait for them to finish
     for ($j=0; $j<$count; ++$j) {
         pclose($pipe[$j]);
     }
 
+    console_output("Sleeping."):
     sleep(1);
 }
 
