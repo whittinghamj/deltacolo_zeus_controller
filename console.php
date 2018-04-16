@@ -620,17 +620,19 @@ if($task == "controller_checkin")
 	
 	console_output("Running controller checkin");
 
+	$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
 	$mac_address 		= exec("cat /sys/class/net/eth0/address");
 	$ip_address 		= exec("sh /zeus/controller/lan_ip.sh");
 	$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
 
+	console_output('Hardware: ' . $hardware);
 	console_output('IP Address: ' . $ip_address);
 	console_output('MAC Address: ' . $mac_address);
 	console_output('CPU Temp: ' . $cpu_temp);
 
 	$post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=controller_checkin&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp."&version=".$version ;
 	
-	console_output("POST URL: " . $post_url);
+	// console_output("POST URL: " . $post_url);
 
 	$post = file_get_contents($post_url);
 	
