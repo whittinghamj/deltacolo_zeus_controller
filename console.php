@@ -12,7 +12,7 @@ function killlock(){
 	exec("rm -rf $lockfile");
 }
 
-$version = '1.2.1_alpha';
+$version = '1.2.2_alpha';
 
 console_output("ZEUS Controller - v".$version);
 
