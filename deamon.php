@@ -5,9 +5,9 @@
 include('/zeus/controller/global_vars.php');
 include('/zeus/controller/functions.php');
 
-console_output("Building deamon. May take up to 30 seconds.");
+// console_output("Building deamon. May take up to 30 seconds.");
 
-sleep(30);
+// sleep(30);
 
 $runs = $argv[1];
 
@@ -37,8 +37,10 @@ for ($i=0; $i<$runs; $i++) {
         pclose($pipe[$j]);
     }
 
-    console_output("Sleeping.");
-    sleep(1);
+    // console_output("Sleeping.");
+    // sleep(1);
 }
+
+exit();
 
 ?>

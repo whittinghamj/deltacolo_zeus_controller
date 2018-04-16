@@ -4,7 +4,7 @@
 
 */5 * * * * sh /zeus/controller/update.sh > /dev/null 2>&1
 
-@reboot php -q /zeus/controller/deamon.php 500 > /zeus/controller/deamon.log 2>&1
+* * * * * php -q /zeus/controller/deamon.php 1 > /zeus/controller/deamon.log 2>&1
 
 @reboot sh /zeus/controller/boot.sh > /dev/null 2>&1
 
