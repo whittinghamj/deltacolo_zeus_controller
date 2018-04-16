@@ -14,8 +14,6 @@ $runs = $argv[1];
 $miners_raw 		= file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_miners");
 $miners 			= json_decode($miners_raw, true);
 
-echo print_r($miners);
-
 foreach($miners['miners'] as $miner)
 {
 	$miner_ids[] = $miner['id'];
