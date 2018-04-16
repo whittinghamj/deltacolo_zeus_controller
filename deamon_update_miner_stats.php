@@ -12,7 +12,7 @@ $get_miner_url 			= 'http://zeus.deltacolo.com/api/?key='.$config['api_key'].'&c
 $get_miner_details 		= file_get_contents($get_miner_url);
 $miner_details 			= json_decode($get_miner_details, true);
 
-console_output("Checking miner: " . $miner_details[0]['ip_address'] . " / " . $miner_details[0]['name']);
+console_output("Checking miner: " . $miner_details['miners'][0]['ip_address'] . " / " . $miner_details['miners'][0]['name']);
 
 foreach($miner_details['miners'] as $miner)
 {
