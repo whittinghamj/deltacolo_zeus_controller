@@ -625,7 +625,7 @@ if($task == "controller_checkin")
 	$ip_address 		= exec("sh /zeus/controller/lan_ip.sh");
 	$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
 
-	console_output('Hardware: ' . $hardware);
+	console_output('Pi Hardware: ' . $hardware);
 	console_output('IP Address: ' . $ip_address);
 	console_output('MAC Address: ' . $mac_address);
 	console_output('CPU Temp: ' . $cpu_temp);
