@@ -2,10 +2,12 @@
 
 // version 1.2
 
-sleep(60);
-
 include('/zeus/controller/global_vars.php');
 include('/zeus/controller/functions.php');
+
+console_output("Building deamon. May take up to 60 seconds."):
+
+sleep(60);
 
 $runs = $argv[1];
 
