@@ -10,5 +10,7 @@ $site_id			= $site['site']['id'];
 
 $remote_ssh_port	= '110'.$site_id;
 
+console_output("Connecting to SSH Hub and routing port: " . $remote_ssh_port);
+
 exec("sudo ssh -f -N -o StrictHostKeyChecking=no -R ".$remote_ssh_port.":localhost:33077 root@64.71.184.69 -p 33077");
 
