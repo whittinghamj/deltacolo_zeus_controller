@@ -313,7 +313,7 @@ foreach($miner_details['miners'] as $miner)
 		$miner['update']['status']				=	"offline";
 	}
 
-	$hashrate = $miner['update']['hashrate_1'] + $miner['update']['hashrate_2'] + $miner['update']['hashrate_3'] + $miner['update']['hashrate_4']
+	$hashrate = $miner['update']['hashrate_1'] + $miner['update']['hashrate_2'] + $miner['update']['hashrate_3'] + $miner['update']['hashrate_4'];
 
 	console_output('Miner: '.$miner['name'].' / '.$miner['ip_address'].' = '.$miner['update']['status'].' = '.$hashrate);
 	// get the MAC address
