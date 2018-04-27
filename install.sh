@@ -114,6 +114,7 @@ echo 'zeus-controller' > /etc/hostname
 echo "Installing ZEUS"
 ## make zeus folders
 mkdir /zeus
+cd /zeus
 
 ## build the config file with site api key
 touch /zeus/global_vars.php
