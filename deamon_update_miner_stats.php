@@ -313,9 +313,14 @@ foreach($miner_details['miners'] as $miner)
 		$miner['update']['status']				=	"offline";
 	}
 
-	$hashrate = $miner['update']['hashrate_1'] + $miner['update']['hashrate_2'] + $miner['update']['hashrate_3'] + $miner['update']['hashrate_4'];
+	if($miner['update']['status'] == 'mining'){
+		$hashrate = $miner['update']['hashrate_1'] + $miner['update']['hashrate_2'] + $miner['update']['hashrate_3'] + $miner['update']['hashrate_4'];
+	}else{
+		$hashrate = '';
+	}
 
 	console_output('Miner: '.$miner['name'].' / '.$miner['ip_address'].' = '.$miner['update']['status'].' = '.$hashrate);
+	
 	// get the MAC address
 	// $miner['mac_address'] = exec("nmap -sP ".$miner['ip_address']." | grep MAC");
 

@@ -3,65 +3,74 @@
 ## ZEUS Controller - Install Script
 echo "ZEUS Controller - Install Script"
 
+
 ## set base folder
 cd /root
 
-echo "Updating repos"
+
 ## update apt-get repos
+echo "Updating Repos"
 apt-get update > /dev/null
 
-echo "Upgrading core OS"
+
 ## upgrade all packages
-apt-get -y upgrade -qq > /dev/null
+echo "Upgrading Core OS"
+apt-get --force-yes -qq upgrade > /dev/null
 
-echo "Installing packages"
-## install some packages
-apt-get install -y htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php php-dev php-curl dnsutils sshpass fping -qq > /dev/null
 
-echo "Downloading speedtest.sh"
-## download speedtest script
+## install dependencies
+echo "Installing Dependencies"
+apt-get install --force-yes -qq htop nload nmap sudo zlib1g-dev gcc make git autoconf autogen automake pkg-config locate curl php php-dev php-curl dnsutils sshpass fping > /dev/null
+updatedb >> /dev/null
+
+## install software
+mkdir gotty
+cd gotty
+wget https://github.com/yudai/gotty/releases/download/v1.0.1/gotty_linux_arm.tar.gz
+tar zxvf gotty_linux_arm.tar.gz
+cd /root
+
+## download custom scripts
+echo "Downloading custom scripts"
 wget -q http://deltacolo.com/scripts/speedtest.sh
-
-echo "Downloading custom bashrc file"
-## download modded .bashrc file
 rm -rf /root/.bashrc
 wget -q http://deltacolo.com/scripts/.bashrc
-
-## downlod myip script
 wget -q http://deltacolo.com/scripts/myip.sh
+rm -rf /etc/skel/.bashrc
+cp /root/.bashrc /etc/skel
+chmod 777 /etc/skel/.bashrc
+cp /root/myip.sh /etc/skel
+chmod 777 /etc/skel/myip.sh
 
+
+## setup whittinghamj account
 echo "Adding admin linux user account"
-## add whittinghamj
 useradd -m -p eioruvb9eu839ub3rv whittinghamj
-
-echo "Adding admin user to sudo group"
-## add whittinghamj to sudo group
-usermod -aG sudo whittinghamj
-
-## lock pi account
-sudo usermod --lock --shell /bin/nologin pi
-
-## set whittinghamj for no sudo password
-echo "whittinghamj    ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
-
-echo "Updating user passwords"
-## update pi password
-printf 'admin1372Dextor!#&@Mimi!#&@\nadmin1372Dextor!#&@Mimi!#&@' | passwd pi > /dev/null
-
-## update root password
-printf 'admin1372Dextor!#&@Mimi!#&@\nadmin1372Dextor!#&@Mimi!#&@' | passwd root > /dev/null
-
-## update whittingham password
-printf 'admin1372Dextor!#&@Mimi!#&@\nadmin1372Dextor!#&@Mimi!#&@' | passwd whittinghamj > /dev/null
-
-echo "Adding admin user SSH key"
-## write ssh key for whittinghamj
+echo "whittinghamj:"'admin1372Dextor!#&@Mimi!#&@' | chpasswd > /dev/null
+usermod --shell /bin/bash whittinghamj
 mkdir /home/whittinghamj/.ssh
+echo "Host *" > /home/whittinghamj/.ssh/config
+echo " StrictHostKeyChecking no" >> /home/whittinghamj/.ssh/config
+chmod 400 /home/whittinghamj/.ssh/config
+usermod -aG sudo whittinghamj
+echo "whittinghamj    ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCtCEZyuGJSOBcP7dsD+cqn9YGWgbSycWDxpt1/jbGt896QhH8A3DsS+CC/ivGwKepHCvLT/6mhK7Lc+BdmaMvlO5Ng5Lg3bbp6CPt/0wdBxTVlcfJCGpIpcE9eW2HmtB6Cdm5OHd3yxuDjrbgnjCpX7o+JWfED9ETM2P0oGBtZ2HWTwBhKRrPzCMhMgL9lOdJ+6/ABoafy03mSHWYr9NE0nxhgkhFsvgoEevLWW+Teksd0aeM9gCyX7w9/cGn8FEAOGzxgNDmQsE1UMaVP/rp6CJujBWSoocgFOzO7+/f4yHDIuuEa9J1aoNWhX3WUJzsBrkr59CanXskHr4HlgETQVdvndtu5X245FqlyDVqc1yoJErQHoO1iSQQD+yRBLNQ6QCdvq3mjF4joSG5PVRMIWI/gQ8lLBSTyPxN+cqN6vRmRssbb+LIkLU+pHF0sPEIix+iwOT3esSAPCuKGHRTpIRYvicEhiSd2bzKR/0QdNDRD1DhscMGQ3PoIykLllm8y0jGXJ04Lh0Y5Zgu3eVDLn0mfzQXfyHcw881cQ6g4qehdHPlKJlLWKXl+D9EkncOPRIs+kEPr4FL3fCEF2UQD5itfLvSbkjamKIkuRrO7ngSn4ooTjfOR8YU9AbUqCV3m5p2GikOmshzt8KvGxrkPbz7iXSbpJ390/4/Mfj37Dw== whittinghamj@Jamies-MacBook-Pro.local" >> /home/whittinghamj/.ssh/authorized_keys
 
-echo "Adding root SSH key for GitHub"
-## write ssh key for root
+
+## lock pi account
+echo "Securing default Raspberry Pi user account"
+echo "pi:"'jneujefiuberjuvbefrivjubeivubervihbeivubev38484h' | chpasswd > /dev/null
+usermod --lock --shell /bin/nologin pi
+
+
+## update root account
+echo "root:"'admin1372Dextor!#&@Mimi!#&@' | chpasswd > /dev/null
 mkdir /root/.ssh
+echo "Host *" > /root/.ssh/config
+echo " StrictHostKeyChecking no" >> /root/.ssh/config
+
+## write ssh key for root
+echo "Adding root SSH key for GitHub"
 echo "-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEArgycqh5AEbVdP64YAgzscwbKJbin6+eQWw46R7WnH9dZpIK7
 wy8pDks5XprtTJ+VfBtqhi2nbgGwzBS3mqsc4wIHAdcWSwgi0z7RDIkuFvrgT1hy
@@ -91,47 +100,43 @@ cMKRfSg5wH25RYBGMeNpON1AxTENJfaIN41jnQ1OwwTId1dY3LLO
 -----END RSA PRIVATE KEY-----" >> /root/.ssh/id_rsa
 chmod 600 /root/.ssh/id_rsa
 
-## use modded .bashrc file for whittinghamj and future users
-rm -rf /home/whittinghamj/.bashrc
-cp /root/.bashrc /home/whittinghamj/
-cp /root/myip.sh /home/whittinghamj/
-rm -rf /etc/skel/.bashrc
-cp /root/.bashrc /etc/skel
-cp /root/myip.sh /etc/skel
 
-echo "Updating SSH details"
 ## change SSH port to 33077 and only listen to IPv4
+echo "Updating SSHd details"
 sed -i 's/#Port 22/Port 33077/' /etc/ssh/sshd_config
 sed -i 's/#AddressFamily any/AddressFamily inet/' /etc/ssh/sshd_config
+/etc/init.d/ssh restart > /dev/null
 
-## restart SSH server to accept new port number
-/etc/init.d/ssh restart
 
-echo "Setting hostname"
 ## set controller hostname
+echo "Setting hostname"
 echo 'zeus-controller' > /etc/hostname
+echo "127.0.0.1       zeus-controller" >> /etc/hosts
 
-echo "Installing ZEUS"
+
 ## make zeus folders
+echo "Installing ZEUS"
 mkdir /zeus
 cd /zeus
 
+
 ## build the config file with site api key
 touch /zeus/global_vars.php
+echo "\n\n"
 echo "Please enter your ZEUS Site API Key:"
 
 read site_api_key
 
-echo "You said your API Key is $site_api_key"
-
 echo '<?php
 
-$config['api_key'] = '"'$site_api_key';" >> /zeus/global_vars.php
+$config['"'"api_key"'"'] = '"'$site_api_key';" > /zeus/global_vars.php
+
 
 ## get the zeus files
-git clone ssh://git@github.com/whittinghamj/deltacolo_zeus_controller.git
+git clone ssh://git@github.com/whittinghamj/deltacolo_zeus_controller.git --quiet
 mv deltacolo_zeus_controller controller
 cp global_vars.php controller/
 crontab controller/crontab.txt
 
 ## reboot
+reboot
