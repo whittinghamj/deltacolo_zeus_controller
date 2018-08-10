@@ -2,6 +2,8 @@
 
 // version 1.2
 
+$api_url = 'http://dashboard.miningcontrolpanel.com';
+
 include('/zeus/controller/global_vars.php');
 include('/zeus/controller/functions.php');
 
@@ -11,7 +13,7 @@ include('/zeus/controller/functions.php');
 
 $runs = $argv[1];
 
-$miners_raw 		= file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_miners");
+$miners_raw 		= file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_miners");
 $miners 			= json_decode($miners_raw, true);
 
 foreach($miners['miners'] as $miner)

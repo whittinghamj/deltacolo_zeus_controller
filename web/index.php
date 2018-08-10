@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$api_url = 'http://dashboard.miningcontrolpanel.com';
+
 include('inc/global_vars.php');
 include('inc/functions.php');
 ?>
@@ -134,10 +136,10 @@ desired effect
             <?php
                 include('/zeus/controller/global_vars.php');
                 
-                $zeus['api']['url']         = 'http://zeus.deltacolo.com/api/?c=home&key='.$config['api_key'];
+                $zeus['api']['url']         = $api_url.'/api/?c=home&key='.$config['api_key'];
                 $zeus['api']['data']        = @file_get_contents($zeus['api']['url']);
                 $zeus['api']['data']        = json_decode($zeus['api']['data'], true);
-                $zeus['site']['url']        = 'http://zeus.deltacolo.com/api/?c=site_info&key='.$config['api_key'];
+                $zeus['site']['url']        = $api_url.'/api/?c=site_info&key='.$config['api_key'];
                 $zeus['site']['data']       = file_get_contents($zeus['site']['url']);
                 $zeus['site']['data']       = json_decode($zeus['site']['data'], true);
             ?>

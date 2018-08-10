@@ -3,6 +3,8 @@
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
 // ini_set('error_reporting', E_ALL); 
+
+$api_url = 'http://dashboard.miningcontrolpanel.com';
 	
 include('global_vars.php');
 include('functions.php');
@@ -30,7 +32,7 @@ if($task == 'update_miner_stats')
 	
 	console_output("Getting existing site miners");
 
-	$miners_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_miners");
+	$miners_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_miners");
 	$miners = json_decode($miners_raw, true);
 
 	console_output("Processing miners for '".$miners['site']['name']."'");
@@ -231,7 +233,7 @@ if($task == 'update_miner_stats')
 			
 			$data_string = json_encode($miner);
 
-			$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_update");                                                                      
+			$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=miner_update");                                                                      
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
@@ -271,7 +273,7 @@ if($task == "network_scan")
 	
 	console_output("Getting site IP ranges");
 
-	$ip_ranges_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_ip_ranges");
+	$ip_ranges_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_ip_ranges");
 	$ip_ranges = json_decode($ip_ranges_raw, true);
 
 	foreach($ip_ranges['ip_ranges'] as $ip_range){
@@ -309,14 +311,14 @@ if($task == "network_scan")
 						$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$miner['ip_address'];
 						exec($cmd);
 
-						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/update_password.sh; wget -O /config/update_password.sh http://zeus.deltacolo.com/antminer_s9/update_password.sh; sh /config/update_password.sh >/dev/null 2>&1;'";
+						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/update_password.sh; wget -O /config/update_password.sh ".$api_url."/antminer_s9/update_password.sh; sh /config/update_password.sh >/dev/null 2>&1;'";
 						exec($cmd);
 
 						console_output("Resetting miner password " . $miner['ip_address']);
 
 						$data_string = json_encode($miner);
 
-						$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
+						$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=miner_add");                                                                      
 						curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 						curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
@@ -361,7 +363,7 @@ if($task == "site_jobs")
 	
 	console_output("Getting site jobs");
 
-	$site_jobs_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_jobs");
+	$site_jobs_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_jobs");
 	$site_jobs = json_decode($site_jobs_raw, true);
 
 	if(isset($site_jobs['jobs']))
@@ -417,7 +419,7 @@ if($task == "site_jobs")
 			
 			if($site_job['job'] == 'network_scan')
 			{
-				$ip_ranges_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_ip_ranges");
+				$ip_ranges_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_ip_ranges");
 				$ip_ranges = json_decode($ip_ranges_raw, true);
 
 				foreach($ip_ranges['ip_ranges'] as $ip_range){
@@ -455,7 +457,7 @@ if($task == "site_jobs")
 
 								$data_string = json_encode($miner);
 
-								$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
+								$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=miner_add");                                                                      
 								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 								curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
 								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
@@ -493,11 +495,11 @@ if($task == "site_jobs")
 
 				if($site_job['miner']['hardware'] == 'ebite9plus')
 				{
-					$config_file_url = "http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf";
+					$config_file_url = $api_url."/miner_config_files/".$site_job['miner']['id'].".conf";
 					$config_file = file_get_contents($config_file_url);
 					$config_file = json_decode($config_file, true);
 
-					$miner_raw = file_get_contents("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_miner&miner_id=".$site_job['miner']['id']);
+					$miner_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_miner&miner_id=".$site_job['miner']['id']);
 					$miner = json_decode($miner_raw, true);
 
 					$config_file['pools'][0]['url'] = $config_file['pools'][0]['url'];
@@ -535,18 +537,18 @@ if($task == "site_jobs")
 
 				}
 				elseif($site_job['miner']['hardware'] == 'antminer-s9'){
-					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
+					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
 				}
 				else
 				{				
 					if($site_job['miner']['hardware'] == 'antminer-s9'){
-						shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
+						shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
 					}else{
 						// update cgminer.conf
-						shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'");
+						shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'");
 
 						// update network.conf
-						// shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf http://zeus.deltacolo.com/miner_config_files/".$site_job['miner']['id']."_network.conf; /etc/init.d/network.sh'");
+						// shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf ".$api_url."/miner_config_files/".$site_job['miner']['id']."_network.conf; /etc/init.d/network.sh'");
 					}
 				}
 				
@@ -561,7 +563,7 @@ if($task == "site_jobs")
 				console_output('Pausing Miner: ' . $site_job['miner']['name']);
 
 				if (strpos($site_job['miner']['hardware'], 'antminer') !== false) {
-				    shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/pause_antminer.sh; wget -O /config/pause_antminer.sh http://zeus.deltacolo.com/controller/pause_antminer.sh; nohup sh /config/pause_antminer.sh >/dev/null 2>&1;'");
+				    shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/pause_antminer.sh; wget -O /config/pause_antminer.sh ".$api_url."/controller/pause_antminer.sh; nohup sh /config/pause_antminer.sh >/dev/null 2>&1;'");
 				}
 				
 				$site_job['status'] = 'complete';
@@ -587,7 +589,7 @@ if($task == "site_jobs")
 			{
 				$data_string = json_encode($job);
 
-				$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=site_job_complete");                                                                      
+				$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=site_job_complete");                                                                      
 				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
@@ -630,7 +632,7 @@ if($task == "controller_checkin")
 	console_output('MAC Address: ' . $mac_address);
 	console_output('CPU Temp: ' . $cpu_temp);
 
-	$post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=controller_checkin&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp."&version=".$version."&hardware=".base64_encode($hardware);
+	$post_url = $api_url."/api/?key=".$config['api_key']."&c=controller_checkin&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp."&version=".$version."&hardware=".base64_encode($hardware);
 	
 	// console_output("POST URL: " . $post_url);
 

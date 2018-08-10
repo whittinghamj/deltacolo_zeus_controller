@@ -1,6 +1,8 @@
 <?php
 
-// version 0.1.1
+// version 1.2
+
+$api_url = 'http://dashboard.miningcontrolpanel.com';
 
 include('global_vars.php');
 include('functions.php');
@@ -8,7 +10,7 @@ include('functions.php');
 $options 				= getopt("p:");
 $miner_id 				= $options["p"];
 
-$get_miner_url 			= 'http://zeus.deltacolo.com/api/?key=1372&c=site_miner&miner_id='.$miner_id;
+$get_miner_url 			= $api_url.'/api/?key=1372&c=site_miner&miner_id='.$miner_id;
 $get_miner_details 		= file_get_contents($get_miner_url);
 $miner_details 			= json_decode($get_miner_details, true);
 
@@ -204,7 +206,7 @@ foreach($miner_details['miners'] as $miner)
 
 	$data_string = json_encode($miner);
 
-	$ch = curl_init("http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_update");                                                                      
+	$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=miner_update");                                                                      
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      

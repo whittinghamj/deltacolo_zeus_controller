@@ -2,13 +2,15 @@
 
 // version 1.2
 
+$api_url = 'http://dashboard.miningcontrolpanel.com';
+
 include('/zeus/controller/global_vars.php');
 include('/zeus/controller/functions.php');
 
 $options 				= getopt("p:");
 $miner_id 				= $options["p"];
 
-$get_miner_url 			= 'http://zeus.deltacolo.com/api/?key='.$config['api_key'].'&c=site_miner&miner_id='.$miner_id;
+$get_miner_url 			= $api_url.'/api/?key='.$config['api_key'].'&c=site_miner&miner_id='.$miner_id;
 $get_miner_details 		= file_get_contents($get_miner_url);
 $miner_details 			= json_decode($get_miner_details, true);
 
@@ -95,7 +97,7 @@ foreach($miner_details['miners'] as $miner)
 				// console_output("Setting password for root@" . $miner['ip_address'] . " to " . $new_password);
 
 				// check if existing config file is found
-				$existing_config_file = @file_get_contents("http://zeus.deltacolo.com/miner_config_files/".$miner_id.".conf");
+				$existing_config_file = @file_get_contents($api_url."/miner_config_files/".$miner_id.".conf");
 
 				if($existing_config_file === FALSE)
 				{
@@ -104,7 +106,7 @@ foreach($miner_details['miners'] as $miner)
 						$miner['hardware'] == 'antminer-s9'
 					)
 					{
-						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/default_sha256_".$miner_details['site']['user_id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'";
+						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/default_sha256_".$miner_details['site']['user_id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'";
 					}
 
 					if(
@@ -115,7 +117,7 @@ foreach($miner_details['miners'] as $miner)
 						$miner['hardware'] == 'antminer-a3'
 					)
 					{
-						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf http://zeus.deltacolo.com/miner_config_files/default_x11_".$miner_details['site']['user_id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'";
+						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf ".$api_url."/miner_config_files/default_x11_".$miner_details['site']['user_id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'";
 					}
 
 				}else{
@@ -124,7 +126,7 @@ foreach($miner_details['miners'] as $miner)
 						$miner['hardware'] == 'antminer-s9'
 					)
 					{
-						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf http://zeus.deltacolo.com/miner_config_files/".$miner_id.".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'";
+						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$miner_id.".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'";
 					}
 
 					if(
@@ -135,7 +137,7 @@ foreach($miner_details['miners'] as $miner)
 						$miner['hardware'] == 'antminer-a3'
 					)
 					{
-						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf http://zeus.deltacolo.com/miner_config_files/".$miner_id.".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'";
+						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf ".$api_url."/miner_config_files/".$miner_id.".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'";
 					}
 				}
 				
@@ -330,7 +332,7 @@ foreach($miner_details['miners'] as $miner)
 
 	$miner['update'] = '';
 
-	$post_url = "http://zeus.deltacolo.com/api/?key=".$config['api_key']."&c=miner_update";
+	$post_url = $api_url."/api/?key=".$config['api_key']."&c=miner_update";
 	// $post_url = 'https://requestb.in/tnq8lftn';
 	
 	// console_output($post_url);

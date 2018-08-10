@@ -1,5 +1,7 @@
 <?php
 
+$api_url = 'http://dashboard.miningcontrolpanel.com';
+
 include('global_vars.php');
 include('functions.php');
 include('php_colors.php');
@@ -10,7 +12,7 @@ $data['controller']['ip_address']['lan'] 		= exec("ifconfig | grep -Eo 'inet (ad
 $data['controller']['ip_address']['wan'] 		= json_decode(file_get_contents('https://api.ipify.org?format=json'), true);
 $data['controller']['ip_address']['wan'] 		= $data['controller']['ip_address']['wan']['ip'];
 
-$data['site']									= file_get_contents('http://zeus.deltacolo.com/api/?key='.$config['api_key'].'&c=site_info');
+$data['site']									= file_get_contents($api_url.'/api/?key='.$config['api_key'].'&c=site_info');
 $data['site']									= json_decode($data['site'], true);
 
 echo shell_exec('/usr/bin/figlet -c -f banner ZEUS');                                            

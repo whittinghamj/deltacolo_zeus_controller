@@ -1,5 +1,7 @@
 <?php
 
+$api_url = 'http://dashboard.miningcontrolpanel.com';
+
 if(isset($argv[1])){
 	$config['api_key'] = $argv[1];
 }else{
@@ -11,7 +13,7 @@ include('php_colors.php');
 
 $colors = new Colors();
 
-$data['site']									= file_get_contents('http://zeus.deltacolo.com/api/?key='.$config['api_key'].'&c=site_info');
+$data['site']									= file_get_contents($api_url.'/api/?key='.$config['api_key'].'&c=site_info');
 $data['site']									= json_decode($data['site'], true);
 
 echo "NAME ......................... " . $data['site']['name' ]. " \n";
