@@ -419,7 +419,6 @@ if($task == "site_jobs")
 			
 			if($site_job['job'] == 'network_scan')
 			{
-				$api_url = 'http://dashboard.miningcontrolpanel.com';
 				$ip_ranges_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_ip_ranges");
 				$ip_ranges = json_decode($ip_ranges_raw, true);
 
@@ -458,8 +457,9 @@ if($task == "site_jobs")
 
 								$data_string = json_encode($miner);
 
-								echo "POSTing to " . $api_url."/api/?key=".$config['api_key']."&c=miner_add \n";
-								$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=miner_add");                                                                      
+								echo "POSTing to http://dashboard.miningcontrolpanel.com/api/?key=".$config['api_key']."&c=miner_add \n";
+								
+								$ch = curl_init("http://dashboard.miningcontrolpanel.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
 								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 								curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
 								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
