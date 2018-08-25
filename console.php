@@ -495,7 +495,7 @@ if($task == "site_jobs")
 
 				if($site_job['miner']['hardware'] == 'ebite9plus')
 				{
-					$config_file_url = $api_url."/miner_config_files/".$site_job['miner']['id'].".conf";
+					$config_file_url = $api_url."/miner_config_files/".$site_job['miner']['id'].".txt";
 					$config_file = file_get_contents($config_file_url);
 					$config_file = json_decode($config_file, true);
 
@@ -539,18 +539,18 @@ if($task == "site_jobs")
 				elseif($site_job['miner']['hardware'] == 'antminer-s9'){
 					echo "Hardware: Bitmain Antminer S9 \n";
 					echo "Downloading: ".$api_url."/miner_config_files/".$site_job['miner']['id'].".conf \n";
-					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
+					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
 				}
 				else
 				{				
 					if($site_job['miner']['hardware'] == 'antminer-s9'){
-						shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
+						shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
 					}else{
 						// update cgminer.conf
-						shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'");
+						shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'");
 
 						// update network.conf
-						// shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf ".$api_url."/miner_config_files/".$site_job['miner']['id']."_network.conf; /etc/init.d/network.sh'");
+						// shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf ".$api_url."/miner_config_files/".$site_job['miner']['id']."_network.txt; /etc/init.d/network.sh'");
 					}
 				}
 				
