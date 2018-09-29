@@ -1,15 +1,15 @@
-## ZEUS Controller
+## MCP Controller
 
-* * * * * php -q /zeus/controller/ssh_tunnel.php > /dev/null 2>&1
+* * * * * php -q /mcp/ssh_tunnel.php > /dev/null 2>&1
 
-*/5 * * * * sh /zeus/controller/update.sh > /dev/null 2>&1
+*/5 * * * * sh /mcp/update.sh > /dev/null 2>&1
 
-* * * * * php -q /zeus/controller/deamon.php 1 > /zeus/controller/deamon.log 2>&1
+* * * * * php -q /mcp/deamon.php 1 > /zeus/controller/deamon.log 2>&1
 
-@reboot sh /zeus/controller/boot.sh > /dev/null 2>&1
+@reboot sh /mcp/boot.sh > /dev/null 2>&1
 
-* * * * * php -q /zeus/controller/console.php site_jobs > /zeus/controller/console.log 2>&1
+* * * * * php -q /mcp/console.php site_jobs > /zeus/controller/console.log 2>&1
 
-* * * * * php -q /zeus/controller/console.php controller_checkin > /dev/null 2>&1
+* * * * * php -q /mcp/console.php controller_checkin > /dev/null 2>&1
 
 0 * * * * /sbin/reboot

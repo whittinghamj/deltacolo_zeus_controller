@@ -7,9 +7,9 @@ $miner['password']		= 'admin';
 $url = "http://".$miner['ip_address']."/cgi-bin/upgrade.cgi";
 
 if (function_exists('curl_file_create')) { // php 5.5+
-  $cFile = curl_file_create('/zeus/controller/firmware/antminer-s9/Antminer-S9-all-201705031838-650M-user-Update2UBI-NF.tar.gz');
+  $cFile = curl_file_create('/mcp/firmware/antminer-s9/Antminer-S9-all-201705031838-650M-user-Update2UBI-NF.tar.gz');
 } else { // 
-  $cFile = '@' . realpath('/zeus/controller/firmware/antminer-s9/Antminer-S9-all-201705031838-650M-user-Update2UBI-NF.tar.gz');
+  $cFile = '@' . realpath('/mcp/firmware/antminer-s9/Antminer-S9-all-201705031838-650M-user-Update2UBI-NF.tar.gz');
 }
 
 $post = array('datafile'=> $cFile);

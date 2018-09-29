@@ -628,7 +628,7 @@ if($task == "controller_checkin")
 
 	$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
 	$mac_address 		= exec("cat /sys/class/net/eth0/address");
-	$ip_address 		= exec("sh /zeus/controller/lan_ip.sh");
+	$ip_address 		= exec("sh /mcp/lan_ip.sh");
 	$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
 
 	console_output('Pi Hardware: ' . $hardware);

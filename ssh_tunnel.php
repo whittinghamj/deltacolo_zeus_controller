@@ -2,8 +2,8 @@
 
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 
-include('/zeus/controller/global_vars.php');
-include('/zeus/controller/functions.php');
+include('/mcp/global_vars.php');
+include('/mcp/functions.php');
 
 $site_raw 			= file_get_contents($api_url."/api/?key=".$config['api_key']."&c=home");
 $site 				= json_decode($site_raw, true);

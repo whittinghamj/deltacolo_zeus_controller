@@ -1,9 +1,9 @@
 #!/bin/bash
 
-## ZEUS Controller - Update Script (git pull)
+## MCP Controller - Update Script (git pull)
 
-cd /zeus/controller && git --git-dir=/zeus/controller/.git pull origin master
+cd /mcp && git --git-dir=/mcp/.git pull origin master
 
-crontab /zeus/controller/crontab.txt
+crontab /mcp/crontab.txt
 
 chmod 777 global_vars.php

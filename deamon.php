@@ -4,8 +4,8 @@
 
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 
-include('/zeus/controller/global_vars.php');
-include('/zeus/controller/functions.php');
+include('/mcp/global_vars.php');
+include('/mcp/functions.php');
 
 // console_output("Building deamon. May take up to 30 seconds.");
 
@@ -30,7 +30,7 @@ for ($i=0; $i<$runs; $i++) {
     for ($j=0; $j<$count; $j++) {
     	echo "Checking Miner: ".$miner_ids[$j]."\n";
 
-        $pipe[$j] = popen("php -q /zeus/controller/deamon_update_miner_stats.php -p='".$miner_ids[$j]."'", 'w');
+        $pipe[$j] = popen("php -q /mcp/deamon_update_miner_stats.php -p='".$miner_ids[$j]."'", 'w');
     }
 
     console_output("Killing children.");

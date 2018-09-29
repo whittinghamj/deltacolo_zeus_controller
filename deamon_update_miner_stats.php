@@ -4,8 +4,8 @@
 
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 
-include('/zeus/controller/global_vars.php');
-include('/zeus/controller/functions.php');
+include('/mcp/global_vars.php');
+include('/mcp/functions.php');
 
 $options 				= getopt("p:");
 $miner_id 				= $options["p"];
