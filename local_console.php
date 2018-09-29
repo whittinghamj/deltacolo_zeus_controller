@@ -15,9 +15,9 @@ $data['controller']['ip_address']['wan'] 		= $data['controller']['ip_address']['
 $data['site']									= file_get_contents($api_url.'/api/?key='.$config['api_key'].'&c=site_info');
 $data['site']									= json_decode($data['site'], true);
 
-echo shell_exec('/usr/bin/figlet -c -f banner MCP');                                            
+// echo shell_exec('/usr/bin/figlet -c -f banner MCP');                                            
                                                                                  
-echo "\n";
+// echo "\n";
 
 echo ".:[ CONTROLLER }:. \n";
 echo "DATE ......................... " . date("M dS Y - H:i:s", time()) . " \n";

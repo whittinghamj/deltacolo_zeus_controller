@@ -37,7 +37,7 @@ sysctl vm.dirty_ratio=80 > /dev/null
 sysctl vm.dirty_writeback_centisecs=0 > /dev/null
 
 # display cool logo
-figlet -c "MCP CONTROLLER v1.3"
+figlet -c "CONTROLLER v1.3"
 
 # display cool on screen output
 echo "[ ${GREEN}OK${SET} ] Loading Core ROMs."
@@ -55,16 +55,14 @@ sleep 1
 echo "[ ${GREEN}OK${SET} ] Connecting to Datacenters."
 sleep 1
 
-echo "[ ${GREEN}OK${SET} ] Booting MCP CONTROLLER OS."
+echo "[ ${GREEN}OK${SET} ] Booting OS."
 sleep 1
 
-echo "[ ${GREEN}OK${SET} ] Updating MCP CONTROLLER OS."
-
+echo "[ ${GREEN}OK${SET} ] Updating OS."
 sleep 1
 
-echo "[ ${GREEN}OK${SET} ] Configuring MCP CONTROLLEROS."
+echo "[ ${GREEN}OK${SET} ] Configuring OS."
 sleep 1
-
 
 watch -n1 --color -t sudo php -q /mcp/local_console.php
 exit 1
