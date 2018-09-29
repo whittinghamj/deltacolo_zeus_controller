@@ -18,7 +18,7 @@ $runs = $argv[1];
 $miners_raw 		= file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_miners");
 $miners 			= json_decode($miners_raw, true);
 
-if(is_array($miners['miners']))
+if(isset($miners['miners']))
 {
     foreach($miners['miners'] as $miner)
     {
