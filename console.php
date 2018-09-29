@@ -14,9 +14,9 @@ function killlock(){
 	exec("rm -rf $lockfile");
 }
 
-$version = '1.2.2_alpha';
+$version = '1.3';
 
-console_output("ZEUS Controller - v".$version);
+console_output("MCP Controller - v".$version);
 
 $task = $argv[1];
 
