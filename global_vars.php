@@ -1,3 +1,3 @@
 <?php
 
-$config["api_key"] = '';s
+$config["api_key"] = '';
