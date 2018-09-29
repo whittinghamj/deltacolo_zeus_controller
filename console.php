@@ -636,7 +636,7 @@ if($task == "controller_checkin")
 	console_output('MAC Address: ' . $mac_address);
 	console_output('CPU Temp: ' . $cpu_temp);
 
-	$post_url = $api_url."/api/?key=".$config['api_key']."&c=controller_checkin&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp."&version=".$version."&hardware=".base64_encode($hardware);
+	$post_url = $api_url."/api/?key=".$config['api_key']."&c=controller_checkin&type=contoller&ip_address=".$ip_address."&mac_address=".$mac_address."&cpu_temp=".$cpu_temp."&version=".$version."&hardware=".base64_encode($hardware);
 	
 	// console_output("POST URL: " . $post_url);
 
