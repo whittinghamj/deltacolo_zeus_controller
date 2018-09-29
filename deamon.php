@@ -4,6 +4,8 @@
 
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 
+// http://dashboard.miningcontrolpanel.com/api/?key=279e8017e2d2d0d7d591a25e40d6cada&c=site_miners
+
 include('/mcp/global_vars.php');
 include('/mcp/functions.php');
 
