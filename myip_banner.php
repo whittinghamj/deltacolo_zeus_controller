@@ -1,3 +1,5 @@
 <?php
 
-echo shell_exec('/usr/bin/figlet -c -f banner sh /root/myip.sh');   
+$myip = shell_exec('sh /root/myip.sh');
+
+echo shell_exec($myip);
