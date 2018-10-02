@@ -609,7 +609,7 @@ if($task == "site_jobs")
 
 				$result = curl_exec($ch);
 
-				print_r($result)
+				print_r($result);
 			}
 		}
 	}else{
