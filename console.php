@@ -592,6 +592,7 @@ if($task == "site_jobs")
 			$job['id']		= $site_job['id'];
 			
 			print_r($site_job);
+			print_r($job);
 
 			if($site_job['status'] == 'complete')
 			{
@@ -607,6 +608,8 @@ if($task == "site_jobs")
 				);                                                                                                                   
 
 				$result = curl_exec($ch);
+
+				print_r($result)
 			}
 		}
 	}else{
