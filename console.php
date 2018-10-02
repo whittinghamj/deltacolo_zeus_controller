@@ -483,6 +483,8 @@ if($task == "site_jobs")
 					return $rigs;
 				}
 
+				$site_job['status'] = 'complete';
+
 				$rigs = check_sub($subnets, $port, $ip_ranges['site']['id']);
 				
 				$site_job['status'] = 'complete';
@@ -604,7 +606,6 @@ if($task == "site_jobs")
 
 				$result = curl_exec($ch);
 			}
-
 		}
 	}else{
 		console_output("No jobs.");
