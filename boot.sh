@@ -14,7 +14,7 @@ WHITE='\033[1;37m'
 SET='\033[0m'
 
 # remove old *.loc files
-# rm -rf /mcp/*.loc
+rm -rf /mcp/*.loc
 
 # remove old *.log files
 # rm -rf /mcp/logs/*
