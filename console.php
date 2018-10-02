@@ -591,6 +591,8 @@ if($task == "site_jobs")
 
 			$job['id']		= $site_job['id'];
 			
+			print_r($site_job);
+
 			if($site_job['status'] == 'complete')
 			{
 				$data_string = json_encode($job);
