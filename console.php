@@ -596,7 +596,7 @@ if($task == "site_jobs")
 
 			if($site_job['status'] == 'complete')
 			{
-				$data_string = json_encode($job);
+				$data_string = json_encode($job['id']);
 
 				$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=site_job_complete");                                                                      
 				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
