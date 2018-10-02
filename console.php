@@ -6,8 +6,8 @@
 
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 	
-include('global_vars.php');
-include('functions.php');
+include('/mcp/global_vars.php');
+include('/mcp/functions.php');
 
 function killlock(){
     global $lockfile;
