@@ -454,6 +454,7 @@ if($task == "site_jobs")
 
 								$miner['site_id']		= $site_id;
 								$miner['ip_address'] 	= $active_ip_address;
+								$miner['type']			= 'asic';
 
 								$data_string = json_encode($miner);
 
