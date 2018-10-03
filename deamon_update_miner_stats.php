@@ -321,6 +321,10 @@ foreach($miner_details['miners'] as $miner)
 		$hashrate = '';
 	}
 
+	if(empty($miner['name'])){
+		$miner['name']	= $miner['ip_address'];
+	}
+
 	console_output('Miner: '.$miner['name'].' / '.$miner['ip_address'].' = '.$miner['update']['status'].' = '.$hashrate);
 	
 	// get the MAC address

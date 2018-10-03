@@ -495,6 +495,11 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'update_config_file')
 			{
+
+				console_output("Updating Miner Config");
+
+				print_r($site_job);
+
 				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
 				exec($cmd);
 
