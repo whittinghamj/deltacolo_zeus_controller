@@ -502,10 +502,14 @@ if($task == "site_jobs")
 
 				console_output("Updating Miner Config");
 
+				print_r($site_job);
+
 				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
 				exec($cmd);
 
 				console_output('Updating Miner: ' . $site_job['miner']['name']);
+
+				print_r($site_job);
 
 				if($site_job['miner']['hardware'] == 'ebite9plus')
 				{
@@ -550,13 +554,6 @@ if($task == "site_jobs")
 					$stats = json_decode($content, TRUE);
 
 				}
-
-				print_r($site_job);
-
-				killlock();
-
-				die();
-				
 				elseif($site_job['miner']['hardware'] == 'antminer-s9'){
 					echo "Hardware: Bitmain Antminer S9 \n";
 					echo "Downloading: ".$api_url."/miner_config_files/".$site_job['miner']['id'].".conf \n";
