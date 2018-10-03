@@ -366,6 +366,8 @@ if($task == "site_jobs")
 	$site_jobs_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_jobs");
 	$site_jobs = json_decode($site_jobs_raw, true);
 
+	print_r($site_jobs);
+
 	if(isset($site_jobs['jobs']))
 	{
 		foreach($site_jobs['jobs'] as $site_job){
@@ -501,8 +503,6 @@ if($task == "site_jobs")
 			{
 
 				console_output("Updating Miner Config");
-
-				print_r($site_job);
 
 				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
 				exec($cmd);
