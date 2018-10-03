@@ -419,6 +419,8 @@ if($task == "site_jobs")
 			
 			if($site_job['job'] == 'network_scan')
 			{
+				console_output("Running Network Scan");
+
 				$ip_ranges_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_ip_ranges");
 				$ip_ranges = json_decode($ip_ranges_raw, true);
 
