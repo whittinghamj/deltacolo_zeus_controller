@@ -458,6 +458,10 @@ if($task == "site_jobs")
 								$miner['ip_address'] 	= $active_ip_address;
 								$miner['type']			= 'asic';
 
+								$miner['mac_address'] = exec("nmap -sP ".$miner['ip_address']." | grep MAC");
+								$mac_bits = explode(" ", $miner['mac_address']);
+								$miner['mac_address'] = $mac_bits[2];
+
 								$data_string = json_encode($miner);
 
 								echo "POSTing to http://dashboard.miningcontrolpanel.com/api/?key=".$config['api_key']."&c=miner_add \n";

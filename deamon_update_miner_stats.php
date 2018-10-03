@@ -329,6 +329,8 @@ foreach($miner_details['miners'] as $miner)
 	
 	// get the MAC address
 	// $miner['mac_address'] = exec("nmap -sP ".$miner['ip_address']." | grep MAC");
+	// $mac_bits = explode(" ", $miner['mac_address']);
+	// $miner['mac_address'] = $mac_bits[2];
 
 	$data_string = json_encode($miner);
 
