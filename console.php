@@ -556,16 +556,17 @@ if($task == "site_jobs")
 
 				}
 				elseif(
-					$site_job['miner']['hardware'] == 'antminer-s9' || 
-					$site_job['miner']['hardware'] == 'antminer-s9i' ||
-					$site_job['miner']['hardware'] == 'antminer-s9j'){
+					$site_job['miner']['hardware'] == 'antminer-s9'){
 					echo "Hardware: Bitmain Antminer S9 \n";
-					echo "Downloading: ".$api_url."/miner_config_files/".$site_job['miner']['id'].".conf \n";
+					echo "Downloading: ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt \n";
 					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
 				}
 				else
 				{				
-					if($site_job['miner']['hardware'] == 'antminer-s9'){
+					if(
+						$site_job['miner']['hardware'] == 'antminer-s9' || 
+						$site_job['miner']['hardware'] == 'antminer-s9i' ||
+						$site_job['miner']['hardware'] == 'antminer-s9j'){
 						shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
 					}else{
 						// update cgminer.conf
