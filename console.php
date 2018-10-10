@@ -510,7 +510,7 @@ if($task == "site_jobs")
 
 				console_output('Updating Miner: ' . $site_job['miner']['name']);
 
-				print_r($site_job);
+				// print_r($site_job);
 
 				if($site_job['miner']['hardware'] == 'ebite9plus')
 				{
@@ -555,7 +555,10 @@ if($task == "site_jobs")
 					$stats = json_decode($content, TRUE);
 
 				}
-				elseif($site_job['miner']['hardware'] == 'antminer-s9'){
+				elseif(
+					$site_job['miner']['hardware'] == 'antminer-s9' || 
+					$site_job['miner']['hardware'] == 'antminer-s9i' ||
+					$site_job['miner']['hardware'] == 'antminer-s9j'){
 					echo "Hardware: Bitmain Antminer S9 \n";
 					echo "Downloading: ".$api_url."/miner_config_files/".$site_job['miner']['id'].".conf \n";
 					shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
