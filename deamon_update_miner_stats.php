@@ -164,14 +164,7 @@ foreach($miner_details['miners'] as $miner)
 						$miner['update']['rejected']				= $miner_data['SUMMARY']['Rejected'];
 
 						$miner['update']['software_version']		= $miner_data['STATUS']['Description'];
-						if(isset($miner_data['STATS0']['frequency']))
-						{
-							$miner['update']['frequency']			= $miner_data['STATS0']['frequency'];
-						}elseif($miner_data['STATS0']['frequency1']){
-							$miner['update']['frequency']			= $miner_data['STATS0']['frequency1'];
-						}else{
-							$miner['update']['frequency']			= '0';
-						}
+						$miner['update']['frequency']				= $miner_data['null']['frequency'];
 						
 						$miner['update']['pcb_temp_1']				= $miner_data['STATS0']['temp1'];
 						$miner['update']['pcb_temp_2']				= $miner_data['STATS0']['temp2'];
