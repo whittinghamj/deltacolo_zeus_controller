@@ -19,7 +19,7 @@ $miner_details 			= json_decode($get_miner_details, true);
 foreach($miner_details['miners'] as $miner)
 {
 	if(ping($miner['ip_address']) == 'alive'){
-		if($miner['hardware'] == 'ebite9' || $miner['hardware'] == 'ebite9plus' || $miner['hardware'] == 'ebite10')
+		if(strpos($miner['hardware'], 'ebite') !== false)
 		{
 			$username 	= $miner['username'];
 			$password 	= $miner['password'];
