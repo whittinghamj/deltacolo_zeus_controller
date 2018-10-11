@@ -155,79 +155,154 @@ foreach($miner_details['miners'] as $miner)
 				if($miner_data['STATUS1']['Msg'] == 'CGMiner stats')
 				{
 					$miner['update']['hardware']				= $miner_data['CGMiner']['Type'];
-					if(isset($miner_data['STATS1'])){$miner['update']['hardware'] = 'spondoolies';}
-
-					// $miner['update']['hashrate']				= $miner_data['SUMMARY']['GHS 5s'];
-					$miner['update']['hardware_errors']			= $miner_data['SUMMARY']['Hardware Errors'];
-					$miner['update']['discarded']				= $miner_data['SUMMARY']['Discarded'];
-					$miner['update']['accepted']				= $miner_data['POOL0']['Accepted'];
-					$miner['update']['rejected']				= $miner_data['SUMMARY']['Rejected'];
-
-					$miner['update']['software_version']		= $miner_data['STATUS']['Description'];
-					if(isset($miner_data['STATS0']['frequency']))
+					if($miner['update']['hardware'] == 'Antminer E3')
 					{
-						$miner['update']['frequency']			= $miner_data['STATS0']['frequency'];
-					}elseif($miner_data['STATS0']['frequency1']){
-						$miner['update']['frequency']			= $miner_data['STATS0']['frequency1'];
+						// $miner['update']['hashrate']				= $miner_data['SUMMARY']['GHS 5s'];
+						$miner['update']['hardware_errors']			= $miner_data['SUMMARY']['Hardware Errors'];
+						$miner['update']['discarded']				= $miner_data['SUMMARY']['Discarded'];
+						$miner['update']['accepted']				= $miner_data['SUMMARY']['Accepted'];
+						$miner['update']['rejected']				= $miner_data['SUMMARY']['Rejected'];
+
+						$miner['update']['software_version']		= $miner_data['STATUS']['Description'];
+						if(isset($miner_data['STATS0']['frequency']))
+						{
+							$miner['update']['frequency']			= $miner_data['STATS0']['frequency'];
+						}elseif($miner_data['STATS0']['frequency1']){
+							$miner['update']['frequency']			= $miner_data['STATS0']['frequency1'];
+						}else{
+							$miner['update']['frequency']			= '0';
+						}
+						
+						$miner['update']['pcb_temp_1']				= $miner_data['STATS0']['temp1'];
+						$miner['update']['pcb_temp_2']				= $miner_data['STATS0']['temp2'];
+						$miner['update']['pcb_temp_3']				= $miner_data['STATS0']['temp3'];
+						$miner['update']['pcb_temp_4']				= $miner_data['STATS0']['temp4'];
+
+						$miner['update']['chip_temp_1']				= $miner_data['STATS0']['temp2_1'];
+						$miner['update']['chip_temp_2']				= $miner_data['STATS0']['temp2_2'];
+						$miner['update']['chip_temp_3']				= $miner_data['STATS0']['temp2_3'];
+						$miner['update']['chip_temp_4']				= $miner_data['STATS0']['temp2_4'];
+
+						$miner['update']['fan_1_speed']				= $miner_data['null']['fan5'];
+						$miner['update']['fan_2_speed']				= $miner_data['null']['fan6'];
+
+						$miner['update']['asics_1']					= $miner_data['STATS0']['chain_acn1'];
+						$miner['update']['asics_2']					= $miner_data['STATS0']['chain_acn2'];
+						$miner['update']['asics_3']					= $miner_data['STATS0']['chain_acn3'];
+						$miner['update']['asics_4']					= $miner_data['STATS0']['chain_acn4'];
+
+						$miner['update']['chain_asic_1']			= $miner_data['STATS0']['chain_acs1'];
+						$miner['update']['chain_asic_2']			= $miner_data['STATS0']['chain_acs2'];
+						$miner['update']['chain_asic_3']			= $miner_data['STATS0']['chain_acs3'];
+						$miner['update']['chain_asic_4']			= $miner_data['STATS0']['chain_acs4'];
+
+						$miner['update']['hashrate_1']				= $miner_data['STATS0']['chain_rate1'];
+						$miner['update']['hashrate_2']				= $miner_data['STATS0']['chain_rate2'];
+						$miner['update']['hashrate_3']				= $miner_data['STATS0']['chain_rate3'];
+						$miner['update']['hashrate_4']				= $miner_data['STATS0']['chain_rate4'];
+						if($miner['update']['hardware'] == 'spondoolies'){
+							$miner['update']['hashrate_1']			= $miner_data['STATS0']['ASICs total rate'];
+							$miner['update']['pcb_temp_1']			= $miner_data['STATS0']['Temperature front'];
+							$miner['update']['pcb_temp_2']			= $miner_data['STATS0']['Temperature rear top'];
+							$miner['update']['pcb_temp_3']			= $miner_data['STATS0']['Temperature rear bot'];
+						}
+						if($miner['update']['hardware'] == 'Antminer S4'){
+							echo print_r($miner_lcd, true);
+							$miner['update']['hashrate_1']			= $miner_data['LCD0']['GHS5s'];
+							$miner['update']['pcb_temp_1']			= $miner_data['LCD0']['temp'];
+							$miner['update']['pcb_temp_2']			= $miner_data['LCD0']['temp'];
+							$miner['update']['pcb_temp_3']			= $miner_data['LCD0']['temp'];
+						}
+
+						$miner['update']['pools'][0]['user']		= $miner_data['POOL0']['User'];
+						$miner['update']['pools'][0]['url']			= str_replace('stratum+tcp://', '', $miner_data['POOL0']['URL']);
+						$miner['update']['pools'][0]['priority']	= $miner_data['POOL0']['Priority'];
+						$miner['update']['pools'][0]['status']		= $miner_data['POOL0']['Status'];
+
+						$miner['update']['pools'][1]['user']		= $miner_data['POOL1']['User'];
+						$miner['update']['pools'][1]['url']			= str_replace('stratum+tcp://', '', $miner_data['POOL1']['URL']);
+						$miner['update']['pools'][1]['priority']	= $miner_data['POOL1']['Priority'];
+						$miner['update']['pools'][1]['status']		= $miner_data['POOL1']['Status'];
+
+						$miner['update']['pools'][2]['user']		= $miner_data['POOL2']['User'];
+						$miner['update']['pools'][2]['url']			= str_replace('stratum+tcp://', '', $miner_data['POOL2']['URL']);
+						$miner['update']['pools'][2]['priority']	= $miner_data['POOL2']['Priority'];
+						$miner['update']['pools'][2]['status']		= $miner_data['POOL2']['Status'];
 					}else{
-						$miner['update']['frequency']			= '0';
+						if(isset($miner_data['STATS1'])){$miner['update']['hardware'] = 'spondoolies';}
+
+						// $miner['update']['hashrate']				= $miner_data['SUMMARY']['GHS 5s'];
+						$miner['update']['hardware_errors']			= $miner_data['SUMMARY']['Hardware Errors'];
+						$miner['update']['discarded']				= $miner_data['SUMMARY']['Discarded'];
+						$miner['update']['accepted']				= $miner_data['POOL0']['Accepted'];
+						$miner['update']['rejected']				= $miner_data['SUMMARY']['Rejected'];
+
+						$miner['update']['software_version']		= $miner_data['STATUS']['Description'];
+						if(isset($miner_data['STATS0']['frequency']))
+						{
+							$miner['update']['frequency']			= $miner_data['STATS0']['frequency'];
+						}elseif($miner_data['STATS0']['frequency1']){
+							$miner['update']['frequency']			= $miner_data['STATS0']['frequency1'];
+						}else{
+							$miner['update']['frequency']			= '0';
+						}
+						
+						$miner['update']['pcb_temp_1']				= $miner_data['STATS0']['temp1'];
+						$miner['update']['pcb_temp_2']				= $miner_data['STATS0']['temp2'];
+						$miner['update']['pcb_temp_3']				= $miner_data['STATS0']['temp3'];
+						$miner['update']['pcb_temp_4']				= $miner_data['STATS0']['temp4'];
+
+						$miner['update']['chip_temp_1']				= $miner_data['STATS0']['temp2_1'];
+						$miner['update']['chip_temp_2']				= $miner_data['STATS0']['temp2_2'];
+						$miner['update']['chip_temp_3']				= $miner_data['STATS0']['temp2_3'];
+						$miner['update']['chip_temp_4']				= $miner_data['STATS0']['temp2_4'];
+
+						$miner['update']['fan_1_speed']				= $miner_data['STATS0']['fan1'];
+						$miner['update']['fan_2_speed']				= $miner_data['STATS0']['fan2'];
+
+						$miner['update']['asics_1']					= $miner_data['STATS0']['chain_acn1'];
+						$miner['update']['asics_2']					= $miner_data['STATS0']['chain_acn2'];
+						$miner['update']['asics_3']					= $miner_data['STATS0']['chain_acn3'];
+						$miner['update']['asics_4']					= $miner_data['STATS0']['chain_acn4'];
+
+						$miner['update']['chain_asic_1']			= $miner_data['STATS0']['chain_acs1'];
+						$miner['update']['chain_asic_2']			= $miner_data['STATS0']['chain_acs2'];
+						$miner['update']['chain_asic_3']			= $miner_data['STATS0']['chain_acs3'];
+						$miner['update']['chain_asic_4']			= $miner_data['STATS0']['chain_acs4'];
+
+						$miner['update']['hashrate_1']				= $miner_data['STATS0']['chain_rate1'];
+						$miner['update']['hashrate_2']				= $miner_data['STATS0']['chain_rate2'];
+						$miner['update']['hashrate_3']				= $miner_data['STATS0']['chain_rate3'];
+						$miner['update']['hashrate_4']				= $miner_data['STATS0']['chain_rate4'];
+						if($miner['update']['hardware'] == 'spondoolies'){
+							$miner['update']['hashrate_1']			= $miner_data['STATS0']['ASICs total rate'];
+							$miner['update']['pcb_temp_1']			= $miner_data['STATS0']['Temperature front'];
+							$miner['update']['pcb_temp_2']			= $miner_data['STATS0']['Temperature rear top'];
+							$miner['update']['pcb_temp_3']			= $miner_data['STATS0']['Temperature rear bot'];
+						}
+						if($miner['update']['hardware'] == 'Antminer S4'){
+							echo print_r($miner_lcd, true);
+							$miner['update']['hashrate_1']			= $miner_data['LCD0']['GHS5s'];
+							$miner['update']['pcb_temp_1']			= $miner_data['LCD0']['temp'];
+							$miner['update']['pcb_temp_2']			= $miner_data['LCD0']['temp'];
+							$miner['update']['pcb_temp_3']			= $miner_data['LCD0']['temp'];
+						}
+
+						$miner['update']['pools'][0]['user']		= $miner_data['POOL0']['User'];
+						$miner['update']['pools'][0]['url']			= str_replace('stratum+tcp://', '', $miner_data['POOL0']['URL']);
+						$miner['update']['pools'][0]['priority']	= $miner_data['POOL0']['Priority'];
+						$miner['update']['pools'][0]['status']		= $miner_data['POOL0']['Status'];
+
+						$miner['update']['pools'][1]['user']		= $miner_data['POOL1']['User'];
+						$miner['update']['pools'][1]['url']			= str_replace('stratum+tcp://', '', $miner_data['POOL1']['URL']);
+						$miner['update']['pools'][1]['priority']	= $miner_data['POOL1']['Priority'];
+						$miner['update']['pools'][1]['status']		= $miner_data['POOL1']['Status'];
+
+						$miner['update']['pools'][2]['user']		= $miner_data['POOL2']['User'];
+						$miner['update']['pools'][2]['url']			= str_replace('stratum+tcp://', '', $miner_data['POOL2']['URL']);
+						$miner['update']['pools'][2]['priority']	= $miner_data['POOL2']['Priority'];
+						$miner['update']['pools'][2]['status']		= $miner_data['POOL2']['Status'];
 					}
-					
-					$miner['update']['pcb_temp_1']				= $miner_data['STATS0']['temp1'];
-					$miner['update']['pcb_temp_2']				= $miner_data['STATS0']['temp2'];
-					$miner['update']['pcb_temp_3']				= $miner_data['STATS0']['temp3'];
-					$miner['update']['pcb_temp_4']				= $miner_data['STATS0']['temp4'];
-
-					$miner['update']['chip_temp_1']				= $miner_data['STATS0']['temp2_1'];
-					$miner['update']['chip_temp_2']				= $miner_data['STATS0']['temp2_2'];
-					$miner['update']['chip_temp_3']				= $miner_data['STATS0']['temp2_3'];
-					$miner['update']['chip_temp_4']				= $miner_data['STATS0']['temp2_4'];
-
-					$miner['update']['fan_1_speed']				= $miner_data['STATS0']['fan1'];
-					$miner['update']['fan_2_speed']				= $miner_data['STATS0']['fan2'];
-
-					$miner['update']['asics_1']					= $miner_data['STATS0']['chain_acn1'];
-					$miner['update']['asics_2']					= $miner_data['STATS0']['chain_acn2'];
-					$miner['update']['asics_3']					= $miner_data['STATS0']['chain_acn3'];
-					$miner['update']['asics_4']					= $miner_data['STATS0']['chain_acn4'];
-
-					$miner['update']['chain_asic_1']			= $miner_data['STATS0']['chain_acs1'];
-					$miner['update']['chain_asic_2']			= $miner_data['STATS0']['chain_acs2'];
-					$miner['update']['chain_asic_3']			= $miner_data['STATS0']['chain_acs3'];
-					$miner['update']['chain_asic_4']			= $miner_data['STATS0']['chain_acs4'];
-
-					$miner['update']['hashrate_1']				= $miner_data['STATS0']['chain_rate1'];
-					$miner['update']['hashrate_2']				= $miner_data['STATS0']['chain_rate2'];
-					$miner['update']['hashrate_3']				= $miner_data['STATS0']['chain_rate3'];
-					$miner['update']['hashrate_4']				= $miner_data['STATS0']['chain_rate4'];
-					if($miner['update']['hardware'] == 'spondoolies'){
-						$miner['update']['hashrate_1']			= $miner_data['STATS0']['ASICs total rate'];
-						$miner['update']['pcb_temp_1']			= $miner_data['STATS0']['Temperature front'];
-						$miner['update']['pcb_temp_2']			= $miner_data['STATS0']['Temperature rear top'];
-						$miner['update']['pcb_temp_3']			= $miner_data['STATS0']['Temperature rear bot'];
-					}
-					if($miner['update']['hardware'] == 'Antminer S4'){
-						echo print_r($miner_lcd, true);
-						$miner['update']['hashrate_1']			= $miner_data['LCD0']['GHS5s'];
-						$miner['update']['pcb_temp_1']			= $miner_data['LCD0']['temp'];
-						$miner['update']['pcb_temp_2']			= $miner_data['LCD0']['temp'];
-						$miner['update']['pcb_temp_3']			= $miner_data['LCD0']['temp'];
-					}
-
-					$miner['update']['pools'][0]['user']		= $miner_data['POOL0']['User'];
-					$miner['update']['pools'][0]['url']			= str_replace('stratum+tcp://', '', $miner_data['POOL0']['URL']);
-					$miner['update']['pools'][0]['priority']	= $miner_data['POOL0']['Priority'];
-					$miner['update']['pools'][0]['status']		= $miner_data['POOL0']['Status'];
-
-					$miner['update']['pools'][1]['user']		= $miner_data['POOL1']['User'];
-					$miner['update']['pools'][1]['url']			= str_replace('stratum+tcp://', '', $miner_data['POOL1']['URL']);
-					$miner['update']['pools'][1]['priority']	= $miner_data['POOL1']['Priority'];
-					$miner['update']['pools'][1]['status']		= $miner_data['POOL1']['Status'];
-
-					$miner['update']['pools'][2]['user']		= $miner_data['POOL2']['User'];
-					$miner['update']['pools'][2]['url']			= str_replace('stratum+tcp://', '', $miner_data['POOL2']['URL']);
-					$miner['update']['pools'][2]['priority']	= $miner_data['POOL2']['Priority'];
-					$miner['update']['pools'][2]['status']		= $miner_data['POOL2']['Status'];
 				}
 				elseif($miner_data['STATUS1']['Msg'] == 'BMMiner stats')
 				{
