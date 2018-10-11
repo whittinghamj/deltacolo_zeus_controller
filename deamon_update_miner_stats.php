@@ -166,15 +166,15 @@ foreach($miner_details['miners'] as $miner)
 						$miner['update']['software_version']		= $miner_data['STATUS']['Description'];
 						$miner['update']['frequency']				= $miner_data['null']['frequency'];
 						
-						$miner['update']['pcb_temp_1']				= $miner_data['STATS0']['temp1'];
-						$miner['update']['pcb_temp_2']				= $miner_data['STATS0']['temp2'];
-						$miner['update']['pcb_temp_3']				= $miner_data['STATS0']['temp3'];
-						$miner['update']['pcb_temp_4']				= $miner_data['STATS0']['temp4'];
+						$miner['update']['pcb_temp_1']				= $miner_data['null']['temp1'];
+						$miner['update']['pcb_temp_2']				= $miner_data['null']['temp2'];
+						$miner['update']['pcb_temp_3']				= $miner_data['null']['temp3'];
+						$miner['update']['pcb_temp_4']				= $miner_data['null']['temp8'];
 
-						$miner['update']['chip_temp_1']				= $miner_data['STATS0']['temp2_1'];
-						$miner['update']['chip_temp_2']				= $miner_data['STATS0']['temp2_2'];
-						$miner['update']['chip_temp_3']				= $miner_data['STATS0']['temp2_3'];
-						$miner['update']['chip_temp_4']				= $miner_data['STATS0']['temp2_4'];
+						$miner['update']['chip_temp_1']				= $miner_data['null']['temp2_1'];
+						$miner['update']['chip_temp_2']				= $miner_data['null']['temp2_2'];
+						$miner['update']['chip_temp_3']				= $miner_data['null']['temp2_3'];
+						$miner['update']['chip_temp_4']				= $miner_data['null']['temp2_8'];
 
 						$miner['update']['fan_1_speed']				= $miner_data['null']['fan5'];
 						$miner['update']['fan_2_speed']				= $miner_data['null']['fan6'];
