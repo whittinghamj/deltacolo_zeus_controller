@@ -367,7 +367,7 @@ if($task == "site_jobs")
 	$site_jobs_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_jobs");
 	$site_jobs = json_decode($site_jobs_raw, true);
 
-	print_r($site_jobs);
+	// print_r($site_jobs);
 
 	if(isset($site_jobs['jobs']))
 	{
@@ -606,8 +606,8 @@ if($task == "site_jobs")
 
 			$job['id']		= $site_job['id'];
 			
-			print_r($site_job);
-			print_r($job);
+			// print_r($site_job);
+			// print_r($job);
 
 			if($site_job['status'] == 'complete')
 			{
@@ -624,7 +624,7 @@ if($task == "site_jobs")
 
 				$result = curl_exec($ch);
 
-				print_r($result);
+				// print_r($result);
 			}
 		}
 	}else{
