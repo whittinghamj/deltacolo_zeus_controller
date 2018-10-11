@@ -396,7 +396,7 @@ if($task == "site_jobs")
 				}
 				else
 				{
-					$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+					$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null';
 					exec($cmd);
 
 					$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
@@ -410,7 +410,7 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'restart_cgminer')
 			{
-				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null';
 				exec($cmd);
 
 				$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/etc/init.d/cgminer.sh stop'";
@@ -505,7 +505,7 @@ if($task == "site_jobs")
 
 				console_output("Updating Miner Config");
 
-				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null';
 				exec($cmd);
 
 				console_output('Updating Miner: ' . $site_job['miner']['name']);
@@ -578,7 +578,7 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'pause_miner')
 			{
-				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null';
 				exec($cmd);
 
 				console_output('Pausing Miner: ' . $site_job['miner']['name']);
@@ -592,7 +592,7 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'unpause_miner')
 			{
-				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'];
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null';
 				exec($cmd);
 
 				console_output('UN-Pausing Miner: ' . $site_job['miner']['name']);
