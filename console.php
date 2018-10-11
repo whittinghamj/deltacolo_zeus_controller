@@ -467,7 +467,7 @@ if($task == "site_jobs")
 
 								$data_string = json_encode($miner);
 
-								echo "POSTing to http://dashboard.miningcontrolpanel.com/api/?key=".$config['api_key']."&c=miner_add \n";
+								// echo "POSTing to http://dashboard.miningcontrolpanel.com/api/?key=".$config['api_key']."&c=miner_add \n";
 								
 								$ch = curl_init("http://dashboard.miningcontrolpanel.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
 								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
