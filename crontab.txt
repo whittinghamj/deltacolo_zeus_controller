@@ -12,4 +12,4 @@
 
 * * * * * php -q /mcp/console.php controller_checkin > /dev/null 2>&1
 
-0 1/6 * * * /sbin/reboot
+0 * * * * /sbin/reboot
