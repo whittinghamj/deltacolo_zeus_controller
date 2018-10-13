@@ -648,11 +648,12 @@ if($task == "controller_checkin")
 	console_output("Running controller checkin");
 
 	$hardware 			= exec("cat /sys/firmware/devicetree/base/model");
-	$mac_address 		= exec("cat /sys/class/net/eth0/address");
+	// $mac_address 		= exec("cat /sys/class/net/eth0/address");
+	$mac_address		= exec("cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address");
 	$ip_address 		= exec("sh /mcp/lan_ip.sh");
 	$cpu_temp			= exec("cat /sys/class/thermal/thermal_zone0/temp") / 1000;
 
-	console_output('Pi Hardware: ' . $hardware);
+	console_output('Hardware: ' . $hardware);
 	console_output('IP Address: ' . $ip_address);
 	console_output('MAC Address: ' . $mac_address);
 	console_output('CPU Temp: ' . $cpu_temp);
