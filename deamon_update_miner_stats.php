@@ -380,7 +380,7 @@ foreach($miner_details['miners'] as $miner)
 		$miner['name']	= $miner['ip_address'];
 	}
 
-	console_output('Miner: '.$miner['name'].' / '.$miner['ip_address'].' = '.$miner['update']['status'].' = '.$hashrate);
+	console_output('Miner: '.$miner['update']['hardware'].' | '.$miner['name'].' / '.$miner['ip_address'].' = '.$miner['update']['status'].' = '.$hashrate);
 	
 	// get the MAC address
 	// $miner['mac_address'] = exec("nmap -sP ".$miner['ip_address']." | grep MAC");
