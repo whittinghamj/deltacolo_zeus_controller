@@ -604,6 +604,18 @@ if($task == "site_jobs")
 				$site_job['status'] = 'complete';
 			}
 
+			if($site_job['job'] == 'upgrade_s9')
+			{
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null';
+				exec($cmd);
+
+				console_output('Upgrading Miner: ' . $site_job['miner']['name']);
+
+				shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'cd /usr/bin; /etc/init.d/bmminer.sh stop; mv bmminer bmminer.old; wget http://miningcontrolpanel.com/scripts/antminer_s9/firmware/rocketv9/bmminer9v; mv bmminer9v bmminer; chmod a+x bmminer; sed -i 's/\"550\"/\"750\"/' '");
+				
+				$site_job['status'] = 'complete';
+			}
+
 			$job['id']		= $site_job['id'];
 			
 			// print_r($site_job);
