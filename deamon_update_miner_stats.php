@@ -18,7 +18,8 @@ $miner_details 			= json_decode($get_miner_details, true);
 
 foreach($miner_details['miners'] as $miner)
 {
-	if(ping($miner['ip_address']) == 'alive'){
+	if(ping($miner['ip_address']) == 'alive')
+	{
 		if(strpos($miner['hardware'], 'ebite') !== false)
 		{
 			$username 	= $miner['username'];
@@ -287,6 +288,11 @@ foreach($miner_details['miners'] as $miner)
 				elseif($miner_data['STATUS1']['Msg'] == 'BMMiner stats')
 				{
 					$miner['update']['hardware']				= $miner_data['BMMiner']['Type'];
+					if(strpos($miner['update']['hardware'], 'S9_V2') !== false)
+					{
+						$miner['update']['hardware'] = 'Antminer S9j';
+					}
+
 					$miner['update']['software_version']		= 'BMMiner' . $miner_data['BMMiner']['BMMiner'];				
 
 					$miner['update']['hardware_errors']			= $miner_data['SUMMARY']['Hardware Errors'];
