@@ -50,8 +50,10 @@ if(isset($miners['miners']))
         $forced_lag_counter = $forced_lag_counter + 1;
         if($forced_lag_counter == $forced_lag)
         {
-            sleep(1);
-            $forced_lag_counter = 0
+            console_output("forced_lag_counter = " . $forced_lag_counter);
+            sleep(5);
+            console_output("done sleeping");
+            $forced_lag_counter = 0;
         }
     }
 }else{
