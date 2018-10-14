@@ -39,12 +39,12 @@ if(isset($miners['miners']))
             if(isset($argv[2]))
             {
                 $forced_lag_counter = $forced_lag_counter + 1;
-                console_output($forced_lag_counter);
+                // console_output($forced_lag_counter);
                 if($forced_lag_counter == $forced_lag)
                 {
-                    console_output("forced_lag_counter = " . $forced_lag_counter);
+                    // console_output("forced_lag_counter = " . $forced_lag_counter);
                     sleep(1);
-                    console_output("done sleeping");
+                    // console_output("done sleeping");
                     $forced_lag_counter = 0;
                 }
             }
