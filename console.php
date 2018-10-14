@@ -621,6 +621,22 @@ if($task == "site_jobs")
 				$site_job['status'] = 'complete';
 			}
 
+			if($site_job['job'] == 'downgrade_s9')
+			{
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null';
+				exec($cmd);
+
+				console_output('Downgrading Miner: ' . $site_job['miner']['name']);
+
+				shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'cd /usr/bin; /etc/init.d/bmminer.sh stop; rm -rf bmminer; wget http://miningcontrolpanel.com/scripts/antminer_s9/bmminer; chmod a+x bmminer; sed -i 's/\"600\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"650\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"700\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"725\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"750\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"775\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"800\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"825\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"850\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"875\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"880\"/\"550\"/' /config/bmminer.conf;
+'");
+
+				$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
+				exec($cmd);
+				
+				$site_job['status'] = 'complete';
+			}
+
 			$job['id']		= $site_job['id'];
 			
 			// print_r($site_job);
