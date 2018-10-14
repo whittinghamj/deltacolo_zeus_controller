@@ -19,9 +19,6 @@ rm -rf /mcp/*.loc
 # remove old *.log files
 # rm -rf /mcp/logs/*
 
-# stop any old miners
-# php -q /mcp/console.php miner_stop > /dev/null
-
 # create new log files
 # touch /mcp/logs/console.log
 # touch /mcp/logs/deamon.log
@@ -30,7 +27,7 @@ rm -rf /mcp/*.loc
 # improve disk writes to less
 # mount -o remount,noatime,nodiratime,commit=120 /mnt/user
 mount -o remount,noatime,nodiratime,commit=120 / 
-echo noop > /sys/block/sda/queue/scheduler > /dev/null
+# echo noop > /sys/block/sda/queue/scheduler > /dev/null
 sysctl vm.dirty_background_ratio=20 > /dev/null
 sysctl vm.dirty_expire_centisecs=0 > /dev/null
 sysctl vm.dirty_ratio=80 > /dev/null
