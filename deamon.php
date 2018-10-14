@@ -35,6 +35,16 @@ if(isset($miners['miners']))
         	// echo "Checking Miner: ".$miner_ids[$j]."\n";
 
             $pipe[$j] = popen("php -q /mcp/deamon_update_miner_stats.php -p='".$miner_ids[$j]."'", 'w');
+
+            $forced_lag_counter = $forced_lag_counter + 1;
+            console_output($forced_lag_counter);
+            if($forced_lag_counter == $forced_lag)
+            {
+                console_output("forced_lag_counter = " . $forced_lag_counter);
+                sleep(5);
+                console_output("done sleeping");
+                $forced_lag_counter = 0;
+            }
         }
 
         // console_output("Killing children.");
@@ -46,16 +56,6 @@ if(isset($miners['miners']))
 
         // console_output("Sleeping.");
         // sleep(1);
-
-        $forced_lag_counter = $forced_lag_counter + 1;
-        console_output($forced_lag_counter);
-        if($forced_lag_counter == $forced_lag)
-        {
-            console_output("forced_lag_counter = " . $forced_lag_counter);
-            sleep(5);
-            console_output("done sleeping");
-            $forced_lag_counter = 0;
-        }
     }
 }else{
     console_output("No ASIC miners.");
