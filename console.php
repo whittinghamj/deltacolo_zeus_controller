@@ -4,6 +4,8 @@
 // ini_set('display_errors', 1);
 // ini_set('error_reporting', E_ALL); 
 
+// version 1.3
+
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 	
 include('/mcp/global_vars.php');
