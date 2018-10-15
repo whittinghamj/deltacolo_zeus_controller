@@ -102,6 +102,7 @@ foreach($miner_details['miners'] as $miner)
 
 				if($existing_config_file === FALSE)
 				{
+					/*
 					if(
 						$miner['hardware'] == 'antminer-s7' || 
 						$miner['hardware'] == 'antminer-s9'
@@ -120,6 +121,8 @@ foreach($miner_details['miners'] as $miner)
 					{
 						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf ".$api_url."/miner_config_files/default_x11_".$miner_details['site']['user_id'].".conf; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'";
 					}
+					*/
+					$cmd = '';
 
 				}else{
 					if(
