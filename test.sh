@@ -3,7 +3,8 @@
 # sanity check
 if [ -z "$1" ]
 then
-  echo "Usage: `basename "$0"` mcp_site_api"
+  echo "Usage: sh `basename "$0"` mcp_site_api"
+  echo "Example: sh `basename "$0"` 3r8fh3r08h3urbv03orbv03orubv3ou3b4"
   exit 1
 fi
 
