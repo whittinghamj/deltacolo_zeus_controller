@@ -7,4 +7,12 @@ echo $JSON_DATA
 
 SITE_NAME=`echo "$JSON_DATA" | jq -r .site.name`
 
-echo "Site Name: " $SITE_NAME
+echo "Site Name:" $SITE_NAME
+
+for row in $(echo "${JSON_DATA.ip_ranges}" | jq -r '.[] | @base64'); do
+    _jq() {
+     echo ${row} | base64 --decode | jq -r ${1}
+    }
+
+   echo $(_jq '.ip_range')
+done
