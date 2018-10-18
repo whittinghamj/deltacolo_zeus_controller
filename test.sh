@@ -1,6 +1,7 @@
 #!/bin/bash
 
-if (( $1 < 1 ))
+# sanity check
+if [ -z "$1" ]
 then
   echo "Usage: `basename "$0"` mcp_site_api"
   exit 1
