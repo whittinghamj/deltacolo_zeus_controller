@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if (( $# < 1 ))
+then
+  echo "Usage: `basename "$0"` mcp_site_api"
+  exit 1
+fi
+
 ## remove files from last run
 rm -rf /mcp/online_ip_addresses.txt
 
