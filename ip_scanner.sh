@@ -10,8 +10,8 @@ rm -rf /mcp/online_ip_addresses.txt
 touch /mcp/online_ip_addresses.txt
 
 ## get all ip addresses for this subnet running cgminer / bmminer api
-echo "Scanning $1."
-	nmap -p4028 $ip_range -oG - | grep 4028/open | awk '{ print $2 }' >> /mcp/online_ip_addresses.txt
+echo "Scanning $10/24"
+	nmap -p4028 $ip_range0/24 -oG - | grep 4028/open | awk '{ print $2 }' >> /mcp/online_ip_addresses.txt
 echo "Done."
 
 echo ""
