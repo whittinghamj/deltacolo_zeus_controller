@@ -17,5 +17,5 @@ echo ""
 
 ## check each ip address to see if its online
 echo "Scanning IP addresses for active hosts"
-	parallel -j 128 -a dev_ips.txt 'ping -c1 {} > /dev/null 2>&1 && echo {} >> online_ip_addresses.txt || '
+	parallel -j 128 -a dev_ips.txt 'ping -c1 {} > /dev/null 2>&1 && echo {} >> online_ip_addresses.txt '
 echo "Done."
