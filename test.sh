@@ -13,7 +13,7 @@ IP_RANGES=`echo "$JSON_DATA" | jq -r .ip_ranges`
 
 echo $IP_RANGES
 
-for row in $(echo "${JSON_DATA.ip_ranges}" | jq -r '.[] | @base64'); do
+for row in $(echo "${IP_RANGES}" | jq -r '.[] | @base64'); do
     _jq() {
      echo ${row} | base64 --decode | jq -r ${1}
     }
