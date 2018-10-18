@@ -13,6 +13,6 @@ echo "Done."
 
 echo ""
 
-active_miners='cat /mcp/online_ip_addresses.txt | wc -l'
+active_miners=`cat /mcp/online_ip_addresses.txt | wc -l`
 
 echo "Found $active_miners miners"
