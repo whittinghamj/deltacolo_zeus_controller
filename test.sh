@@ -24,6 +24,6 @@ for row in $(echo "${IP_RANGES}" | jq -r '.[] | @base64'); do
      echo ${row} | base64 --decode | jq -r ${1}
     }
 
-   echo "Scanning " $(_jq '.ip_range')"0/24"
+   ## echo "Scanning " $(_jq '.ip_range')"0/24"
    sh /mcp/ip_scanner.sh $(_jq '.ip_range')
 done
