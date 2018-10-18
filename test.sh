@@ -33,5 +33,5 @@ for row in $(echo "${IP_RANGES}" | jq -r '.[] | @base64'); do
     }
 
    ## echo "Scanning " $(_jq '.ip_range')"0/24"
-   sh /mcp/ip_scanner.sh $(_jq '.ip_range')
+   nmap -p4028 $(_jq '.ip_range')"0/24" -oG - | grep 4028/open | awk '{ print $2 }' >> /mcp/online_ip_addresses.txt
 done
