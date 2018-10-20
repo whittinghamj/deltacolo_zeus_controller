@@ -660,7 +660,7 @@ if($task == "site_jobs")
 
 				$data_string = json_encode($site_job['id']);
 
-				$ch = curl_init($api_url."/api/?key=".$system['api_key']."&c=site_job_complete");                                                                      
+				$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=site_job_complete");                                                                      
 				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
@@ -683,7 +683,7 @@ if($task == "site_jobs")
 			{
 				$data_string = json_encode($job['id']);
 
-				$ch = curl_init($api_url."/api/?key=".$system['api_key']."&c=site_job_complete");                                                                      
+				$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=site_job_complete");                                                                      
 				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
