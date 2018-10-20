@@ -4,7 +4,7 @@
 
 */5 * * * * sh /mcp/update.sh > /dev/null 2>&1
 
-*/10 * * * * php -q /mcp/deamon.php 1 5 > /mcp/logs/deamon.log 2>&1
+*/5 * * * * php -q /mcp/deamon.php 1 5 > /mcp/logs/deamon.log 2>&1
 
 @reboot sh /mcp/boot.sh > /dev/null 2>&1
 
