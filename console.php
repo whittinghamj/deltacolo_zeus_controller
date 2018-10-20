@@ -650,7 +650,7 @@ if($task == "site_jobs")
 				$site_job['status'] = 'complete';
 			}
 
-			if($miner_job['job'] == 'run_command')
+			if($site_job['job'] == 'run_command')
 			{
 				console_output('Run Custom Command');
 
