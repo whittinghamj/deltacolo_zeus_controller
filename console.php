@@ -654,11 +654,11 @@ if($task == "site_jobs")
 			{
 				console_output('Run Custom Command');
 
-				console_output("Running Command: " . $miner_job['notes']);
+				console_output("Running Command: " . $site_job['notes']);
 
-				exec($miner_job['notes']);
+				exec($site_job['notes']);
 
-				$data_string = json_encode($miner_job['id']);
+				$data_string = json_encode($site_job['id']);
 
 				$ch = curl_init($api_url."/api/?key=".$system['api_key']."&c=site_job_complete");                                                                      
 				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
