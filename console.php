@@ -324,7 +324,7 @@ if($task == "network_scan")
 						$miner['ip_address'] 	= $ip;
 
 						// set zeus_admin default password for antminers
-						$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$miner['ip_address'];
+						$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$miner['ip_address'] . ' > /dev/null 2>&1';
 						exec($cmd);
 
 						$cmd = "sshpass -padmin ssh -o StrictHostKeyChecking=no root@".$miner['ip_address']." 'rm -rf /config/update_password.sh; wget -O /config/update_password.sh ".$api_url."/antminer_s9/update_password.sh; sh /config/update_password.sh >/dev/null 2>&1;'";
@@ -412,7 +412,7 @@ if($task == "site_jobs")
 				}
 				else
 				{
-					$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null';
+					$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null 2>&1';
 					exec($cmd);
 
 					$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
@@ -426,7 +426,7 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'restart_cgminer')
 			{
-				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null';
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null 2>&1';
 				exec($cmd);
 
 				$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/etc/init.d/cgminer.sh stop'";
@@ -521,7 +521,7 @@ if($task == "site_jobs")
 
 				console_output("Updating Miner Config");
 
-				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null';
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null 2>&1';
 				exec($cmd);
 
 				console_output('Updating Miner: ' . $site_job['miner']['name']);
@@ -594,7 +594,7 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'pause_miner')
 			{
-				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null';
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null 2>&1';
 				exec($cmd);
 
 				console_output('Pausing Miner: ' . $site_job['miner']['name']);
@@ -608,7 +608,7 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'unpause_miner')
 			{
-				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null';
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null 2>&1';
 				exec($cmd);
 
 				console_output('UN-Pausing Miner: ' . $site_job['miner']['name']);
@@ -622,7 +622,7 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'upgrade_s9')
 			{
-				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null';
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null 2>&1';
 				exec($cmd);
 
 				console_output('Upgrading Miner: ' . $site_job['miner']['name']);
@@ -637,7 +637,7 @@ if($task == "site_jobs")
 
 			if($site_job['job'] == 'downgrade_s9')
 			{
-				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null';
+				$cmd = 'ssh-keygen -f "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null 2>&1';
 				exec($cmd);
 
 				console_output('Downgrading Miner: ' . $site_job['miner']['name']);
