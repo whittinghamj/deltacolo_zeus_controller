@@ -700,6 +700,8 @@ if($task == "site_jobs")
 	}else{
 		console_output("No jobs.");
 	}
+
+	console_output("Done.");
 	
 	// killlock
 	killlock();
@@ -732,8 +734,11 @@ if($task == "controller_checkin")
 	
 	// console_output("POST URL: " . $post_url);
 
+	// send data to mcp
 	$post = file_get_contents($post_url);
 	
+	console_output("Done.");
+
 	// killlock
 	killlock();
 }
