@@ -35,7 +35,7 @@ $version = '1.3';
 $task = $argv[1];
 $silent = $argv[3];
 
-if($silent == NULL || $silent != 'silent'))
+if($silent == NULL || $silent != 'silent')
 {
 	console_output("MCP Controller - v".$version);
 }
