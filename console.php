@@ -41,7 +41,7 @@ if(isset($argv[3]))
 
 if(isset($silent) && $silent != 'silent')
 {
-	console_output("MCP Controller - v".$version);
+	// console_output("MCP Controller - v".$version);
 }
 
 if($task == 'update_miner_stats')
