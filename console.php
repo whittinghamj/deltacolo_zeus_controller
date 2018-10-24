@@ -404,7 +404,7 @@ if($task == "site_jobs")
 	    console_output("Pending Jobs: " . $count);
 
 	    for ($i=0; $i<$runs; $i++) {
-	        console_output("Spawning children.");
+	        // console_output("Spawning children.");
 	        for ($j=0; $j<$count; $j++) {
 	        	// echo "Checking Miner: ".$miner_ids[$j]."\n";
 
@@ -773,7 +773,314 @@ if($task == "site_job")
 	$get_job_details	 	= file_get_contents($get_job_url);
 	$job_details 			= json_decode($get_job_details, true);
 
-	console_output(" - Pending Job: " . $job_details['jobs'][0]['job']);
+	$site_job 				= $job_details['jobs'][0];
+	if($site_job['job'] == 'reboot_miner')
+	{
+		if($site_job['miner']['hardware'] == 'ebite9plus')
+		{
+			console_output("Rebooting EBit E9 Plus");
+			
+			$loginUrl 	= 'http://'.$site_job['miner']['ip_address'].'/user/login/';
+			
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $loginUrl);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, 'username='.$site_job['miner']['username'].'&word='.$site_job['miner']['password']);
+			curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			$store = curl_exec($ch);
+
+			// get basic stats 
+			curl_setopt($ch, CURLOPT_URL, 'http://'.$site_job['miner']['ip_address'].'/update/resetcgminer');
+			$content = curl_exec($ch);
+			$stats = json_decode($content, TRUE);
+		}
+		else
+		{
+			$cmd = 'ssh-keygen -fq "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null 2>&1';
+			exec($cmd);
+
+			$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
+			// console_output($cmd);
+			console_output("Rebooting " . $site_job['miner']['ip_address']);
+			exec($cmd);
+		}
+		
+		$site_job['status'] = 'complete';
+	}
+
+	if($site_job['job'] == 'restart_cgminer')
+	{
+		$cmd = 'ssh-keygen -fq "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null 2>&1';
+		exec($cmd);
+
+		$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/etc/init.d/cgminer.sh stop'";
+		console_output("Restarting CGMiner on " . $site_job['miner']['ip_address']);
+		exec($cmd);
+		
+		$site_job['status'] = 'complete';
+	}
+	
+	if($site_job['job'] == 'network_scan')
+	{
+		console_output("Running Network Scan");
+
+		$ip_ranges_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_ip_ranges");
+		$ip_ranges = json_decode($ip_ranges_raw, true);
+
+		foreach($ip_ranges['ip_ranges'] as $ip_range){
+			$subnets[] = $ip_range['ip_range'];
+		}
+
+		ini_set('max_execution_time', 500);
+		$port = 4028;
+
+		function check_sub($sub, $port, $site_id)
+		{
+			global $config;
+
+			$rigs = array();
+			$count = 0;
+
+			foreach($sub as $ip_range) {
+
+				exec('fping -a -q -g '.$ip_range.'0/24 > active_ip_addresses.txt');
+				$active_ip_addresses = file('active_ip_addresses.txt');
+
+				foreach ($active_ip_addresses as $active_ip_address) {
+					$active_ip_address 			= str_replace(' ', '', $active_ip_address);
+					$active_ip_address 			= trim($active_ip_address, " \t.");
+					$active_ip_address 			= trim($active_ip_address, " \n.");
+					$active_ip_address 			= trim($active_ip_address, " \r.");
+
+					if(@fsockopen($active_ip_address,$port,$errno,$errstr,1))
+					{
+						// $miner[$count]['miner_status']	= 'online';
+						console_output('IP: ' . $active_ip_address . ' is online and mining.');
+
+						$miner['site_id']		= $site_id;
+						$miner['ip_address'] 	= $active_ip_address;
+						$miner['type']			= 'asic';
+
+						$miner['mac_address'] = exec("nmap -sP ".$miner['ip_address']." | grep MAC");
+						$mac_bits = explode(" ", $miner['mac_address']);
+						$miner['mac_address'] = $mac_bits[2];
+
+						$data_string = json_encode($miner);
+
+						// echo "POSTing to http://dashboard.miningcontrolpanel.com/api/?key=".$config['api_key']."&c=miner_add \n";
+						
+						$ch = curl_init("http://dashboard.miningcontrolpanel.com/api/?key=".$config['api_key']."&c=miner_add");                                                                      
+						curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+						curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
+						curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+						curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+							'Content-Type: application/json',                                                                                
+							'Content-Length: ' . strlen($data_string))                                                                       
+						);                                                                                                                   
+
+						$result = curl_exec($ch);
+					}else{
+						// $miner[$count]['miner_status']	= 'offline';
+						console_output('IP: ' . $active_ip_address . ' is online but NOT mining.');
+					}
+					// $count++;
+				}
+			} 
+
+			// clean the buffer
+			flush();
+
+			return $rigs;
+		}
+
+		$site_job['status'] = 'complete';
+
+		$rigs = check_sub($subnets, $port, $ip_ranges['site']['id']);
+		
+		$site_job['status'] = 'complete';
+	}
+
+	if($site_job['job'] == 'update_config_file')
+	{
+
+		console_output("Updating Miner Config");
+
+		$cmd = 'ssh-keygen -fq "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null 2>&1';
+		exec($cmd);
+
+		console_output('Updating Miner: ' . $site_job['miner']['name']);
+
+		// print_r($site_job);
+
+		if($site_job['miner']['hardware'] == 'ebite9plus')
+		{
+			$config_file_url = $api_url."/miner_config_files/".$site_job['miner']['id'].".txt";
+			$config_file = file_get_contents($config_file_url);
+			$config_file = json_decode($config_file, true);
+
+			$miner_raw = file_get_contents($api_url."/api/?key=".$config['api_key']."&c=site_miner&miner_id=".$site_job['miner']['id']);
+			$miner = json_decode($miner_raw, true);
+
+			$config_file['pools'][0]['url'] = $config_file['pools'][0]['url'];
+			$config_file['pools'][1]['url'] = $config_file['pools'][1]['url'];
+			$config_file['pools'][2]['url'] = $config_file['pools'][2]['url'];
+
+			$username 		= $miner['miners'][0]['username'];
+			$password 		= $miner['miners'][0]['password'];
+			$ip_address		= $miner['miners'][0]['ip_address'];
+			$loginUrl 	= 'http://'.$ip_address.'/user/login/';
+
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $loginUrl);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, 'username='.$username.'&word='.$password);
+			curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			$store = curl_exec($ch);
+			
+			// post pool update
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, 'mip1='.$config_file['pools'][0]['url'].'&mwork1='.$config_file['pools'][0]['user'].'&mpassword1='.$config_file['pools'][0]['pass'] . '&mip2='.$config_file['pools'][1]['url'].'&mwork2='.$config_file['pools'][1]['user'].'&mpassword2='.$config_file['pools'][1]['pass'] . '&mip3='.$config_file['pools'][2]['url'].'&mwork3='.$config_file['pools'][2]['user'].'&mpassword3='.$config_file['pools'][2]['pass']);
+			curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			$store = curl_exec($ch);
+
+			curl_setopt($ch, CURLOPT_URL, 'http://'.$ip_address.'/Cgminer/CgminerConfig');
+			$content = curl_exec($ch);
+			$stats = json_decode($content, TRUE);
+
+			// restart cgminer
+			curl_setopt($ch, CURLOPT_URL, 'http://'.$ip_address.'/update/resetcgminer');
+			$content = curl_exec($ch);
+			$stats = json_decode($content, TRUE);
+
+		}
+		elseif(strpos($site_job['miner']['hardware'], 'antminer-s9') !== false) {
+			console_output("Hardware: Bitmain Antminer S9");
+			// echo "Downloading: ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt \n";
+			shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
+		}
+		else
+		{				
+			if($site_job['miner']['hardware'] == 'antminer-s9'){
+				shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/bmminer.conf; wget -O /config/bmminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt; /etc/init.d/bmminer.sh restart >/dev/null 2>&1;'");
+			}else{
+				// update cgminer.conf
+				shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/cgminer.conf; wget -O /config/cgminer.conf ".$api_url."/miner_config_files/".$site_job['miner']['id'].".txt; /etc/init.d/cgminer.sh restart >/dev/null 2>&1;'");
+
+				// update network.conf
+				// shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/network.conf; wget -O /config/network.conf ".$api_url."/miner_config_files/".$site_job['miner']['id']."_network.txt; /etc/init.d/network.sh'");
+			}
+		}
+		
+		$site_job['status'] = 'complete';
+	}
+
+	if($site_job['job'] == 'pause_miner')
+	{
+		$cmd = 'ssh-keygen -fq "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null 2>&1';
+		exec($cmd);
+
+		console_output('Pausing Miner: ' . $site_job['miner']['name']);
+
+		if (strpos($site_job['miner']['hardware'], 'antminer') !== false) {
+		    shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'rm -rf /config/pause_antminer.sh; wget -O /config/pause_antminer.sh ".$api_url."/scripts/pause_antminer.sh; nohup sh /config/pause_antminer.sh >/dev/null 2>&1;'");
+		}
+		
+		$site_job['status'] = 'complete';
+	}
+
+	if($site_job['job'] == 'unpause_miner')
+	{
+		$cmd = 'ssh-keygen -fq "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null 2>&1';
+		exec($cmd);
+
+		console_output('UN-Pausing Miner: ' . $site_job['miner']['name']);
+
+		if (strpos($site_job['miner']['hardware'], 'antminer') !== false) {
+		    shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'kill -9 $(pgrep -f pause)'");
+		}
+		
+		$site_job['status'] = 'complete';
+	}
+
+	if($site_job['job'] == 'upgrade_s9')
+	{
+		$cmd = 'ssh-keygen -fq "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null 2>&1';
+		exec($cmd);
+
+		console_output('Upgrading Miner: ' . $site_job['miner']['name']);
+
+		shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'cd /usr/bin; /etc/init.d/bmminer.sh stop; mv bmminer bmminer.old; wget http://miningcontrolpanel.com/scripts/antminer_s9/firmware/rocketv9/bmminer9v; mv bmminer9v bmminer; chmod a+x bmminer; sed -i 's/\"550\"/\"700\"/' /config/bmminer.conf;'");
+
+		$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
+		exec($cmd);
+		
+		$site_job['status'] = 'complete';
+	}
+
+	if($site_job['job'] == 'downgrade_s9')
+	{
+		$cmd = 'ssh-keygen -fq "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address']  . ' > /dev/null 2>&1';
+		exec($cmd);
+
+		console_output('Downgrading Miner: ' . $site_job['miner']['name']);
+
+		shell_exec("sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'cd /usr/bin; /etc/init.d/bmminer.sh stop; rm -rf bmminer; wget http://miningcontrolpanel.com/scripts/antminer_s9/bmminer; chmod a+x bmminer; sed -i 's/\"600\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"650\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"700\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"725\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"750\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"775\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"800\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"825\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"850\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"875\"/\"550\"/' /config/bmminer.conf; sed -i 's/\"880\"/\"550\"/' /config/bmminer.conf;'");
+
+		$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
+		exec($cmd);
+		
+		$site_job['status'] = 'complete';
+	}
+
+	if($site_job['job'] == 'run_command')
+	{
+		console_output('Run Custom Command');
+
+		console_output("Running Command: " . $site_job['notes']);
+
+		exec($site_job['notes']);
+
+		$data_string = json_encode($site_job['id']);
+
+		$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=site_job_complete");                                                                      
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+			'Content-Type: application/json',                                                                                
+			'Content-Length: ' . strlen($data_string))                                                                       
+		);                                                                                                                   
+
+		$result = curl_exec($ch);
+
+		// print_r($result);
+	}
+
+	$job['id']		= $site_job['id'];
+	
+	// print_r($site_job);
+	// print_r($job);
+
+	if($site_job['status'] == 'complete')
+	{
+		$data_string = json_encode($job['id']);
+
+		$ch = curl_init($api_url."/api/?key=".$config['api_key']."&c=site_job_complete");                                                                      
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                                                  
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+			'Content-Type: application/json',                                                                                
+			'Content-Length: ' . strlen($data_string))                                                                       
+		);                                                                                                                   
+
+		$result = curl_exec($ch);
+
+		// print_r($result);
+	}
 }
 
 if($task == "controller_checkin")
