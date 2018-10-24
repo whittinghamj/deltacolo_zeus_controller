@@ -821,7 +821,7 @@ if($task == "site_job")
 			console_output("Antminer Factory Reset: " . $site_job['miner']['ip_address']);
 
 			// antminer command = factory_config_reset.sh
-			$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'factory_config_reset.sh'";
+			$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'cd /config; rm_files=`ls /config/ | grep -v mac`; rm -rf $rm_files; sync; reboot -f;'";
 			exec($cmd);
 		}
 		
