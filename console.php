@@ -404,6 +404,8 @@ if($task == "site_jobs")
 	        for ($j=0; $j<$count; $j++) {
 	        	// echo "Checking Miner: ".$miner_ids[$j]."\n";
 
+	        	console_output("php -q /mcp/console.php site_job -p='".$job_ids[$j]."'");
+
 	            $pipe[$j] = popen("php -q /mcp/console.php site_job -p='".$job_ids[$j]."'", 'w');
 
 	            // forced lag options
