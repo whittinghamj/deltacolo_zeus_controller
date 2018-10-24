@@ -408,9 +408,9 @@ if($task == "site_jobs")
 	        for ($j=0; $j<$count; $j++) {
 	        	// echo "Checking Miner: ".$miner_ids[$j]."\n";
 
-	        	console_output("php -q /mcp/console.php site_job ".$job_ids[$j]);
+	        	// console_output("php -q /mcp/console.php site_job ".$job_ids[$j])." silent";
 
-	            $pipe[$j] = popen("php -q /mcp/console.php site_job ".$job_ids[$j], 'w');
+	            $pipe[$j] = popen("php -q /mcp/console.php site_job ".$job_ids[$j]." silent", 'w');
 
 	            // forced lag options
 	            /*
@@ -767,8 +767,9 @@ if($task == "site_job")
 	console_output("Checking Job ID: " . $job_id);
 
 	$get_job_url 			= $api_url.'/api/?key='.$config['api_key'].'&c=site_job&job_id='.$job_id;
-	$get_details_details 	= file_get_contents($get_job_url);
-	$job_details 			= json_decode($get_details_details, true);
+	console_output($get_job_url);
+	$get_job_details	 	= file_get_contents($get_job_url);
+	$job_details 			= json_decode($get_job_details, true);
 
 	print_r($job_details, true);
 
