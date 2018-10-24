@@ -767,13 +767,13 @@ if($task == "site_job")
 	console_output("Checking Job ID: " . $job_id);
 
 	$get_job_url 			= $api_url.'/api/?key='.$config['api_key'].'&c=site_job&job_id='.$job_id;
-	console_output($get_job_url);
+	
+	// console_output($get_job_url);
+	
 	$get_job_details	 	= file_get_contents($get_job_url);
 	$job_details 			= json_decode($get_job_details, true);
 
-	print_r($job_details, true);
-
-	console_output(" - Pending Job: " . $job_details['job']);
+	console_output(" - Pending Job: " . $job_details['jobs'][0]['job']);
 }
 
 if($task == "controller_checkin")
