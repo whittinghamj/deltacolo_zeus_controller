@@ -32,9 +32,13 @@ function killlock(){
 
 $version = '1.3';
 
-console_output("MCP Controller - v".$version);
-
 $task = $argv[1];
+$silent = $argv[3];
+
+if(!isset($argv[3] && $silent != 'silent'))
+{
+	console_output("MCP Controller - v".$version);
+}
 
 if($task == 'update_miner_stats')
 {
@@ -756,7 +760,7 @@ if($task == "site_jobs")
 
 if($task == "site_job")
 {
-	// $options 				= getopt("p:");
+	// $options 			= getopt("p:");
 	// $job_id 				= $options["p"];
 	$job_id 				= $argv[2];
 
@@ -765,6 +769,8 @@ if($task == "site_job")
 	$get_job_url 			= $api_url.'/api/?key='.$config['api_key'].'&c=site_job&job_id='.$job_id;
 	$get_details_details 	= file_get_contents($get_job_url);
 	$job_details 			= json_decode($get_details_details, true);
+
+	print_r($job_details, true);
 
 	console_output(" - Pending Job: " . $job_details['job']);
 }
