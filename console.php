@@ -39,7 +39,7 @@ if(isset($argv[3]))
 	$silent = $argv[3];
 }
 
-if($silent == NULL || $silent != 'silent')
+if(isset($silent) && $silent != 'silent')
 {
 	console_output("MCP Controller - v".$version);
 }
