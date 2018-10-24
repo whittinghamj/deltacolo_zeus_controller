@@ -774,6 +774,7 @@ if($task == "site_job")
 	$job_details 			= json_decode($get_job_details, true);
 
 	$site_job 				= $job_details['jobs'][0];
+	
 	if($site_job['job'] == 'reboot_miner')
 	{
 		if($site_job['miner']['hardware'] == 'ebite9plus')
@@ -803,6 +804,24 @@ if($task == "site_job")
 			$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
 			// console_output($cmd);
 			console_output("Rebooting " . $site_job['miner']['ip_address']);
+			exec($cmd);
+		}
+		
+		$site_job['status'] = 'complete';
+	}
+
+	if($site_job['job'] == 'factory_reset')
+	{
+
+		$cmd = 'ssh-keygen -fq "/root/.ssh/known_hosts" -R '.$site_job['miner']['ip_address'] . ' > /dev/null 2>&1';
+		exec($cmd);
+
+		if(strpos($site_job['miner']['hardware'], 'antminer') !== false)
+		{
+			console_output("Antminer Factory Reset: " . $site_job['miner']['ip_address']);
+
+			// antminer command = factory_config_reset.sh
+			$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'factory_config_reset.sh'";
 			exec($cmd);
 		}
 		
