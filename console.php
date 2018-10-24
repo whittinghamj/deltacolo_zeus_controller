@@ -376,6 +376,8 @@ if($task == "site_jobs")
 	}else{
 		exec("touch $lockfile");
 	}
+
+	$runs = 1;
 	
 	console_output("Getting site jobs");
 	// console_output($api_url."/api/?key=".$config['api_key']."&c=site_jobs");
