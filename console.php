@@ -387,6 +387,48 @@ if($task == "site_jobs")
 
 	if(isset($site_jobs['jobs']))
 	{
+
+		foreach($site_jobs['jobs'] as $job)
+	    {
+	    	$job_ids[] = $job['id'];
+	    }
+
+	    $count 				= count($job_ids);
+
+	    console_output("Pending Jobs: " . $count);
+
+	    for ($i=0; $i<$runs; $i++) {
+	        console_output("Spawning children.");
+	        for ($j=0; $j<$count; $j++) {
+	        	// echo "Checking Miner: ".$miner_ids[$j]."\n";
+
+	            $pipe[$j] = popen("php -q /mcp/console.php site_job -p='".$job_ids[$j]."'", 'w');
+
+	            // forced lag options
+	            /*
+	            if(isset($argv[2]))
+	            {
+	                $forced_lag_counter = $forced_lag_counter + 1;
+	                if($forced_lag_counter == $forced_lag)
+	                {
+	                    sleep(1);
+	                    $forced_lag_counter = 0;
+	                }
+	            }
+	            */
+	        }
+
+	        // console_output("Killing children.");
+	        
+	        // wait for them to finish
+	        for ($j=0; $j<$count; ++$j) {
+	            pclose($pipe[$j]);
+	        }
+
+	        // console_output("Sleeping.");
+	        // sleep(1);
+	    }
+		/*
 		foreach($site_jobs['jobs'] as $site_job){
 						
 			if($site_job['job'] == 'reboot_miner')
@@ -697,6 +739,7 @@ if($task == "site_jobs")
 				// print_r($result);
 			}
 		}
+		*/
 	}else{
 		console_output("No jobs.");
 	}
@@ -705,6 +748,20 @@ if($task == "site_jobs")
 	
 	// killlock
 	killlock();
+}
+
+if($task == "site_job")
+{
+	$options 				= getopt("p:");
+	$job_id 				= $options["p"];
+
+	console_output("Checking Job ID: " . $job_id);
+
+	$get_job_url 			= $api_url.'/api/?key='.$config['api_key'].'&c=site_job&job_id='.$job_id;
+	$get_details_details 	= file_get_contents($get_job_url);
+	$job_details 			= json_decode($get_details_details, true);
+
+	console_output(" - Pending Job: " . $job_details['job']);
 }
 
 if($task == "controller_checkin")
