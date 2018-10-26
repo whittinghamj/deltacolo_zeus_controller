@@ -4,6 +4,20 @@
 
 $api_url = 'http://dashboard.miningcontrolpanel.com';
 
+$global_vars = '/mcp/global_vars.php';
+if(!file_exists($global_vars))
+{
+    echo $global_vars . " is missing. git clone could be in progress. \n";
+    die();
+}
+
+$functions = '/mcp/functions.php';
+if(!file_exists($functions))
+{
+    echo $functions . " is missing. git clone could be in progress. \n";
+    die();
+}
+
 include('/mcp/global_vars.php');
 include('/mcp/functions.php');
 
