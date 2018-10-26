@@ -16,4 +16,4 @@ sh /mcp_firmware/antminer/update.sh
 ## sync local version to remote antminer
 #scp -r /mcp_firmware/antminer $USERNAME@$IP_ADDRESS:/www/pages/
 
-sshpass -p$PASSWORD scp -r /mcp_firmware/antminer $USERNAME@$IP_ADDRESS:/www/pages/
+sshpass -p$PASSWORD scp -r /mcp_firmware/antminer/* $USERNAME@$IP_ADDRESS:/www/pages

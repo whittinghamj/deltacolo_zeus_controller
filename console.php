@@ -723,10 +723,10 @@ if($task == "site_job")
 
 		console_output('Upgrading Miner: ' . $site_job['miner']['name']);
 
-		shell_exec("sshpass -p".$site_job['miner']['password']." ssh -qo StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'cd /usr/bin; /etc/init.d/bmminer.sh stop; mv bmminer bmminer.old; wget -q http://miningcontrolpanel.com/scripts/antminer_s9/firmware/rocketv9/bmminer9v; mv bmminer9v bmminer; chmod a+x bmminer; sed -i 's/\"650\"/\"700\"/' /config/bmminer.conf;'");
+		shell_exec("sshpass -p".$site_job['miner']['password']." ssh -qo StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'cd /usr/bin; /etc/init.d/bmminer.sh stop; mv bmminer bmminer.old; wget -q http://miningcontrolpanel.com/scripts/antminer_s9/firmware/rocketv9/bmminer9v; mv bmminer9v bmminer; chmod a+x bmminer; sed -i 's/\"550\"/\"700\"/' /config/bmminer.conf; sed -i 's/\"650\"/\"700\"/' /config/bmminer.conf; /etc/init.d/bmminer.sh restart;'");
 
-		$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
-		exec($cmd);
+		// $cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
+		// exec($cmd);
 		
 		$site_job['status'] = 'complete';
 	}
@@ -738,10 +738,10 @@ if($task == "site_job")
 
 		console_output('Downgrading Miner: ' . $site_job['miner']['name']);
 
-		shell_exec("sshpass -p".$site_job['miner']['password']." ssh -qo StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'cd /usr/bin; /etc/init.d/bmminer.sh stop; rm -rf bmminer; wget -q http://miningcontrolpanel.com/scripts/antminer_s9/bmminer; chmod a+x bmminer; sed -i 's/\"600\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"650\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"700\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"725\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"750\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"775\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"800\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"825\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"850\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"875\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"880\"/\"650\"/' /config/bmminer.conf;'");
+		shell_exec("sshpass -p".$site_job['miner']['password']." ssh -qo StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." 'cd /usr/bin; /etc/init.d/bmminer.sh stop; rm -rf bmminer; wget -q http://miningcontrolpanel.com/scripts/antminer_s9/bmminer; chmod a+x bmminer; sed -i 's/\"600\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"650\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"700\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"725\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"750\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"775\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"800\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"825\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"850\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"875\"/\"650\"/' /config/bmminer.conf; sed -i 's/\"880\"/\"650\"/' /config/bmminer.conf; /etc/init.d/bmminer.sh restart;'");
 
-		$cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
-		exec($cmd);
+		// $cmd = "sshpass -p".$site_job['miner']['password']." ssh -o StrictHostKeyChecking=no ".$site_job['miner']['username']."@".$site_job['miner']['ip_address']." '/sbin/reboot'";
+		// exec($cmd);
 		
 		$site_job['status'] = 'complete';
 	}
